@@ -20,7 +20,7 @@ Required installations:
 - Gradle 8.x
 - Node v22.9.0
 - Docker
-- PostgreSQL 16
+- PostgreSQL 17
 
 ## Getting Started 🚀
 

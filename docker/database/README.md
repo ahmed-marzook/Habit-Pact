@@ -1,5 +1,7 @@
 # PostgreSQL Database Setup and Connection Guide
+
 This guide will help you set up and connect to the PostgreSQL database using Docker.
+
 ## Prerequisites
 
 Docker
@@ -26,22 +28,25 @@ Copydocker-compose up -d --build
 This will build the custom PostgreSQL image and start the container.
 
 ## Connecting to the Database
+
 Connection Details
 
 Host: `localhost` (or `127.0.0.1`)
 Port: `5432`
-Database: `tatweer`
+Database: `habit-pact`
 Username: `user`
 Password: `mypassword`
 
 ### Using psql
+
 If you have psql installed locally, you can connect to the database using:
 
 ```sh
-psql -h localhost -p 5432 -U user -d tatweer
+psql -h localhost -p 5432 -U user -d habit-pact
 ```
 
 When prompted, enter the password: mypassword
+
 ### Using pgAdmin
 
 1. Open pgAdmin
@@ -51,7 +56,7 @@ When prompted, enter the password: mypassword
 
 Host name/address: `localhost`
 Port: `5432`
-Maintenance database: `tatweer`
+Maintenance database: `habit-pact`
 Username: `user`
 Password: `mypassword`
 
