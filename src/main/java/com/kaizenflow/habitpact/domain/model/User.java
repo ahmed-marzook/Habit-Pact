@@ -1,10 +1,13 @@
 package com.kaizenflow.habitpact.domain.model;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -38,4 +41,8 @@ public class User {
     @CreatedDate private LocalDateTime createdAt;
 
     @LastModifiedDate private LocalDateTime updatedAt;
+
+    @Builder.Default private Set<String> friendIds = new HashSet<>();
+
+    @Version private Integer version;
 }

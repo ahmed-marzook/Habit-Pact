@@ -7,10 +7,11 @@ import java.util.List;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.kaizenflow.habitpact.domain.HabitFrequency;
+import com.kaizenflow.habitpact.domain.enums.HabitFrequency;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -74,4 +75,6 @@ public class Habit {
         private String time;
         private List<String> days;
     }
+
+    @Version private Integer version;
 }
