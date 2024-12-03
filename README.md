@@ -8,7 +8,7 @@ A modern habit tracking and accountability platform that helps users build lasti
 
 - Java 21
 - Spring Boot
-- PostgreSQL
+- MongoDB
 - Gradle
 - React Frontend
 
@@ -20,7 +20,6 @@ Required installations:
 - Gradle 8.x
 - Node v22.9.0
 - Docker
-- PostgreSQL 17
 
 ## Getting Started 🚀
 
