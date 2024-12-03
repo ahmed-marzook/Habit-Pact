@@ -1,19 +1,25 @@
 version: '3.8'
 
 services:
-  db:
-    build:
-      context: ./docker/database
-      dockerfile: Dockerfile
+  mongodb:
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    container_name: mongodb
     restart: always
     environment:
-      POSTGRES_DB: tatweer
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: mypassword
+      - MONGODB_INITDB_ROOT_USERNAME=admin
+      - MONGODB_INITDB_ROOT_PASSWORD=password123
     ports:
-      - "5432:5432"
+      - "27017:27017"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mongodb_data:/data/db
+      - mongodb_config:/data/configdb
+    healthcheck:
+      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
 
 volumes:
-  postgres_data:
+  mongodb_data:
+  mongodb_config:
