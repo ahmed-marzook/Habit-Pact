@@ -11,8 +11,6 @@ import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.kaizenflow.habitpact.domain.enums.HabitFrequency;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -44,37 +42,6 @@ public class Habit {
     @CreatedDate private LocalDateTime createdAt;
 
     @LastModifiedDate private LocalDateTime updatedAt;
-
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Frequency {
-        private int times;
-        private HabitFrequency period;
-    }
-
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Streak {
-        @Builder.Default private int current = 0;
-
-        @Builder.Default private int longest = 0;
-
-        private LocalDateTime lastCompletedAt;
-    }
-
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Reminder {
-        @Builder.Default private boolean enabled = false;
-        private String time;
-        private List<String> days;
-    }
 
     @Version private Integer version;
 }
