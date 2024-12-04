@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -37,10 +36,7 @@ public class SecurityConfig {
      * Defines the UserDetailsService for loading user data This service is responsible for retrieving
      * user information from MongoDB and converting it into Spring Security's UserDetails format
      */
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new MongoUserDetailsService();
-    }
+    private final MongoUserDetailsService mongoUserDetailsService;
 
     /**
      * Configures the security filter chain - this is the core security configuration This defines: -
@@ -120,7 +116,7 @@ public class SecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService());
+        authenticationProvider.setUserDetailsService(mongoUserDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }

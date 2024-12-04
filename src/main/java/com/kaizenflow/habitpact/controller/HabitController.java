@@ -3,6 +3,7 @@ package com.kaizenflow.habitpact.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kaizenflow.habitpact.config.security.UserInfoDetails;
 import com.kaizenflow.habitpact.domain.dto.request.CreateHabitRequest;
 import com.kaizenflow.habitpact.domain.dto.request.UpdateHabitRequest;
 import com.kaizenflow.habitpact.domain.dto.response.HabitResponse;
@@ -31,35 +33,45 @@ public class HabitController {
 
     @PostMapping
     public ResponseEntity<HabitResponse> createHabit(
-            String userId, @Valid @RequestBody CreateHabitRequest request) {
-        return ResponseEntity.ok(habitService.createHabit(userId, request));
+            @AuthenticationPrincipal UserInfoDetails userInfoDetails,
+            @Valid @RequestBody CreateHabitRequest request) {
+        return ResponseEntity.ok(habitService.createHabit(userInfoDetails.getUserId(), request));
     }
 
     @PutMapping("/{habitId}")
     public ResponseEntity<HabitResponse> updateHabit(
-            String userId, @PathVariable String habitId, @Valid @RequestBody CreateHabitRequest request) {
-        return ResponseEntity.ok(habitService.updateHabit(userId, habitId, request));
+            @AuthenticationPrincipal UserInfoDetails userInfoDetails,
+            @PathVariable String habitId,
+            @Valid @RequestBody CreateHabitRequest request) {
+        return ResponseEntity.ok(
+                habitService.updateHabit(userInfoDetails.getUserId(), habitId, request));
     }
 
     @PatchMapping("/{habitId}")
     public ResponseEntity<HabitResponse> patchHabit(
-            String userId, @PathVariable String habitId, @Valid @RequestBody UpdateHabitRequest request) {
-        return ResponseEntity.ok(habitService.patchHabit(userId, habitId, request));
+            @AuthenticationPrincipal UserInfoDetails userInfoDetails,
+            @PathVariable String habitId,
+            @Valid @RequestBody UpdateHabitRequest request) {
+        return ResponseEntity.ok(
+                habitService.patchHabit(userInfoDetails.getUserId(), habitId, request));
     }
 
     @DeleteMapping("/{habitId}")
-    public ResponseEntity<Void> deleteHabit(String userId, @PathVariable String habitId) {
-        habitService.deleteHabit(userId, habitId);
+    public ResponseEntity<Void> deleteHabit(
+            @AuthenticationPrincipal UserInfoDetails userInfoDetails, @PathVariable String habitId) {
+        habitService.deleteHabit(userInfoDetails.getUserId(), habitId);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{habitId}")
-    public ResponseEntity<HabitResponse> getHabit(String userId, @PathVariable String habitId) {
-        return ResponseEntity.ok(habitService.getHabit(userId, habitId));
+    public ResponseEntity<HabitResponse> getHabit(
+            @AuthenticationPrincipal UserInfoDetails userInfoDetails, @PathVariable String habitId) {
+        return ResponseEntity.ok(habitService.getHabit(userInfoDetails.getUserId(), habitId));
     }
 
     @GetMapping
-    public ResponseEntity<List<HabitResponse>> getUserHabits(String userId) {
-        return ResponseEntity.ok(habitService.getUserHabits(userId));
+    public ResponseEntity<List<HabitResponse>> getUserHabits(
+            @AuthenticationPrincipal UserInfoDetails userInfoDetails) {
+        return ResponseEntity.ok(habitService.getUserHabits(userInfoDetails.getUserId()));
     }
 }

@@ -24,32 +24,34 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/auth/users")
 @RequiredArgsConstructor
-@Tag(name = "Authentication", description = "Authentication management APIs")
-public class AuthController {
+@Tag(name = "User Identity", description = "User registration and authentication APIs")
+public class UserIdentityController {
     private final UserService userService;
 
     private final JwtService jwtService;
 
     private final AuthenticationManager authenticationManager;
 
+    @Operation(
+            summary = "Authenticate user",
+            description = "Authenticate user credentials and generate JWT token")
     @PostMapping("/generateToken")
-    public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+    public String authenticateUser(@RequestBody AuthRequest authRequest) {
         Authentication authentication =
                 authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(
-                                authRequest.username(), authRequest.password()));
+                        new UsernamePasswordAuthenticationToken(authRequest.email(), authRequest.password()));
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(authRequest.username());
+            return jwtService.generateToken(authRequest.email());
         } else {
             throw new UsernameNotFoundException("Invalid user request!");
         }
     }
 
     @Operation(
-            summary = "Create a new user",
-            description = "Creates a new user with the provided information")
-    @PostMapping("/create")
-    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
+            summary = "Register a new user",
+            description = "Register a new user with the provided information")
+    @PostMapping("/register")
+    public ResponseEntity<UserResponse> registerUser(@Valid @RequestBody CreateUserRequest request) {
         return ResponseEntity.ok(userService.createUser(request));
     }
 }
