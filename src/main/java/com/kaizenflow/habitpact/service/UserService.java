@@ -1,5 +1,8 @@
 package com.kaizenflow.habitpact.service;
 
+import java.util.List;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,19 +15,18 @@ import com.kaizenflow.habitpact.exception.ResourceNotFoundException;
 import com.kaizenflow.habitpact.mappers.UserMapper;
 import com.kaizenflow.habitpact.repository.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class UserService {
+
     private final UserRepository userRepository;
 
-    //    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     private final UserMapper userMapper;
-
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-    }
 
     public UserResponse createUser(CreateUserRequest request) {
         if (userRepository.existsByEmail(request.email())) {
@@ -37,10 +39,11 @@ public class UserService {
         User user =
                 User.builder()
                         .email(request.email())
-                        //                .password(passwordEncoder.encode(request.password()))
+                        .password(passwordEncoder.encode(request.password()))
                         .username(request.username())
                         .firstName(request.firstName())
                         .lastName(request.lastName())
+                        .roles(List.of("USER"))
                         .active(true)
                         .build();
 

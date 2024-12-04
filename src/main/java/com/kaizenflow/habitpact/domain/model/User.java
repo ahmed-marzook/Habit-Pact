@@ -1,7 +1,9 @@
 package com.kaizenflow.habitpact.domain.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -28,13 +30,15 @@ public class User {
     @Indexed(unique = true)
     private String email;
 
-    private String password; // Will be hashed
+    private String password;
 
     private String firstName;
     private String lastName;
 
     @Indexed(unique = true)
     private String username;
+
+    @Builder.Default private List<String> roles = new ArrayList<>();
 
     @Builder.Default private boolean active = true;
 

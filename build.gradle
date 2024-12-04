@@ -9,6 +9,7 @@ buildscript {
 		springDocVersion = '2.7.0'
 		mapstructVersion = '1.6.3'
 		testcontainersVersion = '1.20.4'
+		jjwt = '0.12.6'
 	}
 }
 
@@ -41,12 +42,16 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security:'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springDocVersion}"
+	implementation "io.jsonwebtoken:jjwt-api:${jjwt}"
 	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+	runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwt}"
+	runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwt}"
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
 	testImplementation "org.testcontainers:junit-jupiter:${testcontainersVersion}"
