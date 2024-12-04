@@ -30,42 +30,57 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new MongoUserDetailsService(); // Ensure UserInfoService implements UserDetailsService
+        return new MongoUserDetailsService();
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable) // Disable CSRF for stateless APIs
+        // Start by configuring the session management and CSRF
+        return http.csrf(
+                        AbstractHttpConfigurer
+                                ::disable) // Disable CSRF since we're using stateless JWT authentication
                 .authorizeHttpRequests(
                         auth ->
-                                auth.requestMatchers(
-                                                "/auth/users/generateToken",
+                                auth
+                                        // Authentication endpoints - publicly accessible
+                                        .requestMatchers(
+                                                "/auth/users/generateToken", // Login endpoint
+                                                "/auth/users/create", // Registration endpoint
+
+                                                // OpenAPI documentation endpoints
                                                 "/swagger-ui/**",
                                                 "/swagger-ui.html",
                                                 "/v3/api-docs/**",
                                                 "/swagger-resources/**",
-                                                "/webjars/**",
-                                                "/auth/users/create")
+                                                "/webjars/**")
                                         .permitAll()
-                                        .requestMatchers("/auth/user/**")
-                                        .hasAuthority("ROLE_USER")
-                                        .requestMatchers("/auth/admin/**")
-                                        .hasAuthority("ROLE_ADMIN")
-                                        .anyRequest()
-                                        .authenticated() // Protect all other endpoints
-                        )
-                .sessionManagement(
-                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // No sessions
-                        )
-                .authenticationProvider(authenticationProvider()) // Custom authentication provider
-                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT filter
 
-        return http.build();
+                                        // API endpoints - all require authentication
+                                        // Note: We use /** to match all paths under these prefixes, including path
+                                        // variables
+                                        .requestMatchers(
+                                                "/api/users/**", // All user management endpoints
+                                                "/api/habits/**" // All habit management endpoints
+                                                )
+                                        .hasAuthority("ROLE_USER")
+                                        .anyRequest()
+                                        .authenticated())
+                .sessionManagement(
+                        session ->
+                                session.sessionCreationPolicy(
+                                        SessionCreationPolicy.STATELESS) // No session state - we're using JWTs
+                        )
+                .authenticationProvider(authenticationProvider())
+
+                // The JWT filter must run before Spring's built-in authentication filter
+                // This ensures JWT tokens are processed before any other authentication mechanism
+                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Password encoding
+        return new BCryptPasswordEncoder();
     }
 
     @Bean

@@ -7,6 +7,8 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,8 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtService {
+
+    private static final Logger logger = LoggerFactory.getLogger(JwtService.class);
 
     // Replace this with a secure key in a real application, ideally fetched from environment
     // variables
@@ -31,10 +35,10 @@ public class JwtService {
     }
 
     // Create a JWT token with specified claims and subject (user name)
-    private String createToken(Map<String, Object> claims, String userName) {
+    private String createToken(Map<String, Object> claims, String email) {
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(userName)
+                .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(
                         new Date(System.currentTimeMillis() + 1000 * 60 * 30)) // Token valid for 30 minutes
@@ -49,7 +53,7 @@ public class JwtService {
     }
 
     // Extract the username from the token
-    public String extractUsername(String token) {
+    public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -76,7 +80,9 @@ public class JwtService {
 
     // Validate the token against user details and expiration
     public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        final String email = extractEmail(token);
+        boolean isValid = email.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        logger.debug("Token validation for email {}: {}", email, isValid);
+        return isValid;
     }
 }

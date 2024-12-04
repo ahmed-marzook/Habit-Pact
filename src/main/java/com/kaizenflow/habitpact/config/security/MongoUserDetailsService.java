@@ -21,7 +21,7 @@ public class MongoUserDetailsService implements UserDetailsService {
                         .findByEmail(email)
                         .orElseThrow(() -> new UsernameNotFoundException("User not found by email: " + email));
 
-        return org.springframework.security.core.userdetails.User.withUsername(user.getUsername())
+        return org.springframework.security.core.userdetails.User.withUsername(user.getEmail())
                 .password(user.getPassword())
                 .roles(user.getRoles().toArray(new String[0]))
                 .build();
