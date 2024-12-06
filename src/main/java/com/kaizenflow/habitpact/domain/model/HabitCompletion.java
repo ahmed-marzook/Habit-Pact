@@ -1,16 +1,17 @@
 package com.kaizenflow.habitpact.domain.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
@@ -18,19 +19,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Document(collection = "habit_completions")
 public class HabitCompletion {
-    @Id
-    private String id;
+    @Id private String id;
 
-    @Indexed
-    private String habitId;
+    @Indexed private String habitId;
 
-    @Indexed
-    private String userId;
+    @Indexed private String userId;
 
     private LocalDate date;
     private boolean completed;
     private String notes;
 
-    @CreatedDate
-    private LocalDateTime createdAt;
+    @CreatedDate private LocalDateTime createdAt;
 }

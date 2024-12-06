@@ -25,7 +25,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/habits")
+@RequestMapping("/api/v1/habits")
 @RequiredArgsConstructor
 @Tag(name = "Habits", description = "Habit management APIs")
 public class HabitController {

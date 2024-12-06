@@ -1,12 +1,13 @@
 package com.kaizenflow.habitpact.repository;
 
-import com.kaizenflow.habitpact.domain.model.HabitCompletion;
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
+
+import com.kaizenflow.habitpact.domain.model.HabitCompletion;
 
 public interface HabitCompletionRepository extends MongoRepository<HabitCompletion, String> {
     // Find completions for a specific habit
@@ -20,17 +21,11 @@ public interface HabitCompletionRepository extends MongoRepository<HabitCompleti
 
     // Find completions within a date range for a habit
     List<HabitCompletion> findByHabitIdAndDateBetweenOrderByDateDesc(
-            String habitId,
-            LocalDate startDate,
-            LocalDate endDate
-    );
+            String habitId, LocalDate startDate, LocalDate endDate);
 
     // Find all completions for a user within a date range
     List<HabitCompletion> findByUserIdAndDateBetweenOrderByDateDesc(
-            String userId,
-            LocalDate startDate,
-            LocalDate endDate
-    );
+            String userId, LocalDate startDate, LocalDate endDate);
 
     // Check if a habit was completed on a specific date
     boolean existsByHabitIdAndDateAndCompleted(String habitId, LocalDate date, boolean completed);
@@ -40,11 +35,7 @@ public interface HabitCompletionRepository extends MongoRepository<HabitCompleti
 
     // Count successful completions within a date range
     long countByHabitIdAndDateBetweenAndCompleted(
-            String habitId,
-            LocalDate startDate,
-            LocalDate endDate,
-            boolean completed
-    );
+            String habitId, LocalDate startDate, LocalDate endDate, boolean completed);
 
     // Custom query to find the latest completion for a habit
     @Query(sort = "{ date: -1 }")

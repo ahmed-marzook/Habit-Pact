@@ -22,7 +22,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/auth/users")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 @Tag(name = "User Identity", description = "User registration and authentication APIs")
 public class UserIdentityController {
@@ -34,8 +34,8 @@ public class UserIdentityController {
 
     @Operation(
             summary = "Authenticate user",
-            description = "Authenticate user credentials and generate JWT token")
-    @PostMapping("/generateToken")
+            description = "Authenticate user credentials and generate JWT token for user login")
+    @PostMapping("/login")
     public String authenticateUser(@RequestBody AuthRequest authRequest) {
         Authentication authentication =
                 authenticationManager.authenticate(
