@@ -33,7 +33,7 @@ public class UserIdentityController {
     private final AuthenticationManager authenticationManager;
 
     @Operation(
-            summary = "Authenticate user",
+            summary = "Authenticate user and login",
             description = "Authenticate user credentials and generate JWT token for user login")
     @PostMapping("/login")
     public String authenticateUser(@RequestBody AuthRequest authRequest) {
