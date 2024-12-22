@@ -1,10 +1,6 @@
 package com.kaizenflow.habitpact.domain.model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -12,6 +8,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.kaizenflow.habitpact.domain.enums.RequestStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,33 +20,22 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "users")
-public class User {
+@Document(collection = "friend_requests")
+public class FriendRequest {
 
     @Id private String id;
 
-    @Indexed(unique = true)
-    private String email;
+    @Indexed private String senderId;
 
-    private String password;
+    @Indexed private String receiverId;
 
-    private String firstName;
-    private String lastName;
+    private String receiverEmail;
 
-    @Indexed(unique = true)
-    private String username;
-
-    @Builder.Default private List<String> roles = new ArrayList<>();
-
-    @Builder.Default private boolean active = true;
+    @Builder.Default private RequestStatus status = RequestStatus.PENDING;
 
     @CreatedDate private LocalDateTime createdAt;
 
     @LastModifiedDate private LocalDateTime updatedAt;
-
-    @Builder.Default private Set<String> friendIds = new HashSet<>();
-    @Builder.Default private List<String> friendRequestsSent = new ArrayList<>();
-    @Builder.Default private List<String> friendRequestsReceived = new ArrayList<>();
 
     @Version private Integer version;
 }
