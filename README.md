@@ -111,10 +111,110 @@ Please read CONTRIBUTING.md for details on our code of conduct and the process f
 
 ## Testing 🧪
 
-Run tests with:
+### Playwright API Tests for Habit Pact
+
+#### Setup
+
+1. Install dependencies
 
 ```bash
-./gradlew test
+npm install
+```
+
+2. Create a `.env` file in the project root with:
+
+```env
+API_BASE_URL=http://localhost:8080
+API_USERNAME=test@example.com
+API_PASSWORD=password123
+```
+
+### Running Tests
+
+Run all tests:
+
+```bash
+npx playwright test
+```
+
+Run specific test file:
+
+```bash
+npx playwright test habits/create.api.spec.ts
+```
+
+Run tests with specific tag:
+
+```bash
+npx playwright test --grep "@smoke"
+```
+
+Run in debug mode:
+
+```bash
+npx playwright test --debug
+```
+
+### Test Reports
+
+View HTML report:
+
+```bash
+npx playwright show-report
+```
+
+Generate and view trace:
+
+```bash
+npx playwright test --trace on
+```
+
+### Project Structure
+
+```
+api-tests/
+├── playwright.config.ts    # Test configuration
+├── tests/                  # Test Source Folder
+└── test-results/           # Test reports and traces
+```
+
+### Debug Tips
+
+- Use `console.log()` in tests for debugging
+- Check test traces for failed tests
+- Review API responses in test report
+- Use `test.only()` to run single test
+
+### Common Issues
+
+1. API Connection:
+
+   - Ensure API is running at correct URL
+   - Check port number matches configuration
+
+2. Authentication:
+
+   - Verify test user credentials
+   - Check token expiration settings
+
+3. Test Data:
+   - Ensure clean test state
+   - Check for data conflicts
+
+### Useful Commands
+
+```bash
+# Install Playwright browsers
+npx playwright install
+
+# Run tests and generate report
+npx playwright test --reporter=html
+
+# Run specific test file with debug output
+npx playwright test filename.spec.ts --debug
+
+# Update Playwright
+npm install -D @playwright/test@latest
 ```
 
 ## Future Features
