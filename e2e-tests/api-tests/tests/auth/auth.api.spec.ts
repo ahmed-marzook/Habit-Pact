@@ -1,5 +1,6 @@
-// tests/auth/auth.api.spec.ts
 import { test, expect } from "@playwright/test";
+
+import { expectErrorResponse } from "../utils/response-helper";
 
 test.describe("Authentication API", () => {
   const testUser = {
@@ -54,6 +55,13 @@ test.describe("Authentication API", () => {
     });
 
     expect(response.status()).toBe(409);
+    const data = await response.json();
+
+    expectErrorResponse(data, {
+      status: "CONFLICT",
+      message: `User already exists with email: ${testUser.email}`,
+      path: `/api/v1/auth/register`,
+    });
   });
 
   test("should fail to login with wrong password", async ({ request }) => {
@@ -65,6 +73,14 @@ test.describe("Authentication API", () => {
     });
 
     expect(response.status()).toBe(400);
+
+    const data = await response.json();
+
+    expectErrorResponse(data, {
+      status: "BAD_REQUEST",
+      message: `UNCAUGHT ERROR`,
+      path: `/api/v1/auth/login`,
+    });
   });
 
   test("should fail to register with invalid email", async ({ request }) => {
@@ -77,6 +93,21 @@ test.describe("Authentication API", () => {
     });
 
     expect(response.status()).toBe(400);
+    const data = await response.json();
+
+    expectErrorResponse(data, {
+      status: "BAD_REQUEST",
+      message: `Validation error`,
+      path: `/api/v1/auth/register`,
+      fieldErrors: [
+        {
+          field: "email",
+          message: "Invalid email format",
+          object: "createUserRequest",
+          rejectedValue: "invalid-email",
+        },
+      ],
+    });
   });
 
   test("should fail to register with short password", async ({ request }) => {
@@ -90,5 +121,20 @@ test.describe("Authentication API", () => {
     });
 
     expect(response.status()).toBe(400);
+    const data = await response.json();
+
+    expectErrorResponse(data, {
+      status: "BAD_REQUEST",
+      message: "Validation error",
+      path: `/api/v1/auth/register`,
+      fieldErrors: [
+        {
+          field: "password",
+          message: "Password must be at least 8 characters long",
+          object: "createUserRequest",
+          rejectedValue: "short",
+        },
+      ],
+    });
   });
 });

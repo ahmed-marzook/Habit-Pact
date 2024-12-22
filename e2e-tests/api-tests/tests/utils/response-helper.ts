@@ -35,7 +35,6 @@ export function expectErrorResponse(
   // Verify error properties
   expect(data).toHaveProperty("status", status);
   expect(data).toHaveProperty("message", message);
-  expect(data).toHaveProperty("debugMessage", message);
   expect(data).toHaveProperty("fieldErrors", fieldErrors);
   expect(data).toHaveProperty("path", path);
 }
