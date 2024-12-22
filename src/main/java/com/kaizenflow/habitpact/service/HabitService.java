@@ -61,7 +61,7 @@ public class HabitService {
     public HabitResponse updateHabit(String userId, String habitId, CreateHabitRequest request) {
         Habit habit =
                 habitRepository
-                        .findByIdAndUserId(habitId, userId)
+                        .findByIdAndUserIdAndArchivedFalse(habitId, userId)
                         .orElseThrow(
                                 () -> new ResourceNotFoundException("Habit not found", "habitId", habitId));
 
@@ -90,7 +90,7 @@ public class HabitService {
     public HabitResponse patchHabit(String userId, String habitId, UpdateHabitRequest request) {
         Habit habit =
                 habitRepository
-                        .findByIdAndUserId(habitId, userId)
+                        .findByIdAndUserIdAndArchivedFalse(habitId, userId)
                         .orElseThrow(
                                 () -> new ResourceNotFoundException("Habit not found", "habitId", habitId));
 
@@ -150,7 +150,7 @@ public class HabitService {
     public void deleteHabit(String userId, String habitId) {
         Habit habit =
                 habitRepository
-                        .findByIdAndUserId(habitId, userId)
+                        .findByIdAndUserIdAndArchivedFalse(habitId, userId)
                         .orElseThrow(
                                 () -> new ResourceNotFoundException("Habit not found", "habitId", habitId));
 
@@ -161,7 +161,7 @@ public class HabitService {
     public HabitResponse getHabit(String userId, String habitId) {
         return habitMapper.habitToHabitResponse(
                 habitRepository
-                        .findByIdAndUserId(habitId, userId)
+                        .findByIdAndUserIdAndArchivedFalse(habitId, userId)
                         .orElseThrow(
                                 () -> new ResourceNotFoundException("Habit not found", "habitId", habitId)));
     }

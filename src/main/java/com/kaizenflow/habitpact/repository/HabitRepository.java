@@ -32,7 +32,7 @@ public interface HabitRepository extends MongoRepository<Habit, String> {
     List<HabitResponse> findByUserIdAndCurrentStreakGreaterThan(String userId, int streakValue);
 
     // Validation queries
-    Optional<Habit> findByIdAndUserId(String habitId, String userId);
+    Optional<Habit> findByIdAndUserIdAndArchivedFalse(String habitId, String userId);
 
     // Reminder queries
     @Query("{ 'userId': ?0, 'reminder.enabled': true }")

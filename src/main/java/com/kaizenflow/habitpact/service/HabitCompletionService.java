@@ -29,7 +29,7 @@ public class HabitCompletionService {
             String userId, String habitId, CreateHabitCompletionRequest request) {
         // Verify habit exists and belongs to user
         habitRepository
-                .findByIdAndUserId(habitId, userId)
+                .findByIdAndUserIdAndArchivedFalse(habitId, userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Habit", "id", habitId));
 
         // Check if completion already exists for this date

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
@@ -28,12 +29,12 @@ public class ApiError {
     private List<FieldError> fieldErrors;
     private String path;
 
-    public ApiError(HttpStatus status, WebRequest webRequest) {
+    public ApiError(HttpStatus status, HttpServletRequest webRequest) {
         this.status = status;
-        this.path = ((ServletWebRequest) webRequest).getRequest().getRequestURI();
+        this.path = webRequest.getRequestURI();
     }
 
-    public ApiError(HttpStatus status, String message, Throwable ex, WebRequest webRequest) {
+    public ApiError(HttpStatus status, String message, Throwable ex, HttpServletRequest webRequest) {
         this(status, webRequest);
         this.message = message;
         this.debugMessage = ex.getLocalizedMessage();
