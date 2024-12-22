@@ -1,7 +1,10 @@
 import { test, expect } from "@playwright/test";
 
+import moment from "moment";
+
 import { createTestUser, getAuthToken } from "../utils/auth-helper";
 import { createTestHabit } from "../utils/habit-helper";
+import { expectErrorResponse } from "../utils/response-helper";
 
 test.describe("Delete Habits", () => {
   let authToken: string;
@@ -32,13 +35,10 @@ test.describe("Delete Habits", () => {
     expect(getResponse.status()).toBe(404);
     const data = await getResponse.json();
 
-    expect(data).toHaveProperty("status", "NOT_FOUND");
-    expect(data).toHaveProperty("timestamp");
-    expect(data).toHaveProperty(
-      "message",
-      `Habit not found not found with habitId: ${habitId}`
-    );
-    expect(data).toHaveProperty("fieldErrors", null);
-    expect(data).toHaveProperty("path", `/api/v1/habits/${habitId}`);
+    expectErrorResponse(data, {
+      status: "NOT_FOUND",
+      message: `Habit not found not found with habitId: ${habitId}`,
+      path: `/api/v1/habits/${habitId}`,
+    });
   });
 });
