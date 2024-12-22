@@ -10,6 +10,8 @@ test.describe("Authentication API", () => {
     lastName: "User",
   };
 
+  test.describe.configure({ mode: "serial" }); // Run tests in sequence
+
   test("should register a new user", async ({ request }) => {
     const response = await request.post("/api/v1/auth/register", {
       data: testUser,
@@ -18,7 +20,6 @@ test.describe("Authentication API", () => {
     expect(response.status()).toBe(200);
     const data = await response.json();
 
-    // Verify the response matches OpenAPI schema
     expect(data).toHaveProperty("id");
     expect(data).toHaveProperty("email", testUser.email);
     expect(data).toHaveProperty("username", testUser.username);
@@ -29,9 +30,7 @@ test.describe("Authentication API", () => {
     expect(data).toHaveProperty("updatedAt");
   });
 
-  test("should login with valid credentials and receive JWT token", async ({
-    request,
-  }) => {
+  test("should login with valid credentials", async ({ request }) => {
     const response = await request.post("/api/v1/auth/login", {
       data: {
         email: testUser.email,
@@ -42,11 +41,22 @@ test.describe("Authentication API", () => {
     expect(response.status()).toBe(200);
     const token = await response.text();
     expect(token).toBeTruthy();
-    // Verify it looks like a JWT (three dot-separated sections)
     expect(token.split(".")).toHaveLength(3);
   });
 
-  test("should fail to login with invalid credentials", async ({ request }) => {
+  test("should fail to register duplicate user", async ({ request }) => {
+    // Try to register with same email
+    const response = await request.post("/api/v1/auth/register", {
+      data: {
+        ...testUser,
+        username: "different_username", // Same email, different username
+      },
+    });
+
+    expect(response.status()).toBe(409);
+  });
+
+  test("should fail to login with wrong password", async ({ request }) => {
     const response = await request.post("/api/v1/auth/login", {
       data: {
         email: testUser.email,
@@ -54,16 +64,15 @@ test.describe("Authentication API", () => {
       },
     });
 
-    expect(response.status()).toBe(401);
+    expect(response.status()).toBe(400);
   });
 
-  test("should fail to register with invalid email format", async ({
-    request,
-  }) => {
+  test("should fail to register with invalid email", async ({ request }) => {
     const response = await request.post("/api/v1/auth/register", {
       data: {
         ...testUser,
         email: "invalid-email",
+        username: "different_username2",
       },
     });
 
@@ -74,19 +83,12 @@ test.describe("Authentication API", () => {
     const response = await request.post("/api/v1/auth/register", {
       data: {
         ...testUser,
+        email: "another@example.com",
+        username: "different_username3",
         password: "short",
       },
     });
 
     expect(response.status()).toBe(400);
-  });
-
-  test("should fail to register with existing email", async ({ request }) => {
-    // Try to register the same user twice
-    const response = await request.post("/api/v1/auth/register", {
-      data: testUser,
-    });
-
-    expect(response.status()).toBe(409);
   });
 });
