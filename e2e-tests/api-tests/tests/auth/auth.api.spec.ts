@@ -87,6 +87,6 @@ test.describe("Authentication API", () => {
       data: testUser,
     });
 
-    expect(response.status()).toBe(400);
+    expect(response.status()).toBe(409);
   });
 });
