@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kaizenflow.habitpact.config.security.UserInfoDetails;
-import com.kaizenflow.habitpact.domain.dto.HabitCompletionSummary;
 import com.kaizenflow.habitpact.domain.dto.request.CreateHabitCompletionRequest;
 import com.kaizenflow.habitpact.domain.dto.response.HabitCompletionResponse;
 import com.kaizenflow.habitpact.service.HabitCompletionService;
@@ -61,27 +60,30 @@ public class HabitCompletionController {
     public ResponseEntity<List<HabitCompletionResponse>> getCompletions(
             @AuthenticationPrincipal UserInfoDetails userInfoDetails,
             @PathVariable String habitId,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                    LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                    LocalDate endDate) {
 
         LocalDate effectiveEndDate = endDate != null ? endDate : LocalDate.now();
         LocalDate effectiveStartDate = startDate != null ? startDate : effectiveEndDate.minusDays(30);
 
         return ResponseEntity.ok(
-                completionService.getCompletions(userInfoDetails.getUserId(), habitId, effectiveStartDate, effectiveEndDate));
+                completionService.getCompletions(
+                        userInfoDetails.getUserId(), habitId, effectiveStartDate, effectiveEndDate));
     }
 
-//    @Operation(summary = "Get completion summary for a date range")
-//    @GetMapping("/summary")
-//    public ResponseEntity<HabitCompletionSummary> getCompletionSummary(
-//            @AuthenticationPrincipal UserInfoDetails userInfoDetails,
-//            @PathVariable String habitId,
-//            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-//            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-//        return ResponseEntity.ok(
-//                completionService.getCompletionSummary(
-//                        userInfoDetails.getUserId(), habitId, startDate, endDate));
-//    }
+    //    @Operation(summary = "Get completion summary for a date range")
+    //    @GetMapping("/summary")
+    //    public ResponseEntity<HabitCompletionSummary> getCompletionSummary(
+    //            @AuthenticationPrincipal UserInfoDetails userInfoDetails,
+    //            @PathVariable String habitId,
+    //            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+    //            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+    //        return ResponseEntity.ok(
+    //                completionService.getCompletionSummary(
+    //                        userInfoDetails.getUserId(), habitId, startDate, endDate));
+    //    }
 
     @Operation(summary = "Delete a habit completion")
     @DeleteMapping("/{completionId}")
