@@ -59,9 +59,8 @@ public class SecurityConfig {
                                         // Public endpoints that don't require authentication
                                         .requestMatchers(
                                                 // Authentication endpoints
-                                                "/auth/users/generateToken", // Login endpoint
-                                                "/auth/users/create", // Registration endpoint
-
+                                                "/api/v1/auth/register",
+                                                "/api/v1/auth/login",
                                                 // Swagger/OpenAPI documentation endpoints
                                                 "/swagger-ui/**",
                                                 "/swagger-ui.html",
@@ -72,8 +71,8 @@ public class SecurityConfig {
 
                                         // Protected API endpoints - require ROLE_USER authority
                                         .requestMatchers(
-                                                "/api/users/**", // User management endpoints
-                                                "/api/habits/**" // Habit management endpoints
+                                                "/api/v1/users/**", // User management endpoints
+                                                "/api/v1/habits/**" // Habit management endpoints
                                                 )
                                         .hasAuthority("ROLE_USER")
 
