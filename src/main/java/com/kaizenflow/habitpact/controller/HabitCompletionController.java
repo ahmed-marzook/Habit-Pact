@@ -61,10 +61,14 @@ public class HabitCompletionController {
     public ResponseEntity<List<HabitCompletionResponse>> getCompletions(
             @AuthenticationPrincipal UserInfoDetails userInfoDetails,
             @PathVariable String habitId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+
+        LocalDate effectiveEndDate = endDate != null ? endDate : LocalDate.now();
+        LocalDate effectiveStartDate = startDate != null ? startDate : effectiveEndDate.minusDays(30);
+
         return ResponseEntity.ok(
-                completionService.getCompletions(userInfoDetails.getUserId(), habitId, startDate, endDate));
+                completionService.getCompletions(userInfoDetails.getUserId(), habitId, effectiveStartDate, effectiveEndDate));
     }
 
 //    @Operation(summary = "Get completion summary for a date range")
