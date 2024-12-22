@@ -35,13 +35,16 @@ public class FriendService {
 
         friendRequestRepository
                 .findBySenderIdAndReceiverId(senderUser.getId(), receiverUser.getId())
-                .orElseThrow(
-                        () -> new ResourceAlreadyExistsException("Friend Request", "email", receiverEmail));
+                .ifPresent(
+                        existing -> {
+                            throw new ResourceAlreadyExistsException("Friend Request", "email", receiverEmail);
+                        });
 
         FriendRequest newFriendRequest =
                 FriendRequest.builder()
                         .senderId(senderUser.getId())
                         .receiverId(receiverUser.getId())
+                        .receiverEmail(receiverEmail)
                         .build();
 
         return friendRequestMapper.friendRequestToFriendRequestResponse(
