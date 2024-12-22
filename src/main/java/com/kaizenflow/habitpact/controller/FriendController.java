@@ -2,13 +2,16 @@ package com.kaizenflow.habitpact.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kaizenflow.habitpact.config.security.UserInfoDetails;
 import com.kaizenflow.habitpact.domain.dto.response.FriendRequestResponse;
+import com.kaizenflow.habitpact.domain.enums.RequestStatus;
 import com.kaizenflow.habitpact.service.FriendService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,12 +32,11 @@ public class FriendController {
                 friendService.sendFriendRequest(userInfoDetails.getUserId(), receiverEmail));
     }
 
-    //    @PutMapping("/request/{requestId}")
-    //    public ResponseEntity<FriendRequestResponse> respondToRequest(
-    //            @PathVariable String requestId,
-    //            @RequestParam RequestStatus status) {
-    //        return ResponseEntity.ok(friendService.respondToRequest(requestId, status));
-    //    }
+    @PutMapping("/request/{requestId}")
+    public ResponseEntity<FriendRequestResponse> respondToRequest(
+            @PathVariable String requestId, @RequestParam RequestStatus status) {
+        return ResponseEntity.ok(friendService.respondToRequest(requestId, status));
+    }
     //
     //    @GetMapping("/pending")
     //    public ResponseEntity<List<FriendRequestResponse>> getPendingRequests(
