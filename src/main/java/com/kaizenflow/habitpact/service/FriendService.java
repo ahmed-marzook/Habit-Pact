@@ -34,16 +34,16 @@ public class FriendService {
         validateFriendRequest(senderUser, receiverUser);
 
         Optional<FriendRequest> existingRequest =
-                friendRequestRepository.findBySenderIdAndReceiverId(
-                        senderUser.getId(), receiverUser.getId());
+                friendRequestRepository.findBySenderIdAndReceiverIdAndStatus(
+                        senderUser.getId(), receiverUser.getId(), RequestStatus.PENDING);
 
         if (existingRequest.isPresent()) {
             return friendRequestMapper.friendRequestToFriendRequestResponse(existingRequest.get());
         }
 
         Optional<FriendRequest> receiverExistingRequest =
-                friendRequestRepository.findBySenderIdAndReceiverId(
-                        receiverUser.getId(), senderUser.getId());
+                friendRequestRepository.findBySenderIdAndReceiverIdAndStatus(
+                        receiverUser.getId(), senderUser.getId(), RequestStatus.PENDING);
 
         if (receiverExistingRequest.isPresent()) {
             return respondToRequest(receiverExistingRequest.get().getId(), RequestStatus.ACCEPTED);
@@ -55,6 +55,7 @@ public class FriendService {
                                 .senderId(senderUser.getId())
                                 .receiverId(receiverUser.getId())
                                 .receiverEmail(receiverEmail)
+                                .senderEmail(senderUser.getEmail())
                                 .build());
 
         senderUser.getFriendRequestsSent().add(newFriendRequest.getId());

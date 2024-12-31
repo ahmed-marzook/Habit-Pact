@@ -8,6 +8,7 @@ public record FriendRequestResponse(
         String id,
         String senderId,
         String receiverEmail,
+        String senderEmail,
         RequestStatus status,
         LocalDateTime createdAt,
         LocalDateTime updatedAt) {}

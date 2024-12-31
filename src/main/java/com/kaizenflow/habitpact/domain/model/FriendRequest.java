@@ -31,6 +31,8 @@ public class FriendRequest {
 
     private String receiverEmail;
 
+    private String senderEmail;
+
     @Builder.Default private RequestStatus status = RequestStatus.PENDING;
 
     @CreatedDate private LocalDateTime createdAt;

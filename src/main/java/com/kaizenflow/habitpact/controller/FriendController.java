@@ -43,7 +43,7 @@ public class FriendController {
 
     @GetMapping("/pending")
     public ResponseEntity<List<FriendRequestResponse>> getPendingRequests(
-            @RequestParam String userId) {
-        return ResponseEntity.ok(friendService.getPendingRequests(userId));
+            @AuthenticationPrincipal UserInfoDetails userInfoDetails) {
+        return ResponseEntity.ok(friendService.getPendingRequests(userInfoDetails.getUserId()));
     }
 }

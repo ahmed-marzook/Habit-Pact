@@ -10,7 +10,8 @@ import com.kaizenflow.habitpact.domain.enums.RequestStatus;
 import com.kaizenflow.habitpact.domain.model.FriendRequest;
 
 public interface FriendRequestRepository extends MongoRepository<FriendRequest, String> {
-    Optional<FriendRequest> findBySenderIdAndReceiverId(String senderId, String receiverId);
+    Optional<FriendRequest> findBySenderIdAndReceiverIdAndStatus(
+            String senderId, String receiverId, RequestStatus status);
 
     List<FriendRequestResponse> findByReceiverIdAndStatus(String receiverId, RequestStatus status);
 }
