@@ -1,7 +1,10 @@
 package com.kaizenflow.habitpact.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -37,10 +40,10 @@ public class FriendController {
             @PathVariable String requestId, @RequestParam RequestStatus status) {
         return ResponseEntity.ok(friendService.respondToRequest(requestId, status));
     }
-    //
-    //    @GetMapping("/pending")
-    //    public ResponseEntity<List<FriendRequestResponse>> getPendingRequests(
-    //            @RequestParam String userId) {
-    //        return ResponseEntity.ok(friendService.getPendingRequests(userId));
-    //    }
+
+    @GetMapping("/pending")
+    public ResponseEntity<List<FriendRequestResponse>> getPendingRequests(
+            @RequestParam String userId) {
+        return ResponseEntity.ok(friendService.getPendingRequests(userId));
+    }
 }

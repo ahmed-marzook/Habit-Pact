@@ -1,5 +1,6 @@
 package com.kaizenflow.habitpact.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -82,6 +83,10 @@ public class FriendService {
 
         return friendRequestMapper.friendRequestToFriendRequestResponse(
                 friendRequestRepository.save(request));
+    }
+
+    public List<FriendRequestResponse> getPendingRequests(String userId) {
+        return friendRequestRepository.findByReceiverIdAndStatus(userId, RequestStatus.PENDING);
     }
 
     private void removeFriendRequestFromUsers(FriendRequest request) {
