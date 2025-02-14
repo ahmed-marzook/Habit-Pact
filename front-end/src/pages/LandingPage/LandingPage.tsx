@@ -1,4 +1,5 @@
 import "./LandingPage.css";
+import { Link } from "react-router-dom";
 import habitPactlogo from "../../assets/habit-pact-logo.svg";
 
 type Props = {};
@@ -7,22 +8,26 @@ export default function LandingPage({}: Props) {
   return (
     <div className="landing">
       <nav className="landing__navbar">
-        <a href="#" className="landing__navbar-logo">
-          HabitPact
-        </a>
+        <div className="landing_logo-wrapper">
+          <img src={habitPactlogo} alt="Logo" className="register__nav-logo" />
+          <a href="#" className="landing__navbar-logo-header">
+            HabitPact
+          </a>
+        </div>
+
         <div className="landing__navbar-buttons">
-          <a
-            href="/login"
+          <Link
+            to="/login"
             className="landing__button landing__button--secondary"
           >
-            Log In
-          </a>
-          <a
-            href="/signup"
+            Sign In
+          </Link>
+          <Link
+            to="/register"
             className="landing__button landing__button--primary"
           >
-            Sign Up
-          </a>
+            Register
+          </Link>
         </div>
       </nav>
 
@@ -35,9 +40,12 @@ export default function LandingPage({}: Props) {
           tracking platform. Join thousands of others on their journey to
           self-improvement.
         </p>
-        <a href="/signup" className="landing__button landing__button--primary">
+        <Link
+          to="/register"
+          className="landing__button landing__button--primary"
+        >
           Get Started Free
-        </a>
+        </Link>
       </section>
 
       <section className="landing__features">
@@ -105,15 +113,15 @@ export default function LandingPage({}: Props) {
         <h2 className="landing__section-title">Trusted by Thousands</h2>
         <div className="landing__stats">
           <div className="landing__stat">
-            <div className="landing__stat-number">50K+</div>
+            <div className="landing__stat-number">1</div>
             <div className="landing__stat-label">Active Users</div>
           </div>
           <div className="landing__stat">
-            <div className="landing__stat-number">1M+</div>
+            <div className="landing__stat-number">10</div>
             <div className="landing__stat-label">Habits Tracked</div>
           </div>
           <div className="landing__stat">
-            <div className="landing__stat-number">85%</div>
+            <div className="landing__stat-number">100%</div>
             <div className="landing__stat-label">Success Rate</div>
           </div>
         </div>
@@ -124,9 +132,12 @@ export default function LandingPage({}: Props) {
         <p className="landing__cta-text">
           Join thousands of others who are already building better habits
         </p>
-        <a href="/signup" className="landing__button landing__button--primary">
+        <Link
+          to="/register"
+          className="landing__button landing__button--primary"
+        >
           Create Free Account
-        </a>
+        </Link>
       </section>
 
       <footer className="landing__footer">

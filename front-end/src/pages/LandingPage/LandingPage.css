@@ -12,7 +12,14 @@
   z-index: 1000;
 }
 
-.landing__navbar-logo {
+.landing_logo-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.landing__navbar-logo-header {
   color: var(--accent-primary);
   font-size: 1.5rem;
   font-weight: bold;
@@ -21,6 +28,8 @@
 
 .landing__nav-logo {
   width: 100px;
+  aspect-ratio: 1 /1;
+  height: auto;
 }
 
 .landing__navbar-buttons {

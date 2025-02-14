@@ -1,6 +1,6 @@
 .signin {
   width: 100%;
-  min-height: 100vh;
+  max-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,23 +19,27 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.signin__nav-logo {
+.signin__logo {
   max-width: 100px;
+  aspect-ratio: 1 / 1;
   height: auto;
-  aspect-ratio: 1/1;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
 }
 
-.signin__logo {
+.signin__header-logo {
   color: var(--accent-primary);
   font-size: 1.5rem;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .signin__header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .signin__title {

@@ -1,5 +1,9 @@
 import "./Register.css";
+import { Link } from "react-router-dom";
 import habitPactlogo from "../../assets/habit-pact-logo.svg";
+import googleIcon from "../../assets/google.svg";
+import facebookIcon from "../../assets/facebook.svg";
+import appleIcon from "../../assets/apple.svg";
 
 type Props = {};
 
@@ -8,7 +12,10 @@ export default function Register({}: Props) {
     <div className="register">
       {/* Left Side - Feature Showcase */}
       <div className="register__features">
-        <div className="register__logo">HabitPact</div>
+        <div className="register__logo-wrapper">
+          <img src={habitPactlogo} alt="Logo" className="register__nav-logo" />
+          <div className="register__logo">HabitPact</div>
+        </div>
         <ul className="register__feature-list">
           <li className="register__feature-item">
             <div className="register__feature-icon">📊</div>
@@ -45,9 +52,9 @@ export default function Register({}: Props) {
       {/* Right Side - Registration Form */}
       <div className="register__form-container">
         <div className="register__nav">
-          <a href="/" className="register__back-button">
-            ← Back to Home
-          </a>
+          <Link to="/" className="register__back-button">
+            ← Back to Home Page
+          </Link>
           <img src={habitPactlogo} alt="Logo" className="register__nav-logo" />
         </div>
         <div className="register__header">
@@ -105,7 +112,7 @@ export default function Register({}: Props) {
               className="register__social-button register__social-button--google"
             >
               <img
-                src="/api/placeholder/20/20"
+                src={googleIcon}
                 alt="Google"
                 className="register__social-icon"
               />
@@ -116,7 +123,7 @@ export default function Register({}: Props) {
               className="register__social-button register__social-button--apple"
             >
               <img
-                src="/api/placeholder/20/20"
+                src={appleIcon}
                 alt="Apple"
                 className="register__social-icon"
               />
@@ -127,7 +134,7 @@ export default function Register({}: Props) {
               className="register__social-button register__social-button--facebook"
             >
               <img
-                src="/api/placeholder/20/20"
+                src={facebookIcon}
                 alt="Facebook"
                 className="register__social-icon"
               />
@@ -137,9 +144,9 @@ export default function Register({}: Props) {
 
           <div className="register__footer">
             Already have an account?{" "}
-            <a href="/signin" className="register__link">
+            <Link to="/login" className="register__link">
               Sign in
-            </a>
+            </Link>
           </div>
         </form>
       </div>
