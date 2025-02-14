@@ -1,0 +1,21 @@
+.layout {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.layout__main-sidebar {
+  width: 256px; /* or any width you prefer */
+  flex-shrink: 0;
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.layout__main-content {
+  flex: 1;
+  margin-left: 256px; /* should match sidebar width */
+  overflow-y: auto;
+  height: 100vh;
+}

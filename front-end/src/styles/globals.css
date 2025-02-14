@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+}
+
+:root {
+  --bg-primary: #1e2023;
+  --bg-secondary: #272a30;
+  --accent-primary: #2ee6a8;
+  --accent-secondary: #ff6b6b;
+  --text-primary: #ffffff;
+  --text-secondary: #9ea3ae;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+.card {
+  background-color: var(--bg-secondary);
+  padding: 1.5rem;
+  border-radius: 12px;
+}
