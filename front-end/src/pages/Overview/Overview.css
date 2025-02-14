@@ -1,0 +1,80 @@
+.overview {
+  padding: 2rem;
+  width: 100%;
+}
+
+.overview__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+/* Quote Section */
+.overview__quote-card {
+  background-color: var(--bg-secondary);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  text-align: center;
+  border-left: 4px solid var(--accent-primary);
+}
+
+.overview__quote-text {
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-style: italic;
+}
+
+.overview__quote-author {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+/* Overview Grid */
+
+.overview__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+/* Current Streaks card */
+.overview__streak-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.overview__streak-item {
+  text-align: center;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: rgba(46, 230, 168, 0.1);
+}
+
+.overview__streak-number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--accent-primary);
+  margin: 0.5rem 0;
+}
+
+.overview__streak-label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Today's Habits */
+
+.overview__habit-list {
+  list-style: none;
+}
+
+.overview__habit-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(158, 163, 174, 0.1);
+}

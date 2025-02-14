@@ -17,7 +17,7 @@ export default function MainSideBar({}: Props) {
 
       <nav className="main-sidebar__nav">
         <div className="main-sidebar__nav-item main-sidebar__nav-item--active">
-          Dashboard
+          Overview
         </div>
         <div className="main-sidebar__nav-item">Habits</div>
         <div className="main-sidebar__nav-item">Progress</div>

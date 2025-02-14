@@ -26,3 +26,15 @@ body {
   padding: 1.5rem;
   border-radius: 12px;
 }
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+}
