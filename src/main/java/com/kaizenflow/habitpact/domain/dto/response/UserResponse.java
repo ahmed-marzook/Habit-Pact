@@ -2,8 +2,10 @@ package com.kaizenflow.habitpact.domain.dto.response;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Schema(name = "UserResponse", description = "Response object containing user information")
 public record UserResponse(
         @Schema(
@@ -15,7 +17,7 @@ public record UserResponse(
         @Schema(description = "User's first name", example = "John") String firstName,
         @Schema(description = "User's last name", example = "Doe") String lastName,
         @Schema(description = "Indicates if the user account is active", example = "true")
-                boolean active,
+                Boolean active,
         @Schema(
                         description = "Timestamp when the user account was created",
                         example = "2024-12-06T10:30:00",

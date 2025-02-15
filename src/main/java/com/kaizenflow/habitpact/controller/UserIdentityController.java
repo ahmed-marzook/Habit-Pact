@@ -1,5 +1,7 @@
 package com.kaizenflow.habitpact.controller;
 
+import com.kaizenflow.habitpact.config.security.UserInfoDetails;
+import com.kaizenflow.habitpact.domain.dto.response.UserAuthResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,12 +38,15 @@ public class UserIdentityController {
             summary = "Authenticate user and login",
             description = "Authenticate user credentials and generate JWT token for user login")
     @PostMapping("/login")
-    public String authenticateUser(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<UserAuthResponse> authenticateUser(@RequestBody AuthRequest authRequest) {
         Authentication authentication =
                 authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(authRequest.email(), authRequest.password()));
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(authRequest.email());
+            UserInfoDetails principle = (UserInfoDetails) authentication.getPrincipal();
+            UserResponse userResponse = new UserResponse(null, principle.getEmail(), principle.getDbUsername(), principle.getFirstName(), principle.getLastName(), null, null, null);
+            UserAuthResponse authResponse = new UserAuthResponse(userResponse, jwtService.generateToken(authRequest.email()), null);
+            return ResponseEntity.ok(authResponse);
         } else {
             throw new UsernameNotFoundException("Invalid user request!");
         }

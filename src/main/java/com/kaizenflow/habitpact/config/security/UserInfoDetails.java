@@ -15,14 +15,20 @@ import lombok.Getter;
 @Getter
 public class UserInfoDetails implements UserDetails {
     private final String userId;
-    private final String username;
+    private final String email;
     private final String password;
+    private final String dbUsername;
+    private final String firstName;
+    private final String lastName;
     private final List<GrantedAuthority> authorities;
 
     public UserInfoDetails(User user) {
         this.userId = user.getId();
-        this.username = user.getEmail();
+        this.email = user.getEmail();
         this.password = user.getPassword();
+        this.dbUsername = user.getUsername();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
         this.authorities =
                 user.getRoles().stream()
                         .map(role -> new SimpleGrantedAuthority("ROLE_" + role)) // Adding ROLE_ prefix
@@ -41,7 +47,7 @@ public class UserInfoDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
