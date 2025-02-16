@@ -4,16 +4,20 @@ import googleIcon from "../../assets/google.svg";
 import facebookIcon from "../../assets/facebook.svg";
 import appleIcon from "../../assets/apple.svg";
 import { useAuth } from "../../contexts/AuthContext/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 type Props = {};
 
 export default function SignIn({}: Props) {
+  const navigate = useNavigate();
   const { loginUser } = useAuth();
 
   function handleSignIn(formData) {
     console.log(formData.get("email"));
     console.log(formData.get("password"));
     loginUser(formData.get("email"), formData.get("password"));
+    navigate("/dashboard");
   }
   return (
     <div className="signin">

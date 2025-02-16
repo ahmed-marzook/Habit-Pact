@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { authService } from "../../services/api/authAPI";
 import AuthState from "../../types/auth/authState";
@@ -64,6 +64,7 @@ export const AuthProvider = ({ children }: Props) => {
             token: res?.token ?? "",
             isAuthenticated: true,
           });
+          toast.success("Sign in successful!");
         }
       })
       .catch((e) => console.log("IT FAILED" + e));

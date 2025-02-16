@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./contexts/AuthContext/AuthContext";
 import ErrorBoundary from "./components/common/ErrorBoundary";
+import { requireAuth } from "./utils/auth";
 
 const queryClient = new QueryClient();
 
@@ -19,23 +20,23 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: <DashboardLayout />,
     errorElement: <ErrorBoundary />,
+    loader: async () => {
+      const userData = await requireAuth();
+      return userData;
+    },
   },
 ]);
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <RouterProvider router={router} />
-        <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          closeOnClick
-          pauseOnHover
-        />
-      </AuthProvider>
-    </QueryClientProvider>
+    <>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
+      </QueryClientProvider>
+      <ToastContainer />
+    </>
   );
 }
 
