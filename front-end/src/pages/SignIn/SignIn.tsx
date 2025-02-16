@@ -13,11 +13,15 @@ export default function SignIn({}: Props) {
   const navigate = useNavigate();
   const { loginUser } = useAuth();
 
-  function handleSignIn(formData) {
-    console.log(formData.get("email"));
-    console.log(formData.get("password"));
-    loginUser(formData.get("email"), formData.get("password"));
-    navigate("/dashboard");
+  async function handleSignIn(formData) {
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    try {
+      await loginUser(email, password);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   }
   return (
     <div className="signin">

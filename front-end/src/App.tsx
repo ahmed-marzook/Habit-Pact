@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./contexts/AuthContext/AuthContext";
 import ErrorBoundary from "./components/common/ErrorBoundary";
-import { requireAuth } from "./utils/auth";
+import { requireAuth } from "./utils/requireAuth";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +24,7 @@ const router = createBrowserRouter([
       const userData = await requireAuth();
       return userData;
     },
+    children: [],
   },
 ]);
 

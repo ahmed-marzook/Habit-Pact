@@ -53,21 +53,27 @@ export const AuthProvider = ({ children }: Props) => {
   };
 
   const loginUser = async (email: string, password: string) => {
-    await authService
-      .login(email, password)
-      .then((res) => {
-        if (res) {
-          localStorage.setItem("user", JSON.stringify(res?.user));
-          localStorage.setItem("token", res?.token);
-          setAuthState({
-            user: res?.user ?? null,
-            token: res?.token ?? "",
-            isAuthenticated: true,
-          });
-          toast.success("Sign in successful!");
-        }
-      })
-      .catch((e) => console.log("IT FAILED" + e));
+    try {
+      const res = await authService.login(email, password);
+
+      if (res) {
+        localStorage.setItem("user", JSON.stringify(res.user));
+        localStorage.setItem("token", res.token);
+
+        setAuthState({
+          user: res.user ?? null,
+          token: res.token ?? "",
+          isAuthenticated: true,
+        });
+
+        toast.success("Sign in successful!");
+        return res;
+      }
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "Sign in failed";
+      toast.error(errorMessage);
+      throw error;
+    }
   };
 
   const logout = async (): Promise<void> => {
