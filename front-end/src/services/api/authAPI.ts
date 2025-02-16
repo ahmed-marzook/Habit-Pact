@@ -1,17 +1,10 @@
-import { useQueryClient } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
 
-import axios, { AxiosInstance, AxiosError } from "axios";
-
-import { createContext, useContext, useState, ReactNode } from "react";
-
-import User from "../../types/user";
-import AuthResponse from "../../types/auth/authResponse";
-
-const api = "http://localhost:8080/api/v1/";
+export const API_BASE_URL = "http://localhost:8080/api/v1";
 
 export const loginAPI = async (email: string, password: string) => {
   try {
-    const response = await axios.post(api + "/auth/login", {
+    const response = await axios.post(API_BASE_URL + "/auth/login", {
       email: email,
       password: password,
     });
@@ -31,7 +24,7 @@ export const registerAPI = async (
   lastName: string
 ) => {
   try {
-    const response = await axios.post(api + "/auth/register", {
+    const response = await axios.post(API_BASE_URL + "/auth/register", {
       email: email,
       password: password,
       username: username,

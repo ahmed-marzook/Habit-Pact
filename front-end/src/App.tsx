@@ -3,6 +3,11 @@ import DashboardLayout from "./components/layout/Layout/DashboardLayout/Dashboar
 import LandingPage from "./pages/LandingPage/LandingPage";
 import SignIn from "./pages/SignIn/SignIn";
 import Register from "./pages/Register/Register";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
@@ -12,7 +17,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ToastContainer />
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
 }
 
 export default App;
