@@ -9,9 +9,8 @@ const VERIFICATION_INTERVAL = 5 * 60 * 1000; // 5 minutes
 
 export async function requireAuth() {
   const token = localStorage.getItem("token");
-  console.log("IM Here 1");
   if (!token) {
-    toast.error("Please login to continue");
+    toast.error("Please sign in to continue");
     throw redirect("/login");
   }
 

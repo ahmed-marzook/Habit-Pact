@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { authService } from "../../services/api/authAPI";
 import AuthState from "../../types/auth/authState";
+import { redirect } from "react-router-dom";
 
 const initialState: AuthState = {
   user: null,
@@ -77,8 +78,9 @@ export const AuthProvider = ({ children }: Props) => {
   };
 
   const logout = async (): Promise<void> => {
-    setAuthState(initialState);
+    window.location.replace("/dashboard");
     authService.logout();
+    setAuthState(initialState);
     toast.info("Logged out successfully");
   };
 
