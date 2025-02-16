@@ -3,10 +3,18 @@ import habitPactLogo from "../../assets/habit-pact-logo.svg";
 import googleIcon from "../../assets/google.svg";
 import facebookIcon from "../../assets/facebook.svg";
 import appleIcon from "../../assets/apple.svg";
+import { useAuth } from "../../contexts/AuthContext/AuthContext";
 
 type Props = {};
 
 export default function SignIn({}: Props) {
+  const { loginUser } = useAuth();
+
+  function handleSignIn(formData) {
+    console.log(formData.get("email"));
+    console.log(formData.get("password"));
+    loginUser(formData.get("email"), formData.get("password"));
+  }
   return (
     <div className="signin">
       <div className="signin__card">
@@ -22,11 +30,12 @@ export default function SignIn({}: Props) {
           <p className="signin__subtitle">Sign in to continue to HabitPact</p>
         </div>
 
-        <form className="signin__form">
+        <form className="signin__form" action={handleSignIn}>
           <div className="signin__form-group">
             <label className="signin__label">Email</label>
             <input
               type="email"
+              name="email"
               className="signin__input"
               placeholder="Enter your email"
             />
@@ -38,6 +47,7 @@ export default function SignIn({}: Props) {
               type="password"
               className="signin__input"
               placeholder="Enter your password"
+              name="password"
             />
             <div className="signin__forgot-password">
               <a href="#" className="signin__link">

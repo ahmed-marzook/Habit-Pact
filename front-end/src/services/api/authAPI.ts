@@ -1,40 +1,38 @@
-import axios, { AxiosError } from "axios";
+import { api } from "./api";
 
-export const API_BASE_URL = "http://localhost:8080/api/v1";
-
-export const loginAPI = async (email: string, password: string) => {
-  try {
-    const response = await axios.post(API_BASE_URL + "/auth/login", {
+export const authService = {
+  async login(email: string, password: string) {
+    const response = await api.post("/auth/login", {
       email: email,
       password: password,
     });
+    return response.data;
+  },
 
-    return response;
-  } catch (error) {
-    const axiosError = error as AxiosError<{ message: string }>;
-    throw new Error(axiosError.response?.data?.message || "Login failed");
-  }
-};
-
-export const registerAPI = async (
-  email: string,
-  password: string,
-  username: string,
-  firstName: string,
-  lastName: string
-) => {
-  try {
-    const response = await axios.post(API_BASE_URL + "/auth/register", {
+  async register(
+    email: string,
+    password: string,
+    username: string,
+    fistName: string,
+    lastName: string
+  ) {
+    const response = await api.post("/auth/register", {
       email: email,
       password: password,
       username: username,
-      firstName: firstName,
+      firstName: fistName,
       lastName: lastName,
     });
+    return response.data;
+  },
 
-    return response;
-  } catch (error) {
-    const axiosError = error as AxiosError<{ message: string }>;
-    throw new Error(axiosError.response?.data?.message || "Login failed");
-  }
+  async getCurrentUser() {
+    const response = await api.get("/users");
+    return response.data;
+  },
+
+  logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+  },
 };

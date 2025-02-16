@@ -1,7 +1,6 @@
 import "./LandingPage.css";
 import { Link } from "react-router-dom";
 import habitPactlogo from "../../assets/habit-pact-logo.svg";
-import { toast } from "react-toastify";
 
 type Props = {};
 
