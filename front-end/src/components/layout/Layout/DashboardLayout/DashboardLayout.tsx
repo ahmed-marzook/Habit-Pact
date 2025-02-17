@@ -1,10 +1,10 @@
-import "./Layout.css";
+import "./DashboardLayout.css";
 import Overview from "../../../../pages/Overview/Overview";
 import MainSideBar from "../../Sidebar/MainSidebar/MainSideBar";
 
 type Props = {};
 
-export default function Layout({}: Props) {
+export default function DashboardLayout({}: Props) {
   return (
     <div className="layout">
       <aside className="layout__main-sidebar">

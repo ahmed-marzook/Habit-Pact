@@ -1,9 +1,11 @@
 import "./MainSideBar.css";
 import habitPactLogo from "../../../../assets/habit-pact-logo.svg";
+import { useAuth } from "../../../../contexts/AuthContext/AuthContext";
 
 type Props = {};
 
 export default function MainSideBar({}: Props) {
+  const { logout } = useAuth();
   return (
     <div className="main-sidebar">
       <header className="main-sidebar__header">
@@ -23,6 +25,9 @@ export default function MainSideBar({}: Props) {
         <div className="main-sidebar__nav-item">Progress</div>
         <div className="main-sidebar__nav-item">Analytics</div>
         <div className="main-sidebar__nav-item">Settings</div>
+        <div className="main-sidebar__nav-item logout" onClick={logout}>
+          Logout
+        </div>
       </nav>
 
       <footer className="main-sidebar__footer">

@@ -3,10 +3,25 @@ import habitPactLogo from "../../assets/habit-pact-logo.svg";
 import googleIcon from "../../assets/google.svg";
 import facebookIcon from "../../assets/facebook.svg";
 import appleIcon from "../../assets/apple.svg";
+import { useAuth } from "../../contexts/AuthContext/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 
 type Props = {};
 
 export default function SignIn({}: Props) {
+  const navigate = useNavigate();
+  const { loginUser } = useAuth();
+
+  async function handleSignIn(formData: FormData) {
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    try {
+      await loginUser(email, password);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
+  }
   return (
     <div className="signin">
       <div className="signin__card">
@@ -22,11 +37,12 @@ export default function SignIn({}: Props) {
           <p className="signin__subtitle">Sign in to continue to HabitPact</p>
         </div>
 
-        <form className="signin__form">
+        <form className="signin__form" action={handleSignIn}>
           <div className="signin__form-group">
             <label className="signin__label">Email</label>
             <input
               type="email"
+              name="email"
               className="signin__input"
               placeholder="Enter your email"
             />
@@ -38,6 +54,7 @@ export default function SignIn({}: Props) {
               type="password"
               className="signin__input"
               placeholder="Enter your password"
+              name="password"
             />
             <div className="signin__forgot-password">
               <a href="#" className="signin__link">
@@ -91,10 +108,10 @@ export default function SignIn({}: Props) {
 
         <div className="signin__footer">
           <span className="signin__footer-text">Don't have an account?</span>
-          <a href="#signup" className="signin__link">
+          <Link to="/register" className="signin__link">
             {" "}
-            Sign up
-          </a>
+            Register
+          </Link>
         </div>
       </div>
     </div>

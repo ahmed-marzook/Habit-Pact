@@ -1,12 +1,18 @@
 import "./Overview.css";
+import { useAuth } from "../../contexts/AuthContext/AuthContext";
 
 type Props = {};
 
 export default function Overview({}: Props) {
+  const { authState } = useAuth();
+
   return (
     <div className="overview">
       <div className="overview__header">
-        <h1>Welcome Back, Jimmy</h1>
+        <h1>
+          Welcome Back,{" "}
+          {authState.user?.firstName + " " + authState.user?.lastName}
+        </h1>
         <div className="overview__date">February 13, 2025</div>
       </div>
 

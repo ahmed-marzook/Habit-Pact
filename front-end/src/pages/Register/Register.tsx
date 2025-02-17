@@ -1,13 +1,31 @@
 import "./Register.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import habitPactlogo from "../../assets/habit-pact-logo.svg";
 import googleIcon from "../../assets/google.svg";
 import facebookIcon from "../../assets/facebook.svg";
 import appleIcon from "../../assets/apple.svg";
+import { useAuth } from "../../contexts/AuthContext/AuthContext";
 
 type Props = {};
 
 export default function Register({}: Props) {
+  const { registerUser } = useAuth();
+  const navigate = useNavigate();
+
+  async function registerForm(formData: FormData) {
+    const firstName = formData.get("firstName") as string;
+    const lastName = formData.get("lastName") as string;
+    const username = formData.get("username") as string;
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    try {
+      await registerUser(email, password, username, firstName, lastName);
+      navigate("/login");
+    } catch (error) {
+      console.error("Registration failed:", error);
+    }
+  }
   return (
     <div className="register">
       {/* Left Side - Feature Showcase */}
@@ -64,25 +82,53 @@ export default function Register({}: Props) {
           </p>
         </div>
 
-        <form className="register__form">
-          <div className="register__form-group">
-            <label className="register__label">Full Name</label>
-            <input
-              type="text"
-              className="register__input"
-              placeholder="Enter your full name"
-              required
-            />
+        <form className="register__form" action={registerForm}>
+          <div className="register__form-group-inputs">
+            <div className="register__form-group">
+              <label className="register__label">First Name</label>
+              <input
+                type="text"
+                className="register__input"
+                placeholder="Enter your First name"
+                required
+                name="firstName"
+              />
+            </div>
+
+            <div className="register__form-group">
+              <label className="register__label">Last Name</label>
+              <input
+                type="text"
+                className="register__input"
+                placeholder="Enter your Last name"
+                required
+                name="lastName"
+              />
+            </div>
           </div>
 
-          <div className="register__form-group">
-            <label className="register__label">Email</label>
-            <input
-              type="email"
-              className="register__input"
-              placeholder="Enter your email"
-              required
-            />
+          <div className="register__form-group-inputs">
+            <div className="register__form-group">
+              <label className="register__label">Username</label>
+              <input
+                type="text"
+                className="register__input"
+                placeholder="Enter a Username"
+                required
+                name="username"
+              />
+            </div>
+
+            <div className="register__form-group">
+              <label className="register__label">Email</label>
+              <input
+                type="email"
+                className="register__input"
+                placeholder="Enter your email"
+                name="email"
+                required
+              />
+            </div>
           </div>
 
           <div className="register__form-group">
@@ -91,6 +137,7 @@ export default function Register({}: Props) {
               type="password"
               className="register__input"
               placeholder="Create a password"
+              name="password"
               required
             />
           </div>
@@ -101,54 +148,56 @@ export default function Register({}: Props) {
           >
             Create Account
           </button>
-
-          <div className="register__divider">
-            <span className="register__divider-text">or register with</span>
-          </div>
-
-          <div className="register__social">
-            <button
-              type="button"
-              className="register__social-button register__social-button--google"
-            >
-              <img
-                src={googleIcon}
-                alt="Google"
-                className="register__social-icon"
-              />
-              Continue with Google
-            </button>
-            <button
-              type="button"
-              className="register__social-button register__social-button--apple"
-            >
-              <img
-                src={appleIcon}
-                alt="Apple"
-                className="register__social-icon"
-              />
-              Continue with Apple
-            </button>
-            <button
-              type="button"
-              className="register__social-button register__social-button--facebook"
-            >
-              <img
-                src={facebookIcon}
-                alt="Facebook"
-                className="register__social-icon"
-              />
-              Continue with Facebook
-            </button>
-          </div>
-
-          <div className="register__footer">
-            Already have an account?{" "}
-            <Link to="/login" className="register__link">
-              Sign in
-            </Link>
-          </div>
         </form>
+        <div className="register__divider">
+          <span className="register__divider-text">or register with</span>
+        </div>
+
+        <div className="register__social">
+          <button
+            type="button"
+            className="register__social-button register__social-button--google"
+            disabled={true}
+          >
+            <img
+              src={googleIcon}
+              alt="Google"
+              className="register__social-icon"
+            />
+            Continue with Google
+          </button>
+          <button
+            type="button"
+            className="register__social-button register__social-button--apple"
+            disabled={true}
+          >
+            <img
+              src={appleIcon}
+              alt="Apple"
+              className="register__social-icon"
+            />
+            Continue with Apple
+          </button>
+          <button
+            type="button"
+            className="register__social-button register__social-button--facebook"
+            disabled={true}
+          >
+            <img
+              src={facebookIcon}
+              alt="Facebook"
+              className="register__social-icon"
+            />
+            Continue with Facebook
+          </button>
+        </div>
+
+        <div className="register__footer">
+          Already have an account?{" "}
+          <Link to="/login" className="register__link">
+            Sign in
+          </Link>
+        </div>
       </div>
     </div>
   );
