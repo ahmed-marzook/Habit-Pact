@@ -30,10 +30,15 @@ export const AuthProvider = ({ children }: Props) => {
   const [authState, setAuthState] = useState<AuthState>(initialState);
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
+    const userStr = localStorage.getItem("user");
     const token = localStorage.getItem("token");
-    if (user && token) {
-      setAuthState(JSON.parse(user));
+    if (userStr && token) {
+      const user = JSON.parse(userStr);
+      setAuthState({
+        user,
+        token,
+        isAuthenticated: true,
+      });
     }
   }, []);
 
