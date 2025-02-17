@@ -1,6 +1,6 @@
 import "./DashboardLayout.css";
-import Overview from "../../../../pages/Overview/Overview";
 import MainSideBar from "../../Sidebar/MainSidebar/MainSideBar";
+import { Outlet } from "react-router-dom";
 
 type Props = {};
 
@@ -11,7 +11,7 @@ export default function DashboardLayout({}: Props) {
         <MainSideBar />
       </aside>
       <main className="layout__main-content">
-        <Overview />
+        <Outlet />
       </main>
     </div>
   );

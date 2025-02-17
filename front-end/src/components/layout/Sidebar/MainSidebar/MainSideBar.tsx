@@ -1,6 +1,7 @@
 import "./MainSideBar.css";
 import habitPactLogo from "../../../../assets/habit-pact-logo.svg";
 import { useAuth } from "../../../../contexts/AuthContext/AuthContext";
+import { NavLink } from "react-router-dom";
 
 type Props = {};
 
@@ -18,13 +19,53 @@ export default function MainSideBar({}: Props) {
       </header>
 
       <nav className="main-sidebar__nav">
-        <div className="main-sidebar__nav-item main-sidebar__nav-item--active">
+        <NavLink
+          to="."
+          end
+          className={({ isActive }) =>
+            isActive
+              ? "main-sidebar__nav-item main-sidebar__nav-item--active"
+              : "main-sidebar__nav-item"
+          }
+        >
           Overview
-        </div>
-        <div className="main-sidebar__nav-item">Habits</div>
-        <div className="main-sidebar__nav-item">Progress</div>
-        <div className="main-sidebar__nav-item">Analytics</div>
-        <div className="main-sidebar__nav-item">Settings</div>
+        </NavLink>
+        <NavLink
+          to="habits"
+          className={({ isActive }) =>
+            isActive
+              ? "main-sidebar__nav-item main-sidebar__nav-item--active"
+              : "main-sidebar__nav-item"
+          }
+        >
+          Habits
+        </NavLink>
+        <NavLink to="#" className="main-sidebar__nav-item">
+          Progress
+        </NavLink>
+        <NavLink to="#" className="main-sidebar__nav-item">
+          Analytics
+        </NavLink>
+        <NavLink
+          to="friends"
+          className={({ isActive }) =>
+            isActive
+              ? "main-sidebar__nav-item main-sidebar__nav-item--active"
+              : "main-sidebar__nav-item"
+          }
+        >
+          Friends
+        </NavLink>
+        <NavLink
+          to="settings"
+          className={({ isActive }) =>
+            isActive
+              ? "main-sidebar__nav-item main-sidebar__nav-item--active"
+              : "main-sidebar__nav-item"
+          }
+        >
+          Settings
+        </NavLink>
         <div className="main-sidebar__nav-item logout" onClick={logout}>
           Logout
         </div>

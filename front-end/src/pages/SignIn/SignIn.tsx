@@ -78,6 +78,7 @@ export default function SignIn({}: Props) {
           <button
             type="button"
             className="signin__social-button signin__social-button--google"
+            disabled
           >
             <img
               src={googleIcon}
@@ -89,6 +90,7 @@ export default function SignIn({}: Props) {
           <button
             type="button"
             className="signin__social-button signin__social-button--apple"
+            disabled
           >
             <img src={appleIcon} alt="Apple" className="signin__social-icon" />
             Continue with Apple
@@ -96,6 +98,7 @@ export default function SignIn({}: Props) {
           <button
             type="button"
             className="signin__social-button signin__social-button--facebook"
+            disabled
           >
             <img
               src={facebookIcon}

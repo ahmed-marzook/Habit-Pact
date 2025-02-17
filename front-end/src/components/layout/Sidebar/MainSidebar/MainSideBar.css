@@ -47,6 +47,7 @@
   color: var(--text-secondary);
   width: 100%;
   transition: background-color 0.3s;
+  text-decoration: none;
 }
 
 .main-sidebar__nav-item:hover,

@@ -129,7 +129,8 @@
   background-color: var(--bg-primary);
   color: var(--text-primary);
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, opacity 0.3s, border-color 0.3s; /* Extended transition for disabled state */
+  position: relative; /* Required for tooltip positioning - REMOVE IF REMOVING TOOLTIP */
 }
 
 .signin__social-button:hover {
@@ -141,6 +142,66 @@
   width: 20px;
   height: 20px;
 }
+
+/* Disabled state styles */
+.signin__social-button:disabled,
+.signin__social-button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  border-color: rgba(158, 163, 174, 0.15);
+  background-color: var(--bg-primary);
+}
+
+.signin__social-button:disabled:hover,
+.signin__social-button[disabled]:hover {
+  background-color: var(--bg-primary);
+}
+
+/* START TOOLTIP STYLES - REMOVE THIS ENTIRE SECTION WHEN REMOVING TOOLTIP */
+/* Tooltip text */
+.signin__social-button:disabled::after,
+.signin__social-button[disabled]::after {
+  content: "Coming soon";
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 10px;
+  border-radius: 4px;
+  background-color: var(--tooltip-bg, rgba(0, 0, 0, 0.75));
+  color: var(--tooltip-text, white);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  z-index: 10;
+}
+
+/* Tooltip pointer/arrow */
+.signin__social-button:disabled::before,
+.signin__social-button[disabled]::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px 6px 0;
+  border-style: solid;
+  border-color: var(--tooltip-bg, rgba(0, 0, 0, 0.75)) transparent transparent;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 10;
+}
+
+/* Show tooltip on hover */
+.signin__social-button:disabled:hover::after,
+.signin__social-button:disabled:hover::before,
+.signin__social-button[disabled]:hover::after,
+.signin__social-button[disabled]:hover::before {
+  opacity: 1;
+}
+/* END TOOLTIP STYLES */
 
 .signin__footer {
   text-align: center;
