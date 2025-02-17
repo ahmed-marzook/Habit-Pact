@@ -1,6 +1,11 @@
 export default interface APIErrorResponse {
   debugMessage?: string;
-  fieldErrors?: null | Record<string, string[]>;
+  fieldErrors?: {
+    object: string;
+    field: string;
+    rejectedValue: string;
+    message: string;
+  }[];
   message: string;
   path: string;
   status: string;

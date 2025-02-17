@@ -54,16 +54,8 @@ export const AuthProvider = ({ children }: Props) => {
       );
 
       if (res) {
-        localStorage.setItem("user", JSON.stringify(res.user));
-        localStorage.setItem("token", res.token);
-
-        setAuthState({
-          user: res.user ?? null,
-          token: res.token ?? "",
-          isAuthenticated: true,
-        });
-
         toast.success("Registration successful!");
+        toast.success("Please Sign In");
         return res;
       }
     } catch (error) {
@@ -71,11 +63,24 @@ export const AuthProvider = ({ children }: Props) => {
       if (axios.isAxiosError(error)) {
         // Now we can type assert the error response
         const axiosError = error as AxiosError<APIErrorResponse>;
-        const errorMessage =
-          axiosError.response?.data?.message || "Registration failed";
-        toast.error(errorMessage, {
-          icon: <span>❌</span>,
-        });
+        const fieldErrors = axiosError.response?.data?.fieldErrors;
+
+        // Display individual field errors as separate toasts
+        if (fieldErrors && fieldErrors.length > 0) {
+          fieldErrors.forEach((fieldError) => {
+            toast.error(fieldError.message, {
+              icon: <span>❌</span>,
+              position: "top-right",
+            });
+          });
+        } else {
+          // Fallback to general error message
+          const errorMessage =
+            axiosError.response?.data?.message || "Registration failed";
+          toast.error(errorMessage, {
+            icon: <span>❌</span>,
+          });
+        }
       } else {
         toast.error("An unexpected error occurred during registration");
       }

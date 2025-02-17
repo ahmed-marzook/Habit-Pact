@@ -4,8 +4,7 @@ import googleIcon from "../../assets/google.svg";
 import facebookIcon from "../../assets/facebook.svg";
 import appleIcon from "../../assets/apple.svg";
 import { useAuth } from "../../contexts/AuthContext/AuthContext";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
 
 type Props = {};
 
@@ -13,7 +12,7 @@ export default function SignIn({}: Props) {
   const navigate = useNavigate();
   const { loginUser } = useAuth();
 
-  async function handleSignIn(formData) {
+  async function handleSignIn(formData: FormData) {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
     try {
@@ -109,10 +108,10 @@ export default function SignIn({}: Props) {
 
         <div className="signin__footer">
           <span className="signin__footer-text">Don't have an account?</span>
-          <a href="#signup" className="signin__link">
+          <Link to="/register" className="signin__link">
             {" "}
-            Sign up
-          </a>
+            Register
+          </Link>
         </div>
       </div>
     </div>
