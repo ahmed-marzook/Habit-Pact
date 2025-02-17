@@ -43,23 +43,27 @@ public class UserIdentityController {
                 authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(authRequest.email(), authRequest.password()));
         if (authentication.isAuthenticated()) {
-            UserInfoDetails principle = (UserInfoDetails) authentication.getPrincipal();
-            UserResponse userResponse =
-                    new UserResponse(
-                            null,
-                            principle.getEmail(),
-                            principle.getDbUsername(),
-                            principle.getFirstName(),
-                            principle.getLastName(),
-                            null,
-                            null,
-                            null);
+            UserResponse userResponse = getUserResponse(authentication);
             UserAuthResponse authResponse =
                     new UserAuthResponse(userResponse, jwtService.generateToken(authRequest.email()), null);
             return ResponseEntity.ok(authResponse);
         } else {
             throw new UsernameNotFoundException("Invalid user request!");
         }
+    }
+
+    private static UserResponse getUserResponse(Authentication authentication) {
+        UserInfoDetails principle = (UserInfoDetails) authentication.getPrincipal();
+        return new UserResponse(
+                        null,
+                        principle.getEmail(),
+                        principle.getDbUsername(),
+                        principle.getFirstName(),
+                        principle.getLastName(),
+                        null,
+                        null,
+                        null);
+
     }
 
     @Operation(

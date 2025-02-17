@@ -2,7 +2,8 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { authService } from "../../services/api/authAPI";
 import AuthState from "../../types/auth/authState";
-import { redirect } from "react-router-dom";
+import axios, { AxiosError } from "axios";
+import APIErrorResponse from "../../types/ErrorResponse";
 
 const initialState: AuthState = {
   user: null,
@@ -43,14 +44,43 @@ export const AuthProvider = ({ children }: Props) => {
     firstName: string,
     lastName: string
   ) => {
-    await authService
-      .register(email, password, username, firstName, lastName)
-      .then((res) => {
-        if (res) {
-          toast.success("Registration successful!");
-        }
-      })
-      .catch((e) => console.log("IT FAILED" + e));
+    try {
+      const res = await authService.register(
+        email,
+        password,
+        username,
+        firstName,
+        lastName
+      );
+
+      if (res) {
+        localStorage.setItem("user", JSON.stringify(res.user));
+        localStorage.setItem("token", res.token);
+
+        setAuthState({
+          user: res.user ?? null,
+          token: res.token ?? "",
+          isAuthenticated: true,
+        });
+
+        toast.success("Registration successful!");
+        return res;
+      }
+    } catch (error) {
+      // First check if it's an AxiosError
+      if (axios.isAxiosError(error)) {
+        // Now we can type assert the error response
+        const axiosError = error as AxiosError<APIErrorResponse>;
+        const errorMessage =
+          axiosError.response?.data?.message || "Registration failed";
+        toast.error(errorMessage, {
+          icon: <span>❌</span>,
+        });
+      } else {
+        toast.error("An unexpected error occurred during registration");
+      }
+      throw error;
+    }
   };
 
   const loginUser = async (email: string, password: string) => {
@@ -71,8 +101,18 @@ export const AuthProvider = ({ children }: Props) => {
         return res;
       }
     } catch (error) {
-      const errorMessage = error.response?.data?.message || "Sign in failed";
-      toast.error(errorMessage);
+      // First check if it's an AxiosError
+      if (axios.isAxiosError(error)) {
+        // Now we can type assert the error response
+        const axiosError = error as AxiosError<APIErrorResponse>;
+        const errorMessage =
+          axiosError.response?.data?.message || "Sign in failed";
+        toast.error(errorMessage, {
+          icon: <span>❌</span>,
+        });
+      } else {
+        toast.error("An unexpected error occurred");
+      }
       throw error;
     }
   };

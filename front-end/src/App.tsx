@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router";
+import { createBrowserRouter, redirect, RouterProvider } from "react-router";
 import DashboardLayout from "./components/layout/Layout/DashboardLayout/DashboardLayout";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import SignIn from "./pages/SignIn/SignIn";
@@ -14,8 +14,30 @@ const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   { path: "/", element: <LandingPage />, errorElement: <ErrorBoundary /> },
-  { path: "/login", element: <SignIn />, errorElement: <ErrorBoundary /> },
-  { path: "/register", element: <Register />, errorElement: <ErrorBoundary /> },
+  {
+    path: "/login",
+    element: <SignIn />,
+    errorElement: <ErrorBoundary />,
+    loader: () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        throw redirect("/dashboard");
+      }
+      return null;
+    },
+  },
+  {
+    path: "/register",
+    element: <Register />,
+    errorElement: <ErrorBoundary />,
+    loader: () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        throw redirect("/dashboard");
+      }
+      return null;
+    },
+  },
   {
     path: "/dashboard",
     element: <DashboardLayout />,

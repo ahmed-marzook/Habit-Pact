@@ -14,7 +14,6 @@ export async function requireAuth() {
     throw redirect("/login");
   }
 
-  // Only verify with the server if enough time has passed
   const currentTime = Date.now();
   if (currentTime - lastVerificationTime > VERIFICATION_INTERVAL) {
     try {
@@ -23,9 +22,9 @@ export async function requireAuth() {
       return user;
     } catch (error) {
       // Axios interceptor will handle 401 errors
+      authService.logout();
       throw redirect("/login");
     }
   }
-  console.log("IM Here 2");
   return true;
 }
