@@ -1,0 +1,176 @@
+/* Settings - Main Block */
+.settings {
+  padding: 2rem;
+  max-width: 800px;
+}
+
+/* Settings Header */
+.settings__header {
+  margin-bottom: 2rem;
+}
+
+.settings__title {
+  margin-bottom: 0.5rem;
+}
+
+.settings__description {
+  color: var(--text-secondary);
+}
+
+/* Settings Section */
+.settings__section {
+  background-color: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.settings__section--danger {
+  border: 1px solid var(--accent-secondary);
+}
+
+.settings__section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(158, 163, 174, 0.1);
+}
+
+.settings__section-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* Settings Item */
+.settings__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(158, 163, 174, 0.1);
+}
+
+.settings__item:last-child {
+  border-bottom: none;
+}
+
+.settings__item-label {
+  flex: 1;
+}
+
+.settings__item-title {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.settings__item-description {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Form Controls */
+.settings__form-control {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Toggle Switch */
+.settings__toggle {
+  position: relative;
+  width: 48px;
+  height: 24px;
+}
+
+.settings__toggle-input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.settings__toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--bg-primary);
+  transition: 0.4s;
+  border-radius: 24px;
+}
+
+.settings__toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  bottom: 2px;
+  background-color: var(--text-secondary);
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.settings__toggle-input:checked + .settings__toggle-slider {
+  background-color: var(--accent-primary);
+}
+
+.settings__toggle-input:checked + .settings__toggle-slider:before {
+  transform: translateX(24px);
+  background-color: white;
+}
+
+/* Form Inputs */
+.settings__select {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid rgba(158, 163, 174, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  min-width: 150px;
+}
+
+.settings__text-input {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid rgba(158, 163, 174, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Buttons */
+.settings__button {
+  background-color: var(--accent-primary);
+  color: var(--bg-primary);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.settings__button--danger {
+  background-color: var(--accent-secondary);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .settings {
+    padding: 1rem;
+  }
+
+  .settings__item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .settings__form-control {
+    width: 100%;
+  }
+}

@@ -13,6 +13,9 @@
   --accent-secondary: #ff6b6b;
   --text-primary: #ffffff;
   --text-secondary: #9ea3ae;
+  --success-color: #2ee6a8;
+  --missed-color: #ff6b6b;
+  --pending-color: #4a4d53;
 }
 
 body {
@@ -37,4 +40,17 @@ body {
 .card-title {
   font-size: 1.1rem;
   color: var(--text-secondary);
+}
+
+/* Accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
