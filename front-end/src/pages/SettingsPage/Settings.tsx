@@ -31,7 +31,6 @@ export default function Settings({}: Props) {
               id="username"
               type="text"
               className="settings__text-input"
-              value="sarahj"
               aria-describedby="usernameDesc"
             />
           </div>
@@ -49,7 +48,6 @@ export default function Settings({}: Props) {
               id="firstName"
               type="text"
               className="settings__text-input"
-              value="Sarah"
               aria-describedby="firstNameDesc"
             />
           </div>
@@ -67,7 +65,6 @@ export default function Settings({}: Props) {
               id="lastName"
               type="text"
               className="settings__text-input"
-              value="Johnson"
               aria-describedby="lastNameDesc"
             />
           </div>
@@ -87,7 +84,6 @@ export default function Settings({}: Props) {
               id="emailAddress"
               type="email"
               className="settings__text-input"
-              value="sarah@example.com"
               aria-describedby="emailAddressDesc"
             />
           </div>
