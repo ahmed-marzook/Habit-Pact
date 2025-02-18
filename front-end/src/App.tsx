@@ -1,18 +1,18 @@
 import { createBrowserRouter, redirect, RouterProvider } from "react-router";
 import DashboardLayout from "./components/layout/Layout/DashboardLayout/DashboardLayout";
 import LandingPage from "./pages/LandingPage/LandingPage";
-import SignIn from "./pages/SignIn/SignIn";
-import Register from "./pages/Register/Register";
+import SignIn from "./pages/SignInPage/SignIn";
+import Register from "./pages/RegisterPage/Register";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./contexts/AuthContext/AuthContext";
 import ErrorBoundary from "./components/common/ErrorBoundary";
 import { requireAuth } from "./utils/requireAuth";
-import Overview from "./pages/Overview/Overview";
-import Habits from "./pages/Habits/Habits";
-import Friends from "./pages/Friends/Friends";
-import Settings from "./pages/Settings/Settings";
+import Overview from "./pages/OverviewPage/Overview";
+import Habits from "./pages/HabitsPage/Habits";
+import Friends from "./pages/FriendsPage/Friends";
+import Settings from "./pages/SettingsPage/Settings";
 
 const queryClient = new QueryClient();
 
