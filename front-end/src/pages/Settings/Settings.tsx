@@ -18,21 +18,57 @@ export default function Settings({}: Props) {
         </div>
         <div className="settings__item">
           <div className="settings__item-label">
-            <h3 className="settings__item-title">Display Name</h3>
+            <h3 className="settings__item-title">Username</h3>
             <p className="settings__item-description">
-              This is how your name will appear in the app
+              This is how your username will appear in the app
             </p>
           </div>
           <div className="settings__form-control">
-            <label htmlFor="displayName" className="settings__label sr-only">
-              Display Name
+            <label htmlFor="username" className="settings__label sr-only">
+              Username
             </label>
             <input
-              id="displayName"
+              id="username"
               type="text"
               className="settings__text-input"
-              value="Sarah Johnson"
-              aria-describedby="displayNameDesc"
+              value="sarahj"
+              aria-describedby="usernameDesc"
+            />
+          </div>
+        </div>
+        <div className="settings__item">
+          <div className="settings__item-label">
+            <h3 className="settings__item-title">First Name</h3>
+            <p className="settings__item-description">Your first name</p>
+          </div>
+          <div className="settings__form-control">
+            <label htmlFor="firstName" className="settings__label sr-only">
+              First Name
+            </label>
+            <input
+              id="firstName"
+              type="text"
+              className="settings__text-input"
+              value="Sarah"
+              aria-describedby="firstNameDesc"
+            />
+          </div>
+        </div>
+        <div className="settings__item">
+          <div className="settings__item-label">
+            <h3 className="settings__item-title">Last Name</h3>
+            <p className="settings__item-description">Your last name</p>
+          </div>
+          <div className="settings__form-control">
+            <label htmlFor="lastName" className="settings__label sr-only">
+              Last Name
+            </label>
+            <input
+              id="lastName"
+              type="text"
+              className="settings__text-input"
+              value="Johnson"
+              aria-describedby="lastNameDesc"
             />
           </div>
         </div>
@@ -54,6 +90,84 @@ export default function Settings({}: Props) {
               value="sarah@example.com"
               aria-describedby="emailAddressDesc"
             />
+          </div>
+        </div>
+      </div>
+
+      <div className="settings__section">
+        <div className="settings__section-header">
+          <div className="settings__section-title">Change Password</div>
+        </div>
+        <div className="settings__item">
+          <div className="settings__item-label">
+            <h3 className="settings__item-title">Current Password</h3>
+            <p className="settings__item-description">
+              Enter your current password
+            </p>
+          </div>
+          <div className="settings__form-control">
+            <label
+              htmlFor="currentPassword"
+              className="settings__label sr-only"
+            >
+              Current Password
+            </label>
+            <input
+              id="currentPassword"
+              type="password"
+              className="settings__text-input"
+              placeholder="••••••••"
+              aria-describedby="currentPasswordDesc"
+            />
+          </div>
+        </div>
+        <div className="settings__item">
+          <div className="settings__item-label">
+            <h3 className="settings__item-title">New Password</h3>
+            <p className="settings__item-description">
+              Enter your new password
+            </p>
+          </div>
+          <div className="settings__form-control">
+            <label htmlFor="newPassword" className="settings__label sr-only">
+              New Password
+            </label>
+            <input
+              id="newPassword"
+              type="password"
+              className="settings__text-input"
+              placeholder="••••••••"
+              aria-describedby="newPasswordDesc"
+            />
+          </div>
+        </div>
+        <div className="settings__item">
+          <div className="settings__item-label">
+            <h3 className="settings__item-title">Confirm New Password</h3>
+            <p className="settings__item-description">
+              Confirm your new password
+            </p>
+          </div>
+          <div className="settings__form-control">
+            <label
+              htmlFor="confirmPassword"
+              className="settings__label sr-only"
+            >
+              Confirm New Password
+            </label>
+            <input
+              id="confirmPassword"
+              type="password"
+              className="settings__text-input"
+              placeholder="••••••••"
+              aria-describedby="confirmPasswordDesc"
+            />
+          </div>
+        </div>
+        <div className="settings__item">
+          <div className="settings__item-label"></div>
+          <div className="settings__form-control">
+            <button className="settings__button">Update Password</button>
           </div>
         </div>
       </div>
