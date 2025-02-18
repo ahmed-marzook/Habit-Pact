@@ -190,13 +190,13 @@ export default function Settings({}: Props) {
                 id="dailyReminders"
                 type="checkbox"
                 className="settings__toggle-input"
-                checked
                 aria-describedby="dailyRemindersDesc"
               />
               <span className="settings__toggle-slider"></span>
             </label>
           </div>
         </div>
+
         <div className="settings__item">
           <div className="settings__item-label">
             <h3 className="settings__item-title">Weekly Summary</h3>
@@ -205,11 +205,13 @@ export default function Settings({}: Props) {
             </p>
           </div>
           <div className="settings__form-control">
-            <label className="settings__toggle">
+            <label className="settings__toggle" htmlFor="weeklySummary">
+              <span className="sr-only">Daily Reminders</span>
               <input
+                id="weeklySummary"
                 type="checkbox"
                 className="settings__toggle-input"
-                checked
+                aria-describedby="weeklySummaryDesc"
               />
               <span className="settings__toggle-slider"></span>
             </label>
@@ -248,13 +250,22 @@ export default function Settings({}: Props) {
         </div>
         <div className="settings__item">
           <div className="settings__item-label">
-            <h3 className="settings__item-title">Theme</h3>
+            <h3 className="settings__item-title" id="theme-label">
+              Theme
+            </h3>
             <p className="settings__item-description">
               Choose your preferred theme
             </p>
           </div>
           <div className="settings__form-control">
-            <select className="settings__select">
+            <label htmlFor="theme-select" className="sr-only">
+              Theme
+            </label>
+            <select
+              className="settings__select"
+              id="theme-select"
+              aria-labelledby="theme-label"
+            >
               <option selected>Dark</option>
               <option>Light</option>
             </select>
@@ -262,13 +273,22 @@ export default function Settings({}: Props) {
         </div>
         <div className="settings__item">
           <div className="settings__item-label">
-            <h3 className="settings__item-title">Week Starts On</h3>
+            <h3 className="settings__item-title" id="week-start-label">
+              Week Starts On
+            </h3>
             <p className="settings__item-description">
               Choose your preferred first day of the week
             </p>
           </div>
           <div className="settings__form-control">
-            <select className="settings__select">
+            <label htmlFor="week-start-select" className="sr-only">
+              Week Starts On
+            </label>
+            <select
+              className="settings__select"
+              id="week-start-select"
+              aria-labelledby="week-start-label"
+            >
               <option>Sunday</option>
               <option selected>Monday</option>
             </select>
@@ -288,8 +308,16 @@ export default function Settings({}: Props) {
             </p>
           </div>
           <div className="settings__form-control">
-            <label className="settings__toggle">
-              <input type="checkbox" className="settings__toggle-input" />
+            <label
+              className="settings__toggle sr-only"
+              htmlFor="settingsToggle"
+            >
+              <input
+                id="settingsToggle"
+                type="checkbox"
+                className="settings__toggle-input"
+                aria-label="Settings toggle"
+              />
               <span className="settings__toggle-slider"></span>
             </label>
           </div>
