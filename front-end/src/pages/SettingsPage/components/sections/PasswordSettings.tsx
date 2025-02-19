@@ -1,9 +1,14 @@
 import SettingsSection from "../common/SettingsSection";
 import SettingItem from "../common/SettingItem";
+import PasswordStrengthMeter from "../common/PasswordStrengthMeter";
 
 type Props = {};
 
 export default function PasswordSettings({}: Props) {
+  const handleStrengthChange = (score: number, isValid: boolean) => {
+    console.log(`Password strength: ${score}, Valid: ${isValid}`);
+    // Enable/disable submit button based on password validity
+  };
   return (
     <SettingsSection title="Change Password">
       <SettingItem
@@ -34,6 +39,10 @@ export default function PasswordSettings({}: Props) {
           aria-describedby="newPasswordDesc"
         />
       </SettingItem>
+      <PasswordStrengthMeter
+        onStrengthChange={handleStrengthChange}
+        initialPassword="HEo1?11!"
+      />
       <SettingItem
         title="Confirm New Password"
         description="Confirm your new password"

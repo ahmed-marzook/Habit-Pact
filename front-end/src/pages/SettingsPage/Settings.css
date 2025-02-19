@@ -164,6 +164,68 @@
   background-color: var(--accent-secondary);
 }
 
+/* Password Strength Meter */
+.password-strength-meter__container {
+  display: block;
+}
+
+.settings__strength-container {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.settings__strength-meter {
+  height: 8px;
+  background-color: var(--bg-primary);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.settings__strength-bar {
+  height: 100%;
+  width: 0%;
+  border-radius: 4px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.settings__strength-text {
+  margin-top: 8px;
+  font-size: 0.9rem;
+}
+
+.settings__requirements {
+  margin-top: 12px;
+}
+
+.settings__requirements-title {
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.settings__requirement {
+  margin: 6px 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+}
+
+.settings__requirement-icon {
+  margin-right: 8px;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+}
+
+.settings__requirement--met {
+  color: var(--accent-primary);
+}
+
+.settings__requirement--met .settings__requirement-icon {
+  color: var(--accent-primary);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .settings {
