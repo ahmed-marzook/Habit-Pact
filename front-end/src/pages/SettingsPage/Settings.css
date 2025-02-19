@@ -4,19 +4,6 @@
   max-width: 800px;
 }
 
-/* Settings Header */
-.settings__header {
-  margin-bottom: 2rem;
-}
-
-.settings__title {
-  margin-bottom: 0.5rem;
-}
-
-.settings__description {
-  color: var(--text-secondary);
-}
-
 /* Settings Section */
 .settings__section {
   background-color: var(--bg-secondary);
