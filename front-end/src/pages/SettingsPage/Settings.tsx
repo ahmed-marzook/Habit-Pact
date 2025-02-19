@@ -1,4 +1,4 @@
-import PageHeader from "../../components/common/PageHeader";
+import SettingHeader from "./components/common/SettingHeader";
 import AppearanceSettings from "./components/sections/AppearanceSettings";
 import DangerZoneSettings from "./components/sections/DangerZoneSettings";
 import NotificationsSettings from "./components/sections/NotificationsSettings";
@@ -12,7 +12,7 @@ type Props = {};
 export default function Settings({}: Props) {
   return (
     <div className="settings">
-      <PageHeader
+      <SettingHeader
         title="Settings"
         description="Manage your account settings and preferences"
       />
