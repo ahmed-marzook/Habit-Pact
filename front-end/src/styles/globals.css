@@ -55,16 +55,3 @@ body {
   white-space: nowrap;
   border-width: 0;
 }
-
-/* Page Header */
-.page-header__header {
-  margin-bottom: 2rem;
-}
-
-.page-header__title {
-  margin-bottom: 0.5rem;
-}
-
-.page-header__description {
-  color: var(--text-secondary);
-}
