@@ -1,35 +1,11 @@
 import CreateUserRequest from "../../types/createUserRequest";
 import UpdateUserRequest from "../../types/updateUserRequest";
 import User from "../../types/user";
+import { handleApiError } from "../../utils/handleError";
 
 import { api } from "./api";
 
 export const userService = {
-  parseError(error: any): Error {
-    if (error.response) {
-      const errorData = error.response.data;
-      if (errorData.errors) {
-        return new Error(
-          Object.entries(errorData.errors)
-            .map(([field, message]) => `${field}: ${message}`)
-            .join(", ")
-        );
-      }
-      if (errorData.message) {
-        return new Error(errorData.message);
-      }
-      return new Error(
-        `Error: ${error.response.status} - ${error.response.statusText}`
-      );
-    }
-    if (error.request) {
-      return new Error(
-        "No response received from server. Please try again later."
-      );
-    }
-    return new Error(error.message || "An unexpected error occurred");
-  },
-
   /**
    * Fully updates a user's information. All fields must be provided.
    * @param request The complete user information
@@ -40,7 +16,7 @@ export const userService = {
       const response = await api.put("/users", request);
       return response.data;
     } catch (error) {
-      throw this.parseError(error);
+      throw handleApiError(error);
     }
   },
 
@@ -54,7 +30,7 @@ export const userService = {
       const response = await api.patch("/users", request);
       return response.data;
     } catch (error) {
-      throw this.parseError(error);
+      throw handleApiError(error);
     }
   },
 
@@ -66,7 +42,7 @@ export const userService = {
     try {
       await api.delete("/users");
     } catch (error) {
-      throw this.parseError(error);
+      throw handleApiError(error);
     }
   },
 
@@ -79,7 +55,7 @@ export const userService = {
       const response = await api.get("/users");
       return response.data;
     } catch (error) {
-      throw this.parseError(error);
+      throw handleApiError(error);
     }
   },
 };
