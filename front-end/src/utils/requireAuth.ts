@@ -21,7 +21,6 @@ export async function requireAuth() {
       lastVerificationTime = currentTime;
       return user;
     } catch (error) {
-      // Axios interceptor will handle 401 errors
       authService.logout();
       throw redirect("/login");
     }

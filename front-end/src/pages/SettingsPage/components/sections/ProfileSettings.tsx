@@ -4,6 +4,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import UpdateUserRequest from "../../../../types/updateUserRequest";
 import { useUpdateUser, useUser } from "../../../../hooks/useUserQuery";
 import { useAuth } from "../../../../contexts/AuthContext/AuthContext";
+import getErrorMessage from "../../../../utils/getErrorMessage";
 
 interface ProfileFormData {
   username: string | undefined;
@@ -20,7 +21,7 @@ export default function ProfileSettings() {
     lastName: user?.lastName,
   });
 
-  const { isSuccess, isPending, mutate, isError } = useUpdateUser();
+  const { isSuccess, isPending, mutate, isError, error } = useUpdateUser();
 
   useEffect(() => {
     if (user) {
@@ -129,7 +130,7 @@ export default function ProfileSettings() {
             isSuccess
               ? "Successfully updated profile."
               : isError
-              ? "Updated failed error occurred"
+              ? getErrorMessage(error)
               : ""
           }
           variant={isSuccess ? "success" : isError ? "error" : "default"}
