@@ -6,10 +6,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kaizenflow.habitpact.domain.dto.request.ChangePasswordRequest;
 import com.kaizenflow.habitpact.domain.dto.request.CreateUserRequest;
 import com.kaizenflow.habitpact.domain.dto.request.UpdateUserRequest;
 import com.kaizenflow.habitpact.domain.dto.response.UserResponse;
 import com.kaizenflow.habitpact.domain.model.User;
+import com.kaizenflow.habitpact.exception.InvalidCredentialsException;
 import com.kaizenflow.habitpact.exception.ResourceAlreadyExistsException;
 import com.kaizenflow.habitpact.exception.ResourceNotFoundException;
 import com.kaizenflow.habitpact.mappers.UserMapper;
@@ -50,7 +52,25 @@ public class UserService {
         return userMapper.userToUserResponse(userRepository.save(user));
     }
 
-    public UserResponse updateUser(String userId, CreateUserRequest request) {
+    public void changePassword(String userId, ChangePasswordRequest request) {
+        User user =
+                userRepository
+                        .findById(userId)
+                        .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        if (!passwordEncoder.matches(request.currentPassword(), user.getPassword())) {
+            throw new InvalidCredentialsException("Current password is incorrect");
+        }
+
+        if (passwordEncoder.matches(request.newPassword(), user.getPassword())) {
+            throw new InvalidCredentialsException("New password must be different from current password");
+        }
+
+        user.setPassword(passwordEncoder.encode(request.newPassword()));
+        userRepository.save(user);
+    }
+
+    public UserResponse updateUser(String userId, UpdateUserRequest request) {
         User user =
                 userRepository
                         .findById(userId)
@@ -58,13 +78,13 @@ public class UserService {
 
         // Check email uniqueness if changed
         if (!user.getEmail().equals(request.email()) && userRepository.existsByEmail(request.email())) {
-            throw new RuntimeException("Email already exists");
+            throw new InvalidCredentialsException("Email already exists");
         }
 
         // Check username uniqueness if changed
         if (!user.getUsername().equals(request.username())
                 && userRepository.existsByUsername(request.username())) {
-            throw new RuntimeException("Username already exists");
+            throw new InvalidCredentialsException("Username already exists");
         }
 
         user.setEmail(request.email());

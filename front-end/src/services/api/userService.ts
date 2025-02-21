@@ -1,3 +1,4 @@
+import { ChangePasswordRequest } from "../../types/changePasswordRequest";
 import CreateUserRequest from "../../types/createUserRequest";
 import UpdateUserRequest from "../../types/updateUserRequest";
 import User from "../../types/user";
@@ -15,6 +16,19 @@ export const userService = {
     try {
       const response = await api.put("/users", request);
       return response.data;
+    } catch (error) {
+      throw handleApiError(error);
+    }
+  },
+
+  /**
+   * Changes the user's password after validating their current password.
+   * @param request Contains current password and new password
+   * @returns Promise<void>
+   */
+  async changePassword(request: ChangePasswordRequest): Promise<void> {
+    try {
+      await api.put("/users/password", request);
     } catch (error) {
       throw handleApiError(error);
     }
