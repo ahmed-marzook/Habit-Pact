@@ -22,6 +22,7 @@ type AuthContextType = {
   ) => void;
   loginUser: (email: string, password: string) => void;
   logout: () => void;
+  updateUser: () => void;
 };
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -93,6 +94,19 @@ export const AuthProvider = ({ children }: Props) => {
     }
   };
 
+  const updateUser = async () => {
+    const user = await authService.getCurrentUser();
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+
+      setAuthState((prev) => ({
+        user: user,
+        token: prev.token,
+        isAuthenticated: prev.isAuthenticated,
+      }));
+    }
+  };
+
   const loginUser = async (email: string, password: string) => {
     try {
       const res = await authService.login(email, password);
@@ -136,7 +150,7 @@ export const AuthProvider = ({ children }: Props) => {
 
   return (
     <AuthContext.Provider
-      value={{ authState, loginUser, registerUser, logout }}
+      value={{ authState, loginUser, registerUser, logout, updateUser }}
     >
       {children}
     </AuthContext.Provider>
