@@ -38,9 +38,9 @@ export function useUpdateUser() {
       toast.success("Profile Updated Successfully");
     },
     onError: (error) => {
-      handleApiError(error, {
+      throw handleApiError(error, {
         defaultMessage: "Failed to update profile",
-        shouldShowFieldErrors: true, // Show field validation errors
+        shouldShowFieldErrors: true,
       });
     },
   });
@@ -58,7 +58,7 @@ export function useUpdateUserFull() {
     onError: (error) => {
       handleApiError(error, {
         defaultMessage: "Failed to update profile",
-        shouldShowFieldErrors: true, // Show field validation errors
+        shouldShowFieldErrors: true,
       });
     },
   });

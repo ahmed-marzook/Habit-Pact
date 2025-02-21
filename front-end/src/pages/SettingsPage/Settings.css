@@ -91,6 +91,14 @@
   font-size: 0.9rem;
 }
 
+.settings__item-description--success {
+  color: var(--success-color);
+}
+
+.settings__item-description--error {
+  color: var(--missed-color);
+}
+
 /* Form Controls */
 .settings__form-control {
   display: flex;
@@ -190,6 +198,12 @@
 
 .settings__button:active {
   transform: scale(0.98);
+}
+
+.settings__button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .settings__button--danger {

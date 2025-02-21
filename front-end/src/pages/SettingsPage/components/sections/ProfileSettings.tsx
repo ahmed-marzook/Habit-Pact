@@ -1,6 +1,6 @@
 import SettingsSection from "../common/SettingsSection";
 import SettingItem from "../common/SettingItem";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import UpdateUserRequest from "../../../../types/updateUserRequest";
 import { useUpdateUser, useUser } from "../../../../hooks/useUserQuery";
 import { useAuth } from "../../../../contexts/AuthContext/AuthContext";
@@ -19,7 +19,18 @@ export default function ProfileSettings() {
     firstName: user?.firstName,
     lastName: user?.lastName,
   });
-  const { isSuccess, isPending, mutate, error: updateError } = useUpdateUser();
+
+  const { isSuccess, isPending, mutate, isError } = useUpdateUser();
+
+  useEffect(() => {
+    if (user) {
+      setProfileFormData({
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      });
+    }
+  }, [user]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -42,7 +53,7 @@ export default function ProfileSettings() {
       mutate(updateRequest);
       updateUser();
     } catch (error) {
-      console.error("Patch Failed:" + updateError?.message + " " + error);
+      console.error("Patch Failed:" + error);
     }
   }
 
@@ -114,7 +125,14 @@ export default function ProfileSettings() {
         </SettingItem>
         <SettingItem
           title=""
-          description={isSuccess ? "Successfully updated profile." : ""}
+          description={
+            isSuccess
+              ? "Successfully updated profile."
+              : isError
+              ? "Updated failed error occurred"
+              : ""
+          }
+          variant={isSuccess ? "success" : isError ? "error" : "default"}
         >
           <button
             type="submit"
