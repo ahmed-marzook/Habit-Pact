@@ -2,7 +2,7 @@ import { redirect } from "react-router-dom";
 
 import { toast } from "react-toastify";
 
-import { authService } from "../services/api/authAPI";
+import { authService } from "../services/api/authService";
 
 let lastVerificationTime = 0;
 const VERIFICATION_INTERVAL = 5 * 60 * 1000; // 5 minutes

@@ -13,8 +13,26 @@ import Overview from "./pages/OverviewPage/Overview";
 import Habits from "./pages/HabitsPage/Habits";
 import Friends from "./pages/FriendsPage/Friends";
 import Settings from "./pages/SettingsPage/Settings";
+import { handleApiError } from "./utils/handleError";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+    },
+  },
+});
+
+queryClient.setDefaultOptions({
+  queries: {
+    throwOnError: (error) => {
+      return handleApiError(error, {
+        defaultMessage: "Somthign went wrong",
+        shouldShowFieldErrors: false,
+      });
+    },
+  },
+});
 
 const router = createBrowserRouter([
   { path: "/", element: <LandingPage />, errorElement: <ErrorBoundary /> },

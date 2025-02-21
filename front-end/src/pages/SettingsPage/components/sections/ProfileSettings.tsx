@@ -1,9 +1,9 @@
 import SettingsSection from "../common/SettingsSection";
 import SettingItem from "../common/SettingItem";
-import { useAuth } from "../../../../contexts/AuthContext/AuthContext";
 import { ChangeEvent, useState } from "react";
-import { userService } from "../../../../services/api/userService";
-import { toast } from "react-toastify";
+import UpdateUserRequest from "../../../../types/updateUserRequest";
+import { useUpdateUser, useUser } from "../../../../hooks/useUserQuery";
+import { useAuth } from "../../../../contexts/AuthContext/AuthContext";
 
 interface ProfileFormData {
   username: string | undefined;
@@ -12,12 +12,14 @@ interface ProfileFormData {
 }
 
 export default function ProfileSettings() {
-  const { authState, updateUser } = useAuth();
+  const { updateUser } = useAuth();
+  const { data: user } = useUser();
   const [profileFormData, setProfileFormData] = useState<ProfileFormData>({
-    username: authState.user?.username,
-    firstName: authState.user?.firstName,
-    lastName: authState.user?.lastName,
+    username: user?.username,
+    firstName: user?.firstName,
+    lastName: user?.lastName,
   });
+  const { isSuccess, isPending, mutate, error: updateError } = useUpdateUser();
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -31,15 +33,16 @@ export default function ProfileSettings() {
   };
 
   async function handleProfileUpdate(formData: FormData) {
-    const username = formData.get("username") as string;
-    const firstName = formData.get("firstName") as string;
-    const lastName = formData.get("lastName") as string;
+    const updateRequest: UpdateUserRequest = {
+      username: formData.get("username") as string,
+      firstName: formData.get("firstName") as string,
+      lastName: formData.get("lastName") as string,
+    };
     try {
-      await userService.patchUser({ username, firstName, lastName });
+      mutate(updateRequest);
       updateUser();
-      toast.success("Updated Profile Successfully");
     } catch (error) {
-      console.error("Patch Failed:", error);
+      console.error("Patch Failed:" + updateError?.message + " " + error);
     }
   }
 
@@ -105,13 +108,20 @@ export default function ProfileSettings() {
             type="email"
             className="settings__text-input"
             aria-describedby="emailAddressDesc"
-            value={authState.user?.email}
+            value={user?.email}
             disabled
           />
         </SettingItem>
-        <SettingItem title="" description="">
-          <button type="submit" className="settings__button">
-            Update Profile
+        <SettingItem
+          title=""
+          description={isSuccess ? "Successfully updated profile." : ""}
+        >
+          <button
+            type="submit"
+            className="settings__button"
+            disabled={isPending}
+          >
+            {isPending ? "Updating..." : "Update Profile"}
           </button>
         </SettingItem>
       </SettingsSection>
