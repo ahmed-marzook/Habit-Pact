@@ -5,7 +5,7 @@ type Props = {};
 
 export default function NotificationsSettings({}: Props) {
   return (
-    <SettingsSection title="Notifications">
+    <SettingsSection title="Notifications" variant="default" disabled={true}>
       <SettingItem
         title="Daily Reminders"
         description="Receive daily notifications for your habits"
