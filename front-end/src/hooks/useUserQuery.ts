@@ -81,9 +81,9 @@ export function useChangePassword() {
         defaultMessage: "Failed to change password",
         shouldShowFieldErrors: true,
       });
-    },
-  });
-
+    },
+  });
+}
 
 export function useDeleteUser() {
   const queryClient = useQueryClient();

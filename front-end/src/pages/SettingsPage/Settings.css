@@ -272,6 +272,69 @@
   color: var(--accent-primary);
 }
 
+/* Password Strength Feedback */
+.settings__feedback {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(158, 163, 174, 0.1);
+}
+
+.settings__feedback-heading {
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.settings__feedback-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  background-color: rgba(255, 107, 107, 0.1);
+  border-radius: 6px;
+  color: #ff6b6b;
+}
+
+.settings__feedback-suggestions {
+  padding: 0.75rem;
+  background-color: var(--bg-secondary);
+  border-radius: 6px;
+}
+
+.settings__feedback-title {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.settings__feedback-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.settings__feedback-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.settings__feedback-item:not(:last-child) {
+  border-bottom: 1px solid rgba(158, 163, 174, 0.1);
+}
+
+.settings__feedback-icon {
+  flex-shrink: 0;
+  font-size: 1rem;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .settings {
@@ -295,5 +358,16 @@
 
   .settings__item-label {
     max-width: 100%;
+  }
+
+  /* Feedback Section */
+  .settings__feedback {
+    margin-top: 1rem;
+    padding: 0.75rem;
+  }
+
+  .settings__feedback-warning,
+  .settings__feedback-suggestions {
+    padding: 0.5rem;
   }
 }

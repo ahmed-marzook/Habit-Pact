@@ -1,4 +1,7 @@
+// PasswordStrengthMeter.tsx
 import { useState, useEffect, ChangeEvent } from "react";
+import zxcvbn from "zxcvbn-typescript";
+import "./PasswordStrengthMeter.css";
 
 interface StrengthState {
   score: number;
@@ -13,7 +16,12 @@ interface RequirementsState {
   lowercase: boolean;
   number: boolean;
   special: boolean;
-  history: boolean;
+}
+
+interface FeedbackState {
+  warning: string | null;
+  suggestions: string[];
+  score: number | null;
 }
 
 interface PasswordStrengthMeterProps {
@@ -26,19 +34,25 @@ export default function PasswordStrengthMeter({
   onStrengthChange,
 }: PasswordStrengthMeterProps) {
   const [password, setPassword] = useState<string>(initialPassword);
+  const [feedback, setFeedback] = useState<FeedbackState>({
+    warning: null,
+    suggestions: [],
+    score: null,
+  });
+
   const [strength, setStrength] = useState<StrengthState>({
     score: 0,
     text: "Very Weak",
     color: "#ff6b6b",
     percentage: 0,
   });
+
   const [requirements, setRequirements] = useState<RequirementsState>({
     length: false,
     uppercase: false,
     lowercase: false,
     number: false,
     special: false,
-    history: false,
   });
 
   useEffect(() => {
@@ -47,44 +61,36 @@ export default function PasswordStrengthMeter({
 
   useEffect(() => {
     if (onStrengthChange) {
-      const isValid = strength.score >= 3; // Consider "Good" or better as valid
+      const isValid = strength.score >= 3;
       onStrengthChange(strength.score, isValid);
     }
   }, [strength, onStrengthChange]);
 
   const checkPasswordStrength = (value: string): void => {
-    // Check individual requirements
     const hasLength = value.length >= 8;
     const hasUppercase = /[A-Z]/.test(value);
     const hasLowercase = /[a-z]/.test(value);
     const hasNumber = /[0-9]/.test(value);
     const hasSpecial = /[!@#$%^&*]/.test(value);
-    const hasValidHistory = value.length > 0; // Simplified for demo purposes
 
-    // Update requirements state
     setRequirements({
       length: hasLength,
       uppercase: hasUppercase,
       lowercase: hasLowercase,
       number: hasNumber,
       special: hasSpecial,
-      history: hasValidHistory,
     });
 
-    // Calculate strength score (0-6)
     const metRequirements = [
       hasLength,
       hasUppercase,
       hasLowercase,
       hasNumber,
       hasSpecial,
-      hasValidHistory,
     ].filter(Boolean).length;
 
-    // Update strength percentage
     const strengthPercentage = (metRequirements / 6) * 100;
 
-    // Set strength information based on score
     if (metRequirements === 0) {
       setStrength({
         score: 0,
@@ -128,6 +134,13 @@ export default function PasswordStrengthMeter({
         percentage: strengthPercentage,
       });
     }
+
+    const result = zxcvbn(value);
+    setFeedback({
+      warning: result.feedback.warning,
+      suggestions: result.feedback.suggestions,
+      score: result.score,
+    });
   };
 
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -135,91 +148,85 @@ export default function PasswordStrengthMeter({
   };
 
   return (
-    <div className="settings__item password-strength-meter__container">
-      <div className="settings__label">
-        <h3 className="settings__label-title">Password Strength</h3>
-        <div className="settings__strength-container">
+    <div className="psm-container">
+      <div className="psm-content">
+        <h3 className="psm-title">Password Strength</h3>
+        <div className="psm-meter-container">
           <div
-            className="settings__strength-meter"
+            className="psm-meter"
             role="progressbar"
             aria-valuenow={strength.percentage}
             aria-valuemin={0}
             aria-valuemax={100}
           >
             <div
-              className="settings__strength-bar"
+              className="psm-progress-bar"
               style={{
                 width: `${strength.percentage}%`,
                 backgroundColor: strength.color,
               }}
             ></div>
           </div>
-          <p
-            className="settings__strength-text"
-            style={{ color: strength.color }}
-          >
+          <p className="psm-strength-text" style={{ color: strength.color }}>
             {strength.text}
           </p>
         </div>
 
-        <div className="settings__requirements">
-          <p className="settings__requirements-title">Password requirements:</p>
+        <div className="psm-requirements">
+          <p className="psm-requirements-title">Password requirements:</p>
 
-          <div
-            className={`settings__requirement ${
-              requirements.length ? "settings__requirement--met" : ""
-            }`}
-          >
-            <span className="settings__requirement-icon" aria-hidden="true">
-              {requirements.length ? "●" : "○"}
-            </span>
-            <span>At least 8 characters</span>
-          </div>
-
-          <div
-            className={`settings__requirement ${
-              requirements.uppercase ? "settings__requirement--met" : ""
-            }`}
-          >
-            <span className="settings__requirement-icon" aria-hidden="true">
-              {requirements.uppercase ? "●" : "○"}
-            </span>
-            <span>At least one uppercase letter (A-Z)</span>
-          </div>
-
-          <div
-            className={`settings__requirement ${
-              requirements.lowercase ? "settings__requirement--met" : ""
-            }`}
-          >
-            <span className="settings__requirement-icon" aria-hidden="true">
-              {requirements.lowercase ? "●" : "○"}
-            </span>
-            <span>At least one lowercase letter (a-z)</span>
-          </div>
-
-          <div
-            className={`settings__requirement ${
-              requirements.number ? "settings__requirement--met" : ""
-            }`}
-          >
-            <span className="settings__requirement-icon" aria-hidden="true">
-              {requirements.number ? "●" : "○"}
-            </span>
-            <span>At least one number (0-9)</span>
-          </div>
-
-          <div
-            className={`settings__requirement ${
-              requirements.special ? "settings__requirement--met" : ""
-            }`}
-          >
-            <span className="settings__requirement-icon" aria-hidden="true">
-              {requirements.special ? "●" : "○"}
-            </span>
-            <span>At least one special character (!@#$%^&*)</span>
-          </div>
+          {Object.entries(requirements).map(([key, met]) => (
+            <div
+              key={key}
+              className={`psm-requirement ${met ? "psm-requirement--met" : ""}`}
+            >
+              <span className="psm-requirement-icon" aria-hidden="true">
+                {met ? "●" : "○"}
+              </span>
+              <span>
+                {key === "length" && "At least 8 characters"}
+                {key === "uppercase" && "At least one uppercase letter (A-Z)"}
+                {key === "lowercase" && "At least one lowercase letter (a-z)"}
+                {key === "number" && "At least one number (0-9)"}
+                {key === "special" &&
+                  "At least one special character (!@#$%^&*)"}
+              </span>
+            </div>
+          ))}
         </div>
+
+        {(feedback.warning || feedback.suggestions.length > 0) && (
+          <div className="psm-feedback">
+            <h4 className="psm-feedback-heading">Password Analysis</h4>
+
+            {feedback.warning && (
+              <div className="psm-feedback-warning">
+                <span className="psm-feedback-icon" aria-hidden="true">
+                  ⚠️
+                </span>
+                <span>{feedback.warning}</span>
+              </div>
+            )}
+
+            {feedback.suggestions.length > 0 && (
+              <div className="psm-feedback-suggestions">
+                <p className="psm-feedback-title">
+                  Suggestions for improvement:
+                </p>
+                <ul className="psm-feedback-list">
+                  {feedback.suggestions.map((suggestion, index) => (
+                    <li key={index} className="psm-feedback-item">
+                      <span className="psm-feedback-icon" aria-hidden="true">
+                        💡
+                      </span>
+                      <span>{suggestion}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
