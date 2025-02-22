@@ -5,12 +5,18 @@ import googleIcon from "../../assets/google.svg";
 import facebookIcon from "../../assets/facebook.svg";
 import appleIcon from "../../assets/apple.svg";
 import { useAuth } from "../../contexts/AuthContext/AuthContext";
+import PasswordStrengthMeter from "../../components/common/PasswordStrengthMeter/PasswordStrengthMeter";
 
 type Props = {};
 
 export default function Register({}: Props) {
   const { registerUser } = useAuth();
   const navigate = useNavigate();
+
+  const handleStrengthChange = (score: number, isValid: boolean) => {
+    console.log(`Password strength: ${score}, Valid: ${isValid}`);
+    // Enable/disable submit button based on password validity
+  };
 
   async function registerForm(formData: FormData) {
     const firstName = formData.get("firstName") as string;
@@ -141,6 +147,10 @@ export default function Register({}: Props) {
               required
             />
           </div>
+          <PasswordStrengthMeter
+            onStrengthChange={handleStrengthChange}
+            initialPassword="Hello"
+          />
 
           <button
             type="submit"
