@@ -4,6 +4,7 @@ import PasswordStrengthMeter from "../../../../components/common/PasswordStrengt
 import { ChangeEvent, useState } from "react";
 import { ChangePasswordRequest } from "../../../../types/changePasswordRequest";
 import { useChangePassword } from "../../../../hooks/useUserQuery";
+import getErrorMessage from "../../../../utils/getErrorMessage";
 
 interface PasswordFormData {
   currentPassword: string | undefined;
@@ -31,7 +32,7 @@ export default function PasswordSettings() {
     newPassword: "",
     confirmPassword: "",
   });
-  const { mutate } = useChangePassword();
+  const { isSuccess, isPending, mutate, isError, error } = useChangePassword();
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -153,7 +154,17 @@ export default function PasswordSettings() {
             onChange={handleChange}
           />
         </SettingItem>
-        <SettingItem title="" description="">
+        <SettingItem
+          title=""
+          description={
+            isSuccess
+              ? "Successfully updated password."
+              : isError
+              ? getErrorMessage(error)
+              : ""
+          }
+          variant={isSuccess ? "success" : isError ? "error" : "default"}
+        >
           <button
             type="submit"
             className="settings__button"
@@ -161,10 +172,10 @@ export default function PasswordSettings() {
               !(
                 passwordMatchStatus === PasswordMatchStatus.MATCH &&
                 passwordFormData.currentPassword
-              )
+              ) || isPending
             }
           >
-            Update Password
+            {isPending ? "Updating..." : "Update Password"}
           </button>
         </SettingItem>
       </SettingsSection>
