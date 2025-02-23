@@ -1,20 +1,96 @@
 import SettingsSection from "../common/SettingsSection";
 import SettingItem from "../common/SettingItem";
 import PasswordStrengthMeter from "../../../../components/common/PasswordStrengthMeter/PasswordStrengthMeter";
+import { ChangeEvent, useState } from "react";
+import { ChangePasswordRequest } from "../../../../types/changePasswordRequest";
 
-interface ProfileFormData {
+interface PasswordFormData {
+  currentPassword: string | undefined;
   newPassword: string | undefined;
   confirmPassword: string | undefined;
 }
 
+enum PasswordMatchStatus {
+  INITIAL = "INITIAL",
+  MATCH = "MATCH",
+  MISMATCH = "MISMATCH",
+}
+
+enum Variant {
+  SUCCESS = "success",
+  ERROR = "error",
+  DEFAULT = "default",
+}
+
 export default function PasswordSettings({}: Props) {
-  const handleStrengthChange = (score: number, isValid: boolean) => {
-    console.log(`Password strength: ${score}, Valid: ${isValid}`);
-    // Enable/disable submit button based on password validity
+  const [passwordMatchStatus, setPasswordMatchStatus] =
+    useState<PasswordMatchStatus>("INITIAL");
+  const [passwordFormData, setPasswordFormData] = useState<PasswordFormData>({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
+    const { name, value } = e.target;
+
+    setPasswordFormData((prevData) => {
+      const newData = {
+        ...prevData,
+        [name]: value,
+      };
+
+      // Check password match status
+      if (name === "newPassword" || name === "confirmPassword") {
+        if (!newData.newPassword || !newData.confirmPassword) {
+          setPasswordMatchStatus(PasswordMatchStatus.INITIAL);
+        } else if (newData.newPassword === newData.confirmPassword) {
+          setPasswordMatchStatus(PasswordMatchStatus.MATCH);
+        } else {
+          setPasswordMatchStatus(PasswordMatchStatus.MISMATCH);
+        }
+      }
+
+      return newData;
+    });
+  };
+
+  async function handlePasswordUpdate(formData: FormData) {
+    const updateRequest: ChangePasswordRequest = {
+      currentPassword: formData.get("currentPassword") as string,
+      newPassword: formData.get("newPassword") as string,
+    };
+  }
+
+  const getDescriptionText = (status: PasswordMatchStatus): string => {
+    switch (status) {
+      case PasswordMatchStatus.MATCH:
+        return "Passwords match";
+      case PasswordMatchStatus.MISMATCH:
+        return "Passwords do not match";
+      case PasswordMatchStatus.INITIAL:
+        return "Confirm your new password";
+      default:
+        return "Confirm your new password";
+    }
+  };
+
+  const getConfrimPasswordVariant = (status: PasswordMatchStatus): Variant => {
+    switch (status) {
+      case PasswordMatchStatus.MATCH:
+        return Variant.SUCCESS;
+      case PasswordMatchStatus.MISMATCH:
+        return Variant.ERROR;
+      case PasswordMatchStatus.INITIAL:
+      default:
+        return Variant.DEFAULT;
+    }
   };
 
   return (
-    <form>
+    <form action={handlePasswordUpdate}>
       <SettingsSection title="Change Password">
         <SettingItem
           title="Current Password"
@@ -30,6 +106,7 @@ export default function PasswordSettings({}: Props) {
             className="settings__text-input"
             placeholder="••••••••"
             aria-describedby="currentPasswordDesc"
+            onChange={handleChange}
           />
         </SettingItem>
 
@@ -47,15 +124,14 @@ export default function PasswordSettings({}: Props) {
             className="settings__text-input"
             placeholder="••••••••"
             aria-describedby="newPasswordDesc"
+            onChange={handleChange}
           />
         </SettingItem>
-        <PasswordStrengthMeter
-          onStrengthChange={handleStrengthChange}
-          initialPassword="Hello"
-        />
+        <PasswordStrengthMeter password={passwordFormData.newPassword} />
         <SettingItem
           title="Confirm New Password"
-          description="Confirm your new password"
+          description={getDescriptionText(passwordMatchStatus)}
+          variant={getConfrimPasswordVariant(passwordMatchStatus)}
         >
           <label htmlFor="confirmPassword" className="settings__label sr-only">
             Confirm New Password
@@ -67,10 +143,20 @@ export default function PasswordSettings({}: Props) {
             className="settings__text-input"
             placeholder="••••••••"
             aria-describedby="confirmPasswordDesc"
+            onChange={handleChange}
           />
         </SettingItem>
         <SettingItem title="" description="">
-          <button type="submit" className="settings__button">
+          <button
+            type="submit"
+            className="settings__button"
+            disabled={
+              !(
+                passwordMatchStatus === PasswordMatchStatus.MATCH &&
+                passwordFormData.currentPassword
+              )
+            }
+          >
             Update Password
           </button>
         </SettingItem>

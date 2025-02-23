@@ -1,0 +1,77 @@
+/* Profile Picture Styles */
+.profile-picture-settings__profile-picture-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-picture-settings__profile-picture {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.profile-picture-settings__profile-picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-picture-settings__profile-picture-icon {
+  width: 48px;
+  height: 48px;
+  color: var(--text-secondary);
+}
+
+.profile-picture-settings__profile-picture-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.profile-picture-settings__upload-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  background-color: var(--accent-primary);
+  color: var(--bg-primary);
+  height: 100%;
+}
+
+.profile-picture-settings__upload-label:hover {
+  opacity: 0.6;
+}
+
+.profile-picture-settings__upload-icon {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.profile-picture-settings__remove-photo {
+  height: 100%;
+}
+
+.profile-picture-settings__file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}

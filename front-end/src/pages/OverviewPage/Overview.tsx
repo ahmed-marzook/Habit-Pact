@@ -9,7 +9,16 @@ export default function Overview({}: Props) {
   return (
     <div className="overview">
       <div className="overview__header">
-        <h1>Welcome Back, {user?.firstName + " " + user?.lastName}</h1>
+        <div className="overview__user-info">
+          <img
+            src={`https://randomuser.me/api/portraits/men/${Math.floor(
+              Math.random() * 100
+            )}.jpg`}
+            alt="Profile picture"
+            className="overview__profile-picture"
+          />
+          <h1>Welcome Back, {user?.firstName + " " + user?.lastName}</h1>
+        </div>
         <div className="overview__date">February 13, 2025</div>
       </div>
 

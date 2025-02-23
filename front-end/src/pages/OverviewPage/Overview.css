@@ -10,6 +10,21 @@
   margin-bottom: 2rem;
 }
 
+.overview__user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.overview__profile-picture {
+  width: 100px;
+  aspect-ratio: 1 /1;
+  height: auto;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent-primary);
+}
+
 /* Quote Section */
 .overview__quote-card {
   background-color: var(--bg-secondary);
@@ -77,4 +92,32 @@
   align-items: center;
   padding: 1rem 0;
   border-bottom: 1px solid rgba(158, 163, 174, 0.1);
+}
+
+@media (max-width: 768px) {
+  .overview__main-content {
+    padding: 1rem;
+  }
+
+  .overview__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .overview__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .overview__user-info {
+    width: 100%;
+  }
+
+  .overview__streak-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+
+  .overview__quote-text {
+    font-size: 1rem;
+  }
 }
