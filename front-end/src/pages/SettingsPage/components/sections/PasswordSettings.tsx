@@ -3,6 +3,7 @@ import SettingItem from "../common/SettingItem";
 import PasswordStrengthMeter from "../../../../components/common/PasswordStrengthMeter/PasswordStrengthMeter";
 import { ChangeEvent, useState } from "react";
 import { ChangePasswordRequest } from "../../../../types/changePasswordRequest";
+import { useChangePassword } from "../../../../hooks/useUserQuery";
 
 interface PasswordFormData {
   currentPassword: string | undefined;
@@ -22,14 +23,15 @@ enum Variant {
   DEFAULT = "default",
 }
 
-export default function PasswordSettings({}: Props) {
+export default function PasswordSettings() {
   const [passwordMatchStatus, setPasswordMatchStatus] =
-    useState<PasswordMatchStatus>("INITIAL");
+    useState<PasswordMatchStatus>(PasswordMatchStatus.INITIAL);
   const [passwordFormData, setPasswordFormData] = useState<PasswordFormData>({
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
   });
+  const { mutate } = useChangePassword();
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -62,6 +64,11 @@ export default function PasswordSettings({}: Props) {
       currentPassword: formData.get("currentPassword") as string,
       newPassword: formData.get("newPassword") as string,
     };
+    try {
+      mutate(updateRequest);
+    } catch (error) {
+      console.error("Update Failed:" + error);
+    }
   }
 
   const getDescriptionText = (status: PasswordMatchStatus): string => {
