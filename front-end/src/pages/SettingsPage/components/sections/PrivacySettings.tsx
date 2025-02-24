@@ -5,7 +5,7 @@ type Props = {};
 
 export default function PrivacySettings({}: Props) {
   return (
-    <SettingsSection title="Privacy">
+    <SettingsSection title="Privacy" variant="default" disabled={true}>
       <SettingItem
         title="Data Collection"
         description="Allow anonymous usage data collection to improve the app"

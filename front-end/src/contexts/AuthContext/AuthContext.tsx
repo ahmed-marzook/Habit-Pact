@@ -1,9 +1,11 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { authService } from "../../services/api/authAPI";
+import { authService } from "../../services/api/authService";
 import AuthState from "../../types/auth/authState";
 import axios, { AxiosError } from "axios";
 import APIErrorResponse from "../../types/ErrorResponse";
+import { useQueryClient } from "@tanstack/react-query";
+import { handleApiError } from "../../utils/handleError";
 
 const initialState: AuthState = {
   user: null,
@@ -22,11 +24,13 @@ type AuthContextType = {
   ) => void;
   loginUser: (email: string, password: string) => void;
   logout: () => void;
+  updateUser: () => void;
 };
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider = ({ children }: Props) => {
+  const queryClient = useQueryClient();
   const [authState, setAuthState] = useState<AuthState>(initialState);
 
   useEffect(() => {
@@ -61,35 +65,27 @@ export const AuthProvider = ({ children }: Props) => {
       if (res) {
         toast.success("Registration successful!");
         toast.success("Please Sign In");
+        queryClient.invalidateQueries({ queryKey: ["user"] });
         return res;
       }
     } catch (error) {
-      // First check if it's an AxiosError
-      if (axios.isAxiosError(error)) {
-        // Now we can type assert the error response
-        const axiosError = error as AxiosError<APIErrorResponse>;
-        const fieldErrors = axiosError.response?.data?.fieldErrors;
+      handleApiError(error, {
+        defaultMessage: "Registration failed",
+        shouldShowFieldErrors: true,
+      });
+    }
+  };
 
-        // Display individual field errors as separate toasts
-        if (fieldErrors && fieldErrors.length > 0) {
-          fieldErrors.forEach((fieldError) => {
-            toast.error(fieldError.message, {
-              icon: <span>❌</span>,
-              position: "top-right",
-            });
-          });
-        } else {
-          // Fallback to general error message
-          const errorMessage =
-            axiosError.response?.data?.message || "Registration failed";
-          toast.error(errorMessage, {
-            icon: <span>❌</span>,
-          });
-        }
-      } else {
-        toast.error("An unexpected error occurred during registration");
-      }
-      throw error;
+  const updateUser = async () => {
+    const user = await authService.getCurrentUser();
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+
+      setAuthState((prev) => ({
+        user: user,
+        token: prev.token,
+        isAuthenticated: prev.isAuthenticated,
+      }));
     }
   };
 
@@ -108,26 +104,18 @@ export const AuthProvider = ({ children }: Props) => {
         });
 
         toast.success("Sign in successful!");
+        queryClient.invalidateQueries({ queryKey: ["user"] });
         return res;
       }
     } catch (error) {
-      // First check if it's an AxiosError
-      if (axios.isAxiosError(error)) {
-        // Now we can type assert the error response
-        const axiosError = error as AxiosError<APIErrorResponse>;
-        const errorMessage =
-          axiosError.response?.data?.message || "Sign in failed";
-        toast.error(errorMessage, {
-          icon: <span>❌</span>,
-        });
-      } else {
-        toast.error("An unexpected error occurred");
-      }
-      throw error;
+      handleApiError(error, {
+        defaultMessage: "Sign in failed",
+      });
     }
   };
 
   const logout = async (): Promise<void> => {
+    queryClient.clear();
     window.location.replace("/dashboard");
     authService.logout();
     setAuthState(initialState);
@@ -136,7 +124,7 @@ export const AuthProvider = ({ children }: Props) => {
 
   return (
     <AuthContext.Provider
-      value={{ authState, loginUser, registerUser, logout }}
+      value={{ authState, loginUser, registerUser, logout, updateUser }}
     >
       {children}
     </AuthContext.Provider>

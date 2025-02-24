@@ -5,7 +5,7 @@ type Props = {};
 
 export default function AppearanceSettings({}: Props) {
   return (
-    <SettingsSection title="Appearance">
+    <SettingsSection title="Appearance" variant="default" disabled={true}>
       <SettingItem title="Theme" description="Choose your preferred theme">
         <label htmlFor="theme-select" className="sr-only">
           Theme

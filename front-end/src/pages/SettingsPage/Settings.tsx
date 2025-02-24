@@ -6,6 +6,9 @@ import PasswordSettings from "./components/sections/PasswordSettings";
 import PrivacySettings from "./components/sections/PrivacySettings";
 import ProfileSettings from "./components/sections/ProfileSettings";
 import "./Settings.css";
+import cameraIcon from "../../assets/camera-icon.svg";
+import uploadIcon from "../../assets/upload-icon.svg";
+import ProfilePictureSettings from "./components/sections/ProfilePictureSettings/ProfilePictureSettings";
 
 type Props = {};
 
@@ -16,6 +19,7 @@ export default function Settings({}: Props) {
         title="Settings"
         description="Manage your account settings and preferences"
       />
+      <ProfilePictureSettings />
       <ProfileSettings />
       <PasswordSettings />
       <NotificationsSettings />

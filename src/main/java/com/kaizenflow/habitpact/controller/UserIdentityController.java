@@ -55,15 +55,14 @@ public class UserIdentityController {
     private static UserResponse getUserResponse(Authentication authentication) {
         UserInfoDetails principle = (UserInfoDetails) authentication.getPrincipal();
         return new UserResponse(
-                        null,
-                        principle.getEmail(),
-                        principle.getDbUsername(),
-                        principle.getFirstName(),
-                        principle.getLastName(),
-                        null,
-                        null,
-                        null);
-
+                null,
+                principle.getEmail(),
+                principle.getDbUsername(),
+                principle.getFirstName(),
+                principle.getLastName(),
+                null,
+                null,
+                null);
     }
 
     @Operation(

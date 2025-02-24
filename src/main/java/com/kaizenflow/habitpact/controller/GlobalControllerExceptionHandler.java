@@ -37,12 +37,8 @@ public class GlobalControllerExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     protected ResponseEntity<ApiError> handleBadCredentials(
             BadCredentialsException ex, HttpServletRequest request) {
-        ApiError apiError = new ApiError(
-                HttpStatus.UNAUTHORIZED,
-                "Invalid username or password",
-                ex,
-                request
-        );
+        ApiError apiError =
+                new ApiError(HttpStatus.UNAUTHORIZED, "Invalid username or password", ex, request);
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }
 

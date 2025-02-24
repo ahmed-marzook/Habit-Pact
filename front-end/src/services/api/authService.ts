@@ -1,6 +1,7 @@
 import User from "../../types/user";
 
 import { api } from "./api";
+import { userService } from "./userService";
 
 export const authService = {
   async login(email: string, password: string) {
@@ -29,8 +30,7 @@ export const authService = {
   },
 
   async getCurrentUser(): Promise<User> {
-    const response = await api.get("/users");
-    return response.data;
+    return userService.getUser();
   },
 
   logout() {

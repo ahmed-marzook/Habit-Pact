@@ -1,5 +1,6 @@
 package com.kaizenflow.habitpact.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kaizenflow.habitpact.config.security.UserInfoDetails;
-import com.kaizenflow.habitpact.domain.dto.request.CreateUserRequest;
+import com.kaizenflow.habitpact.domain.dto.request.ChangePasswordRequest;
 import com.kaizenflow.habitpact.domain.dto.request.UpdateUserRequest;
 import com.kaizenflow.habitpact.domain.dto.response.UserResponse;
 import com.kaizenflow.habitpact.service.UserService;
@@ -34,7 +35,7 @@ public class UserController {
     @PutMapping()
     public ResponseEntity<UserResponse> updateUser(
             @AuthenticationPrincipal UserInfoDetails userInfoDetails,
-            @Valid @RequestBody CreateUserRequest request) {
+            @Valid @RequestBody UpdateUserRequest request) {
         return ResponseEntity.ok(userService.updateUser(userInfoDetails.getUserId(), request));
     }
 
@@ -62,5 +63,16 @@ public class UserController {
     public ResponseEntity<UserResponse> getUser(
             @AuthenticationPrincipal UserInfoDetails userInfoDetails) {
         return ResponseEntity.ok(userService.getUser(userInfoDetails.getUserId()));
+    }
+
+    @Operation(
+            summary = "Change user password",
+            description = "Changes the user's password after validating their current password")
+    @PutMapping("/password")
+    public ResponseEntity<String> changePassword(
+            @AuthenticationPrincipal UserInfoDetails userInfoDetails,
+            @Valid @RequestBody ChangePasswordRequest request) {
+        userService.changePassword(userInfoDetails.getUserId(), request);
+        return new ResponseEntity<>("Password Successfully Updated", HttpStatus.NO_CONTENT);
     }
 }
