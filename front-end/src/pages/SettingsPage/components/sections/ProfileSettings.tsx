@@ -7,18 +7,18 @@ import { useAuth } from "../../../../contexts/AuthContext/AuthContext";
 import getErrorMessage from "../../../../utils/getErrorMessage";
 
 interface ProfileFormData {
-  username: string | undefined;
-  firstName: string | undefined;
-  lastName: string | undefined;
+  username: string;
+  firstName: string;
+  lastName: string;
 }
 
 export default function ProfileSettings() {
   const { updateUser } = useAuth();
   const { data: user } = useUser();
   const [profileFormData, setProfileFormData] = useState<ProfileFormData>({
-    username: user?.username,
-    firstName: user?.firstName,
-    lastName: user?.lastName,
+    username: user?.username ?? "",
+    firstName: user?.firstName ?? "",
+    lastName: user?.lastName ?? "",
   });
 
   const { isSuccess, isPending, mutate, isError, error } = useUpdateUser();
@@ -120,7 +120,7 @@ export default function ProfileSettings() {
             type="email"
             className="settings__text-input"
             aria-describedby="emailAddressDesc"
-            value={user?.email}
+            value={user?.email ?? ""}
             disabled
           />
         </SettingItem>

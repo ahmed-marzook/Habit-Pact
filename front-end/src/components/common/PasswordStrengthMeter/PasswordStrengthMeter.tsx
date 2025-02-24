@@ -1,14 +1,25 @@
 import "./PasswordStrengthMeter.css";
 import { usePasswordStrength } from "../../../hooks/usePasswordStrength";
+import { useEffect } from "react";
 
 interface PasswordStrengthMeterProps {
   password: string;
+  onRequirementsMet?: (allMet: boolean) => void;
 }
 
 export default function PasswordStrengthMeter({
   password,
+  onRequirementsMet,
 }: PasswordStrengthMeterProps) {
   const { strength, requirements, feedback } = usePasswordStrength(password);
+
+  // Check if all requirements are met
+  const allRequirementsMet = Object.values(requirements).every(Boolean);
+
+  // Notify parent component when the requirements status changes
+  useEffect(() => {
+    onRequirementsMet?.(allRequirementsMet);
+  }, [allRequirementsMet, onRequirementsMet]);
 
   return (
     <div className="psm-container">
@@ -17,7 +28,7 @@ export default function PasswordStrengthMeter({
         <div className="psm-meter-container">
           <div
             className="psm-meter"
-            role="progressbar"
+            title="as"
             aria-valuenow={strength.percentage}
             aria-valuemin={0}
             aria-valuemax={100}
@@ -52,7 +63,7 @@ export default function PasswordStrengthMeter({
                 {key === "lowercase" && "At least one lowercase letter (a-z)"}
                 {key === "number" && "At least one number (0-9)"}
                 {key === "special" &&
-                  "At least one special character (!@#$%^&*)"}
+                  "At least one special character (!@#$%^&*?)"}
               </span>
             </div>
           ))}

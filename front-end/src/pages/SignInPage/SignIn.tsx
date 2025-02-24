@@ -43,6 +43,7 @@ export default function SignIn({}: Props) {
             <input
               type="email"
               name="email"
+              autoComplete="email"
               className="signin__input"
               placeholder="Enter your email"
             />
@@ -52,6 +53,7 @@ export default function SignIn({}: Props) {
             <label className="signin__label">Password</label>
             <input
               type="password"
+              autoComplete="current-password"
               className="signin__input"
               placeholder="Enter your password"
               name="password"

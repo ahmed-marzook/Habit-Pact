@@ -33,6 +33,7 @@ export default function PasswordSettings() {
     confirmPassword: "",
   });
   const { isSuccess, isPending, mutate, isError, error } = useChangePassword();
+  const [passwordRequirementsMet, setPasswordRequirementsMet] = useState(false);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -85,7 +86,7 @@ export default function PasswordSettings() {
     }
   };
 
-  const getConfrimPasswordVariant = (status: PasswordMatchStatus): Variant => {
+  const getConfirmPasswordVariant = (status: PasswordMatchStatus): Variant => {
     switch (status) {
       case PasswordMatchStatus.MATCH:
         return Variant.SUCCESS;
@@ -128,6 +129,7 @@ export default function PasswordSettings() {
           <input
             id="newPassword"
             name="newPassword"
+            autoComplete="new-password"
             type="password"
             className="settings__text-input"
             placeholder="••••••••"
@@ -135,11 +137,17 @@ export default function PasswordSettings() {
             onChange={handleChange}
           />
         </SettingItem>
-        <PasswordStrengthMeter password={passwordFormData.newPassword} />
+
+        {passwordFormData.newPassword && (
+          <PasswordStrengthMeter
+            password={passwordFormData.newPassword ?? ""}
+            onRequirementsMet={setPasswordRequirementsMet}
+          />
+        )}
         <SettingItem
           title="Confirm New Password"
           description={getDescriptionText(passwordMatchStatus)}
-          variant={getConfrimPasswordVariant(passwordMatchStatus)}
+          variant={getConfirmPasswordVariant(passwordMatchStatus)}
         >
           <label htmlFor="confirmPassword" className="settings__label sr-only">
             Confirm New Password
@@ -147,6 +155,7 @@ export default function PasswordSettings() {
           <input
             id="confirmPassword"
             name="confirmPassword"
+            autoComplete="new-password"
             type="password"
             className="settings__text-input"
             placeholder="••••••••"
@@ -172,7 +181,9 @@ export default function PasswordSettings() {
               !(
                 passwordMatchStatus === PasswordMatchStatus.MATCH &&
                 passwordFormData.currentPassword
-              ) || isPending
+              ) ||
+              isPending ||
+              !passwordRequirementsMet
             }
           >
             {isPending ? "Updating..." : "Update Password"}

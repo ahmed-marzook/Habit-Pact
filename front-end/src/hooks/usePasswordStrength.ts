@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 
 import zxcvbn from "zxcvbn-typescript";
 
@@ -43,87 +43,88 @@ export function usePasswordStrength(password: string): PasswordStrengthResult {
     percentage: 0,
   });
 
-  const [requirements, setRequirements] = useState<RequirementsState>({
-    length: false,
-    uppercase: false,
-    lowercase: false,
-    number: false,
-    special: false,
-  });
+  const requirements = useMemo<RequirementsState>(() => {
+    const hasLength = password.length >= 8;
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecial = /[!@#$%^&*?]/.test(password);
 
-  useEffect(() => {
-    const checkPasswordStrength = (value: string): void => {
-      const hasLength = value.length >= 8;
-      const hasUppercase = /[A-Z]/.test(value);
-      const hasLowercase = /[a-z]/.test(value);
-      const hasNumber = /[0-9]/.test(value);
-      const hasSpecial = /[!@#$%^&*]/.test(value);
+    return {
+      length: hasLength,
+      uppercase: hasUppercase,
+      lowercase: hasLowercase,
+      number: hasNumber,
+      special: hasSpecial,
+    };
+  }, [password]);
 
-      setRequirements({
-        length: hasLength,
-        uppercase: hasUppercase,
-        lowercase: hasLowercase,
-        number: hasNumber,
-        special: hasSpecial,
-      });
+  const checkPasswordStrength = useCallback(() => {
+    const metRequirements = Object.values(requirements).filter(Boolean).length;
+    const strengthPercentage = (metRequirements / 5) * 100;
 
-      const metRequirements = [
-        hasLength,
-        hasUppercase,
-        hasLowercase,
-        hasNumber,
-        hasSpecial,
-      ].filter(Boolean).length;
+    let newStrength: StrengthState;
+    if (metRequirements === 1) {
+      newStrength = {
+        score: 0,
+        text: "Very Weak",
+        color: "#ff6b6b",
+        percentage: strengthPercentage,
+      };
+    } else if (metRequirements <= 2) {
+      newStrength = {
+        score: 1,
+        text: "Weak",
+        color: "#ff9b6b",
+        percentage: strengthPercentage,
+      };
+    } else if (metRequirements <= 3) {
+      newStrength = {
+        score: 2,
+        text: "Fair",
+        color: "#ffce6b",
+        percentage: strengthPercentage,
+      };
+    } else if (metRequirements <= 4) {
+      newStrength = {
+        score: 3,
+        text: "Good",
+        color: "#d1ff6b",
+        percentage: strengthPercentage,
+      };
+    } else {
+      newStrength = {
+        score: 4,
+        text: "Strong",
+        color: "#2ee6a8",
+        percentage: strengthPercentage,
+      };
+    }
+    setStrength(newStrength);
 
-      const strengthPercentage = (metRequirements / 5) * 100;
-
-      if (metRequirements === 0) {
-        setStrength({
-          score: 0,
-          text: "Very Weak",
-          color: "#ff6b6b",
-          percentage: strengthPercentage,
-        });
-      } else if (metRequirements <= 2) {
-        setStrength({
-          score: 1,
-          text: "Weak",
-          color: "#ff9b6b",
-          percentage: strengthPercentage,
-        });
-      } else if (metRequirements <= 3) {
-        setStrength({
-          score: 2,
-          text: "Fair",
-          color: "#ffce6b",
-          percentage: strengthPercentage,
-        });
-      } else if (metRequirements <= 4) {
-        setStrength({
-          score: 3,
-          text: "Good",
-          color: "#d1ff6b",
-          percentage: strengthPercentage,
-        });
-      } else {
-        setStrength({
-          score: 4,
-          text: "Strong",
-          color: "#93ff6b",
-          percentage: strengthPercentage,
-        });
-      }
-
-      const result = zxcvbn(value);
+    if (password) {
+      const result = zxcvbn(password);
+      console.log(result.feedback.suggestions);
       setFeedback({
         warning: result.feedback.warning,
-        suggestions: result.feedback.suggestions,
+        suggestions:
+          result.feedback.suggestions.length > 1
+            ? result.feedback.suggestions
+            : [],
         score: result.score,
       });
-    };
+    } else {
+      setFeedback({
+        warning: null,
+        suggestions: [],
+        score: null,
+      });
+    }
+  }, [password, requirements]);
 
-    checkPasswordStrength(password);
-  }, [password]);
+  useEffect(() => {
+    checkPasswordStrength();
+  }, [checkPasswordStrength]);
 
   return {
     strength,

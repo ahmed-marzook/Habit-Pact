@@ -6,16 +6,29 @@ import facebookIcon from "../../assets/facebook.svg";
 import appleIcon from "../../assets/apple.svg";
 import { useAuth } from "../../contexts/AuthContext/AuthContext";
 import PasswordStrengthMeter from "../../components/common/PasswordStrengthMeter/PasswordStrengthMeter";
+import { ChangeEvent, useState } from "react";
 
-type Props = {};
+interface RegisterFormData {
+  newPassword: string | undefined;
+}
 
-export default function Register({}: Props) {
+export default function Register() {
   const { registerUser } = useAuth();
   const navigate = useNavigate();
+  const [passwordRequirementsMet, setPasswordRequirementsMet] = useState(false);
+  const [registerFormData, setRegisterFormData] = useState<RegisterFormData>({
+    newPassword: "",
+  });
 
-  const handleStrengthChange = (score: number, isValid: boolean) => {
-    console.log(`Password strength: ${score}, Valid: ${isValid}`);
-    // Enable/disable submit button based on password validity
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
+    const { name, value } = e.target;
+
+    setRegisterFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   async function registerForm(formData: FormData) {
@@ -23,7 +36,7 @@ export default function Register({}: Props) {
     const lastName = formData.get("lastName") as string;
     const username = formData.get("username") as string;
     const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
+    const password = formData.get("newPassword") as string;
 
     try {
       await registerUser(email, password, username, firstName, lastName);
@@ -94,6 +107,7 @@ export default function Register({}: Props) {
               <label className="register__label">First Name</label>
               <input
                 type="text"
+                autoComplete="given-name"
                 className="register__input"
                 placeholder="Enter your First name"
                 required
@@ -105,6 +119,7 @@ export default function Register({}: Props) {
               <label className="register__label">Last Name</label>
               <input
                 type="text"
+                autoComplete="family-name"
                 className="register__input"
                 placeholder="Enter your Last name"
                 required
@@ -118,6 +133,7 @@ export default function Register({}: Props) {
               <label className="register__label">Username</label>
               <input
                 type="text"
+                autoComplete="username"
                 className="register__input"
                 placeholder="Enter a Username"
                 required
@@ -129,6 +145,7 @@ export default function Register({}: Props) {
               <label className="register__label">Email</label>
               <input
                 type="email"
+                autoComplete="email"
                 className="register__input"
                 placeholder="Enter your email"
                 name="email"
@@ -141,20 +158,26 @@ export default function Register({}: Props) {
             <label className="register__label">Password</label>
             <input
               type="password"
+              onChange={handleChange}
+              value={registerFormData.newPassword}
+              autoComplete="new-password"
               className="register__input"
               placeholder="Create a password"
-              name="password"
+              name="newPassword"
               required
             />
           </div>
-          <PasswordStrengthMeter
-            onStrengthChange={handleStrengthChange}
-            initialPassword="Hello"
-          />
+          {registerFormData.newPassword && (
+            <PasswordStrengthMeter
+              password={registerFormData.newPassword ?? ""}
+              onRequirementsMet={setPasswordRequirementsMet}
+            />
+          )}
 
           <button
             type="submit"
             className="register__button register__button--primary"
+            disabled={!passwordRequirementsMet}
           >
             Create Account
           </button>
