@@ -9,12 +9,10 @@ interface StrengthState {
   percentage: number;
 }
 
-interface RequirementsState {
-  length: boolean;
-  uppercase: boolean;
-  lowercase: boolean;
-  number: boolean;
-  special: boolean;
+interface RequirementItem {
+  key: string;
+  label: string;
+  met: boolean;
 }
 
 interface FeedbackState {
@@ -25,7 +23,7 @@ interface FeedbackState {
 
 interface PasswordStrengthResult {
   strength: StrengthState;
-  requirements: RequirementsState;
+  requirementsList: RequirementItem[];
   feedback: FeedbackState;
 }
 
@@ -43,24 +41,36 @@ export function usePasswordStrength(password: string): PasswordStrengthResult {
     percentage: 0,
   });
 
-  const requirements = useMemo<RequirementsState>(() => {
+  const requirementsList = useMemo<RequirementItem[]>(() => {
     const hasLength = password.length >= 8;
     const hasUppercase = /[A-Z]/.test(password);
     const hasLowercase = /[a-z]/.test(password);
     const hasNumber = /[0-9]/.test(password);
     const hasSpecial = /[!@#$%^&*?]/.test(password);
 
-    return {
-      length: hasLength,
-      uppercase: hasUppercase,
-      lowercase: hasLowercase,
-      number: hasNumber,
-      special: hasSpecial,
-    };
+    return [
+      { key: "length", label: "At least 8 characters", met: hasLength },
+      {
+        key: "uppercase",
+        label: "At least one uppercase letter (A-Z)",
+        met: hasUppercase,
+      },
+      {
+        key: "lowercase",
+        label: "At least one lowercase letter (a-z)",
+        met: hasLowercase,
+      },
+      { key: "number", label: "At least one number (0-9)", met: hasNumber },
+      {
+        key: "special",
+        label: "At least one special character (!@#$%^&*?)",
+        met: hasSpecial,
+      },
+    ];
   }, [password]);
 
   const checkPasswordStrength = useCallback(() => {
-    const metRequirements = Object.values(requirements).filter(Boolean).length;
+    const metRequirements = requirementsList.filter((req) => req.met).length;
     const strengthPercentage = (metRequirements / 5) * 100;
 
     let newStrength: StrengthState;
@@ -104,7 +114,6 @@ export function usePasswordStrength(password: string): PasswordStrengthResult {
 
     if (password) {
       const result = zxcvbn(password);
-      console.log(result.feedback.suggestions);
       setFeedback({
         warning: result.feedback.warning,
         suggestions:
@@ -120,7 +129,7 @@ export function usePasswordStrength(password: string): PasswordStrengthResult {
         score: null,
       });
     }
-  }, [password, requirements]);
+  }, [password, requirementsList]);
 
   useEffect(() => {
     checkPasswordStrength();
@@ -128,7 +137,7 @@ export function usePasswordStrength(password: string): PasswordStrengthResult {
 
   return {
     strength,
-    requirements,
+    requirementsList,
     feedback,
   };
 }

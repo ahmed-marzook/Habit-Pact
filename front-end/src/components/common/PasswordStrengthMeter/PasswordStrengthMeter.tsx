@@ -11,12 +11,11 @@ export default function PasswordStrengthMeter({
   password,
   onRequirementsMet,
 }: PasswordStrengthMeterProps) {
-  const { strength, requirements, feedback } = usePasswordStrength(password);
+  const { strength, requirementsList, feedback } =
+    usePasswordStrength(password);
 
-  // Check if all requirements are met
-  const allRequirementsMet = Object.values(requirements).every(Boolean);
+  const allRequirementsMet = requirementsList.every((item) => item.met);
 
-  // Notify parent component when the requirements status changes
   useEffect(() => {
     onRequirementsMet?.(allRequirementsMet);
   }, [allRequirementsMet, onRequirementsMet]);
@@ -49,22 +48,17 @@ export default function PasswordStrengthMeter({
         <div className="psm-requirements">
           <p className="psm-requirements-title">Password requirements:</p>
 
-          {Object.entries(requirements).map(([key, met]) => (
+          {requirementsList.map((item) => (
             <div
-              key={key}
-              className={`psm-requirement ${met ? "psm-requirement--met" : ""}`}
+              key={item.key}
+              className={`psm-requirement ${
+                item.met ? "psm-requirement--met" : ""
+              }`}
             >
               <span className="psm-requirement-icon" aria-hidden="true">
-                {met ? "●" : "○"}
+                {item.met ? "●" : "○"}
               </span>
-              <span>
-                {key === "length" && "At least 8 characters"}
-                {key === "uppercase" && "At least one uppercase letter (A-Z)"}
-                {key === "lowercase" && "At least one lowercase letter (a-z)"}
-                {key === "number" && "At least one number (0-9)"}
-                {key === "special" &&
-                  "At least one special character (!@#$%^&*?)"}
-              </span>
+              <span>{item.label}</span>
             </div>
           ))}
         </div>
