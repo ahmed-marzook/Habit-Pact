@@ -1,9 +1,7 @@
 import SettingsSection from "../common/SettingsSection";
 import SettingItem from "../common/SettingItem";
 
-type Props = {};
-
-export default function NotificationsSettings({}: Props) {
+export default function NotificationsSettings() {
   return (
     <SettingsSection title="Notifications" variant="default" disabled={true}>
       <SettingItem
@@ -49,12 +47,11 @@ export default function NotificationsSettings({}: Props) {
           id="reminderTime"
           className="settings__select"
           aria-describedby="reminderTimeDesc"
+          defaultValue={"10:00"}
         >
           <option value="8:00">8:00 AM</option>
           <option value="9:00">9:00 AM</option>
-          <option value="10:00" selected>
-            10:00 AM
-          </option>
+          <option value="10:00">10:00 AM</option>
           <option value="11:00">11:00 AM</option>
         </select>
       </SettingItem>

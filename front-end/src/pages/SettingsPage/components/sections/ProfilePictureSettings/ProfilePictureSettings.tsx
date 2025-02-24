@@ -4,9 +4,7 @@ import cameraIcon from "../../../../../assets/camera-icon.svg";
 import uploadIcon from "../../../../../assets/upload-icon.svg";
 import SettingItem from "../../common/SettingItem";
 
-type Props = {};
-
-export default function ProfilePictureSettings({}: Props) {
+export default function ProfilePictureSettings() {
   return (
     <SettingsSection title="Profile Picture" variant="default" disabled={false}>
       <SettingItem

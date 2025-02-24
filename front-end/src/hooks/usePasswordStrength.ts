@@ -71,7 +71,8 @@ export function usePasswordStrength(password: string): PasswordStrengthResult {
 
   const checkPasswordStrength = useCallback(() => {
     const metRequirements = requirementsList.filter((req) => req.met).length;
-    const strengthPercentage = (metRequirements / 5) * 100;
+    const strengthPercentage =
+      (metRequirements / requirementsList.length) * 100;
 
     let newStrength: StrengthState;
     if (metRequirements === 1) {

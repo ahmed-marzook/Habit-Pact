@@ -1,3 +1,7 @@
+.landing {
+  overflow: auto;
+  height: 100vh;
+}
 .landing__navbar {
   padding: 1.5rem 2rem;
   display: flex;
