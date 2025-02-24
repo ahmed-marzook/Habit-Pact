@@ -6,7 +6,7 @@ import SettingItem from "../../common/SettingItem";
 
 export default function ProfilePictureSettings() {
   return (
-    <SettingsSection title="Profile Picture" variant="default" disabled={false}>
+    <SettingsSection title="Profile Picture" variant="default" disabled={true}>
       <SettingItem
         title="Profile Picture"
         description="Upload a profile picture (JPG or PNG, max 5MB)"
