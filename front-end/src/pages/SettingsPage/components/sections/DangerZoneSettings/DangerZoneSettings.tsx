@@ -1,8 +1,8 @@
-import SettingsSection from "../common/SettingsSection";
-import SettingItem from "../common/SettingItem";
+import SettingsSection from "../../common/SettingsSection";
+import SettingItem from "../../common/SettingItem";
 import { useState } from "react";
-import DeleteAccountModal from "../../../../components/common/modal/DeleteAccountModal";
-import { useDeleteUser } from "../../../../hooks/useUserQuery";
+import DeleteAccountModal from "./modal/DeleteAccountModal";
+import { useDeleteUser } from "../../../../../hooks/useUserQuery";
 
 export default function DangerZoneSettings() {
   const [modalIsOpen, setIsOpen] = useState<boolean>(false);

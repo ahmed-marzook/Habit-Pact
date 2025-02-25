@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import "./DeleteAccountModal.css";
 import Modal from "react-modal";
 import warningIcon from "../../../assets/warning-icon.svg";
