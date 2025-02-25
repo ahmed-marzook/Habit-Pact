@@ -1,16 +1,28 @@
+import { useState } from "react";
 import { useHabits } from "../../hooks/useHabitQuery";
 import "./Habits.css";
+import CreateHabitModal from "./modal/CreateHabitModal";
 
-type Props = {};
-
-export default function Habits({}: Props) {
+export default function Habits() {
+  const [modalIsOpen, setIsOpen] = useState<boolean>(false);
   const { data: habit } = useHabits();
-  console.log(habit);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
   return (
     <div className="habits">
+      <CreateHabitModal isOpen={modalIsOpen} onClose={closeModal} />
       <div className="habits__header">
         <h1 className="habits__title">My Habits</h1>
-        <button className="habits__add-button">+ Add New Habit</button>
+        <button className="habits__add-button" onClick={openModal}>
+          + Add New Habit
+        </button>
       </div>
 
       <div className="habits__list">

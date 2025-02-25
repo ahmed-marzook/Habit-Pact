@@ -1,0 +1,339 @@
+.habit-modal {
+  background-color: var(--bg-primary, #1e2023);
+  color: var(--text-primary, #ffffff);
+  max-width: 550px;
+  border-radius: 12px;
+  overflow: hidden;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Modal Header */
+.habit-modal__header {
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(158, 163, 174, 0.1);
+}
+
+.habit-modal__title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.habit-modal__subtitle {
+  color: var(--text-secondary, #9ea3ae);
+  font-size: 0.9rem;
+}
+
+/* Modal Body */
+.habit-modal__body {
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.habit-modal__section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(158, 163, 174, 0.1);
+}
+
+.habit-modal__section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.habit-modal__section-title {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: var(--text-secondary, #9ea3ae);
+}
+
+.habit-modal__input-group {
+  margin-bottom: 1rem;
+}
+
+.habit-modal__input-group--inline {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.habit-modal__label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary, #9ea3ae);
+  font-size: 0.9rem;
+}
+
+.habit-modal__input {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--bg-secondary, #272a30);
+  border: 1px solid rgba(158, 163, 174, 0.3);
+  border-radius: 8px;
+  color: var(--text-primary, #ffffff);
+  font-size: 0.9rem;
+}
+
+.habit-modal__input--small {
+  width: 60px;
+  text-align: center;
+}
+
+.habit-modal__input:focus {
+  outline: none;
+  border-color: var(--accent-primary, #2ee6a8);
+}
+
+.habit-modal__textarea {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--bg-secondary, #272a30);
+  border: 1px solid rgba(158, 163, 174, 0.3);
+  border-radius: 8px;
+  color: var(--text-primary, #ffffff);
+  min-height: 100px;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.habit-modal__textarea:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+.habit-modal__select {
+  padding: 0.75rem 1rem;
+  background-color: var(--bg-secondary);
+  border: 1px solid rgba(158, 163, 174, 0.3);
+  border-radius: 8px;
+  color: var(--text-primary);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%239EA3AE' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+  padding-right: 2.5rem;
+  font-size: 0.9rem;
+}
+
+.habit-modal__select:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+.habit-modal__frequency-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.habit-modal__frequency-text {
+  margin-left: 0.5rem;
+  color: var(--text-secondary);
+}
+
+/* Tags */
+.habit-modal__tag-input-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.habit-modal__tag-add-button {
+  padding: 0.75rem 1rem;
+  background-color: var(--accent-primary);
+  color: var(--bg-primary, #1e2023);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.habit-modal__tag-add-button:disabled {
+  background-color: var(--disabled);
+  cursor: not-allowed;
+}
+
+.habit-modal__tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.habit-modal__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 16px;
+  font-size: 0.9rem;
+  background-color: rgba(46, 230, 168, 0.1);
+  color: var(--accent-primary, #2ee6a8);
+}
+
+.habit-modal__tag-remove {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  background-color: transparent;
+  color: var(--accent-primary, #2ee6a8);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  padding: 0;
+  margin-left: 0.25rem;
+}
+
+.habit-modal__tag-remove:hover {
+  background-color: rgba(46, 230, 168, 0.2);
+}
+
+/* Reminders */
+.habit-modal__reminder-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.habit-modal__toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+}
+
+.habit-modal__toggle-input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.habit-modal__toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--bg-secondary);
+  transition: 0.4s;
+  border-radius: 24px;
+}
+
+.habit-modal__toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  bottom: 2px;
+  background-color: var(--text-secondary);
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.habit-modal__toggle-input:checked + .habit-modal__toggle-slider {
+  background-color: var(--accent-primary);
+}
+
+.habit-modal__toggle-input:checked + .habit-modal__toggle-slider:before {
+  transform: translateX(24px);
+  background-color: var(--bg-primary);
+}
+
+.habit-modal__reminder-options {
+  background-color: var(--bg-secondary);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.habit-modal__days-container {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.habit-modal__day-button {
+  padding: 0.5rem 0.75rem;
+  background-color: var(--bg-primary);
+  border: 1px solid rgba(158, 163, 174, 0.3);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.habit-modal__day-button--active {
+  background-color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: var(--bg-primary);
+}
+
+/* Modal Footer */
+.habit-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid rgba(158, 163, 174, 0.1);
+  margin-top: auto;
+}
+
+.habit-modal__button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  border: none;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.habit-modal__button--cancel {
+  background-color: transparent;
+  border: 1px solid rgba(158, 163, 174, 0.3);
+  color: var(--text-secondary, #9ea3ae);
+}
+
+.habit-modal__button--primary {
+  background-color: var(--accent-primary);
+  color: var(--bg-primary, #1e2023);
+}
+
+.habit-modal__button:disabled {
+  background-color: var(--disabled-color);
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .habit-modal {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0;
+    height: 100vh;
+    max-height: 100vh;
+  }
+
+  .habit-modal__days-container {
+    gap: 0.25rem;
+  }
+
+  .habit-modal__day-button {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+}

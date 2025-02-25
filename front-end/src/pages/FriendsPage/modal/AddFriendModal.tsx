@@ -5,7 +5,6 @@ import Modal from "react-modal";
 interface AddFriendModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddFriend: (username: string) => void;
 }
 
 const customStyles = {

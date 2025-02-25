@@ -24,7 +24,6 @@ export default function Friends({}: Props) {
         </button>
       </div>
 
-      {/* <!-- Add Friend Modal (hidden by default) --> */}
       <AddFriendModal isOpen={modalIsOpen} onClose={closeModal} />
 
       <div className="friends__search">
