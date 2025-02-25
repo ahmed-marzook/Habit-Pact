@@ -1,8 +1,11 @@
+import { useHabits } from "../../hooks/useHabitQuery";
 import "./Habits.css";
 
 type Props = {};
 
 export default function Habits({}: Props) {
+  const { data: habit } = useHabits();
+  console.log(habit);
   return (
     <div className="habits">
       <div className="habits__header">
