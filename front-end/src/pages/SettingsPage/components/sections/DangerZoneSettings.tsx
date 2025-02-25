@@ -27,11 +27,13 @@ export default function DangerZoneSettings() {
         title="Delete Account"
         description="Permanently delete your account and all data"
       >
-        <DeleteAccountModal
-          isOpen={modalIsOpen}
-          onClose={closeModal}
-          onDelete={handleDeleteAccount}
-        />
+        {modalIsOpen && (
+          <DeleteAccountModal
+            isOpen={modalIsOpen}
+            onClose={closeModal}
+            onDelete={handleDeleteAccount}
+          />
+        )}
         <button
           onClick={openModal}
           className="settings__button settings__button--danger"

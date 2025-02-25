@@ -37,13 +37,6 @@ export default function DeleteAccountModal({
   const [confirmText, setConfirmText] = useState("");
   const [isConfirmed, setIsConfirmed] = useState(false);
 
-  useEffect(() => {
-    if (isOpen) {
-      setConfirmText("");
-      setIsConfirmed(false);
-    }
-  }, [isOpen]);
-
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setConfirmText(value);
