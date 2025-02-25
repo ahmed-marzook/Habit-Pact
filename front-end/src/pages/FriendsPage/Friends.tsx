@@ -1,29 +1,31 @@
+import { useState } from "react";
 import "./Friends.css";
+import AddFriendModal from "./modal/AddFriendModal";
 
 type Props = {};
 
 export default function Friends({}: Props) {
+  const [modalIsOpen, setIsOpen] = useState<boolean>(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
   return (
     <div className="friends">
       <div className="friends__header">
         <h1 className="friends__title">Friends</h1>
-        <button className="friends__add-button">
+        <button onClick={openModal} className="friends__add-button">
           <span className="friends__add-button-icon">+</span>
           <span className="friends__add-button-text">Add Friend</span>
         </button>
       </div>
 
       {/* <!-- Add Friend Modal (hidden by default) --> */}
-      <div
-        className="friends-modal friends-modal--hidden"
-        id="addFriendModal"
-        style={{ display: "none" }}
-      >
-        <div className="friends-modal__container">
-          <button className="friends-modal__close-button">×</button>
-          {/* <!-- Add Friend form content will be here --> */}
-        </div>
-      </div>
+      <AddFriendModal isOpen={modalIsOpen} onClose={closeModal} />
 
       <div className="friends__search">
         <input

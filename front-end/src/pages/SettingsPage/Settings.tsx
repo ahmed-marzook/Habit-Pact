@@ -1,6 +1,6 @@
 import SettingHeader from "./components/common/SettingHeader";
 import AppearanceSettings from "./components/sections/AppearanceSettings";
-import DangerZoneSettings from "./components/sections/DangerZoneSettings";
+import DangerZoneSettings from "./components/sections/DangerZoneSettings/DangerZoneSettings";
 import NotificationsSettings from "./components/sections/NotificationsSettings";
 import PasswordSettings from "./components/sections/PasswordSettings";
 import PrivacySettings from "./components/sections/PrivacySettings";

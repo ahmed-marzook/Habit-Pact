@@ -1,12 +1,12 @@
 import { ChangeEvent, useState } from "react";
 import "./DeleteAccountModal.css";
 import Modal from "react-modal";
-import warningIcon from "../../../assets/warning-icon.svg";
+import warningIcon from "../../../../../../assets/warning-icon.svg";
+import { useDeleteUser } from "../../../../../../hooks/useUserQuery";
 
 interface DeleteAccountModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onDelete: () => void;
 }
 
 const customStyles = {
@@ -32,10 +32,10 @@ const customStyles = {
 export default function DeleteAccountModal({
   isOpen,
   onClose,
-  onDelete,
 }: DeleteAccountModalProps) {
   const [confirmText, setConfirmText] = useState("");
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const { mutate } = useDeleteUser();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -45,7 +45,7 @@ export default function DeleteAccountModal({
 
   const handleDelete = () => {
     if (isConfirmed) {
-      onDelete();
+      mutate();
       onClose();
     }
   };
