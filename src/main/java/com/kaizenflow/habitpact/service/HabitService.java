@@ -128,10 +128,7 @@ public class HabitService {
             Reminder currentReminder = habit.getReminder();
             Reminder updatedReminder =
                     Reminder.builder()
-                            .enabled(
-                                    request.reminder().enabled() != null
-                                            ? request.reminder().enabled()
-                                            : currentReminder.isEnabled())
+                            .enabled(request.reminder().enabled())
                             .time(
                                     request.reminder().time() != null
                                             ? request.reminder().time()

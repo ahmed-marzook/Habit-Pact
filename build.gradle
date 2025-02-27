@@ -10,6 +10,7 @@ buildscript {
 		mapstructVersion = '1.6.3'
 		testcontainersVersion = '1.20.4'
 		jjwt = '0.12.6'
+		mockitoCore='5.15.2'
 	}
 }
 
@@ -30,6 +31,7 @@ java {
 }
 
 configurations {
+	mockitoAgent
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
@@ -57,10 +59,15 @@ dependencies {
 	testImplementation "org.testcontainers:junit-jupiter:${testcontainersVersion}"
 	testImplementation "org.testcontainers:mongodb:${testcontainersVersion}"
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation "org.mockito:mockito-core:${mockitoCore}"
+	mockitoAgent("org.mockito:mockito-core:${mockitoCore}") {
+		transitive = false
+	}
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+	jvmArgs += "-javaagent:${configurations.mockitoAgent.asPath}"
 }
 
 spotless {
