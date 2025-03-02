@@ -14,7 +14,6 @@ import com.kaizenflow.habitpact.util.builder.UserTestBuilder;
 public class UserRepositoryTest extends BaseRepositoryTest {
 
     @Autowired private UserRepository userRepository;
-    ;
 
     @BeforeEach
     public void clearCollections() {
@@ -22,7 +21,7 @@ public class UserRepositoryTest extends BaseRepositoryTest {
     }
 
     @Test
-    void success() {
+    void testSetup() {
         User user = UserTestBuilder.aUser().build();
         userRepository.save(user);
         assertTrue(userRepository.existsByEmail("test@example.com"));

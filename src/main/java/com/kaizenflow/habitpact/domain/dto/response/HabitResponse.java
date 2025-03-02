@@ -1,11 +1,8 @@
 package com.kaizenflow.habitpact.domain.dto.response;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-import com.kaizenflow.habitpact.domain.model.Frequency;
-import com.kaizenflow.habitpact.domain.model.Reminder;
-import com.kaizenflow.habitpact.domain.model.Streak;
+import com.kaizenflow.habitpact.domain.model.habit.Frequency;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -28,15 +25,7 @@ public record HabitResponse(
                 String description,
         @Schema(description = "Frequency configuration of the habit", implementation = Frequency.class)
                 Frequency frequency,
-        @Schema(
-                        description = "List of tags associated with the habit",
-                        example = "[\"wellness\", \"mindfulness\", \"morning-routine\"]")
-                List<String> tags,
         @Schema(description = "Indicates if the habit is archived", example = "false") boolean archived,
-        @Schema(description = "Current streak information for the habit", implementation = Streak.class)
-                Streak streak,
-        @Schema(description = "Reminder settings for the habit", implementation = Reminder.class)
-                Reminder reminder,
         @Schema(
                         description = "Timestamp when the habit was created",
                         example = "2024-12-06T10:30:00",

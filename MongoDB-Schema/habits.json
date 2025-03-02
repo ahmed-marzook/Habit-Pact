@@ -1,0 +1,102 @@
+{
+    "_id": {
+        "$oid": "67748e642a86d56a033078b2"
+    },
+    "userId": "67748e642a86d56a033078a9",
+    "name": "Morning Meditation",
+    "description": "10 minutes mindfulness",
+    "frequency": {
+        "times": 1,
+        "period": "DAILY"
+    },
+    "tags": [
+        "wellness",
+        "mindfulness"
+    ],
+    "archived": false,
+    "streak": {
+        "current": 3,
+        "longest": 8
+    },
+    "reminder": {
+        "enabled": true,
+        "time": "08:00",
+        "days": [
+            "MONDAY",
+            "WEDNESDAY",
+            "FRIDAY"
+        ]
+    },
+    "currentYear": 2025,
+    "currentYearCompletions": {
+        "totalCompletedDays": 42,
+        "completionRate": 71.20,
+        "longestStreak": 12,
+        "monthlyCompletions": [
+            16,
+            26,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        "monthlyData": {
+            "01": {
+                "01": {
+                    "completed": true,
+                    "notes": "New Year's meditation",
+                    "createdAt": "2025-01-01T08:15:32.456Z",
+                    "updatedAt": "2025-01-01T08:15:32.456Z"
+                },
+                "02": {
+                    "completed": false,
+                    "notes": "",
+                    "createdAt": "2025-01-02T21:45:12.789Z",
+                    "updatedAt": "2025-01-02T21:45:12.789Z"
+                },
+                "03": {
+                    "completed": true,
+                    "notes": "Morning session",
+                    "createdAt": "2025-01-03T07:30:45.123Z",
+                    "updatedAt": "2025-01-03T07:30:45.123Z"
+                }
+                // Additional January days would be here
+            },
+            "02": {
+                "01": {
+                    "completed": true,
+                    "notes": "First of month",
+                    "createdAt": "2025-02-01T08:05:22.333Z",
+                    "updatedAt": "2025-02-01T08:05:22.333Z"
+                },
+                "02": {
+                    "completed": true,
+                    "notes": "Morning session",
+                    "createdAt": "2025-02-02T07:45:11.222Z",
+                    "updatedAt": "2025-02-02T07:45:11.222Z"
+                }
+                // Additional February days would be here
+            }
+            // Additional months would be here as they occur
+        }
+    },
+    "completionSummary": {
+        "historicalCompletedDays": 45,
+        "historicalCompletionRate": 55.42,
+        "allTimeCompletedDays": 87,
+        "allTimeCompletionRate": 62.14,
+        "lastCompletionDate": "2025-02-28",
+        "pastYearCompletionIds": {
+            "2024": "67748e642a86d56a033078c4"
+        }
+    },
+    "createdAt": "2025-01-01T00:37:56.312Z",
+    "updatedAt": "2025-02-28T21:40:26.456Z",
+    "version": 4
+}

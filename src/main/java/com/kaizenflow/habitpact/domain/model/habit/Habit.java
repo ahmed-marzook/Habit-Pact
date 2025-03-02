@@ -1,8 +1,6 @@
-package com.kaizenflow.habitpact.domain.model;
+package com.kaizenflow.habitpact.domain.model.habit;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -31,17 +29,27 @@ public class Habit {
 
     private Frequency frequency;
 
-    @Builder.Default private List<String> tags = new ArrayList<>();
-
     @Builder.Default private boolean archived = false;
 
-    private Streak streak;
+    // Current year embedded completions
+    private Integer currentYear;
 
-    @Builder.Default private Reminder reminder = new Reminder();
+    @Builder.Default
+    private CurrentYearCompletions currentYearCompletions = new CurrentYearCompletions();
 
     @CreatedDate private LocalDateTime createdAt;
 
     @LastModifiedDate private LocalDateTime updatedAt;
 
     @Version private Integer version;
+
+    //    // Summary of historical data
+    //    @Builder.Default private CompletionSummary completionSummary = new CompletionSummary();
+
+    //    private Streak streak;
+
+    //    @Builder.Default private Reminder reminder = new Reminder();
+
+    //    @Builder.Default private List<String> tags = new ArrayList<>();
+
 }

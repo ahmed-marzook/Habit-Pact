@@ -2,6 +2,8 @@ package com.kaizenflow.habitpact.domain.dto.request;
 
 import java.time.LocalDate;
 
+import com.kaizenflow.habitpact.domain.enums.HabitStatus;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 
@@ -12,7 +14,7 @@ public record CreateHabitCompletionRequest(
                 LocalDate date,
         @Schema(description = "Whether the habit was successfully completed", example = "true")
                 @NotNull(message = "Completion status is required")
-                boolean completed,
+                HabitStatus habitStatus,
         @Schema(
                         description = "Optional notes about the completion",
                         example = "Had a great meditation session today")
