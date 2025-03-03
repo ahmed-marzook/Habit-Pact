@@ -2,6 +2,7 @@ package com.kaizenflow.habitpact.domain.dto.response;
 
 import java.time.LocalDateTime;
 
+import com.kaizenflow.habitpact.domain.model.habit.CurrentYearCompletions;
 import com.kaizenflow.habitpact.domain.model.habit.Frequency;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -35,4 +36,8 @@ public record HabitResponse(
                         description = "Timestamp when the habit was last updated",
                         example = "2024-12-06T15:45:00",
                         format = "date-time")
-                LocalDateTime updatedAt) {}
+                LocalDateTime updatedAt,
+        @Schema(
+                        description = "Completion data for the current year organized by month and day",
+                        implementation = CurrentYearCompletions.class)
+                CurrentYearCompletions currentYearCompletions) {}

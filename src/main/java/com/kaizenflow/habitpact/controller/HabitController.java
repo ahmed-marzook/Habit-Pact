@@ -1,7 +1,10 @@
 package com.kaizenflow.habitpact.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,9 +66,9 @@ public class HabitController {
     //        return ResponseEntity.ok(habitService.getHabit(userInfoDetails.getUserId(), habitId));
     //    }
     //
-    //    @GetMapping
-    //    public ResponseEntity<List<HabitResponse>> getUserHabits(
-    //            @AuthenticationPrincipal UserInfoDetails userInfoDetails) {
-    //        return ResponseEntity.ok(habitService.getUserHabits(userInfoDetails.getUserId()));
-    //    }
+    @GetMapping
+    public ResponseEntity<List<HabitResponse>> getUserHabits(
+            @AuthenticationPrincipal UserInfoDetails userInfoDetails) {
+        return ResponseEntity.ok(habitService.getUserHabits(userInfoDetails.getUserId()));
+    }
 }

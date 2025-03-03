@@ -3,6 +3,7 @@ package com.kaizenflow.habitpact.domain.model.habit;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,8 +13,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(
+        name = "CurrentYearCompletions",
+        description = "Contains completion data for the current year organized by month and day")
 public class CurrentYearCompletions {
 
+    @Schema(
+            description =
+                    "Map of monthly habit completion data where the key is the month (1-12) and value is a map of days with completion entries",
+            example = "{\"1\": {\"15\": {\"completed\": \"COMPLETED\", \"notes\": \"Morning session\"}}}")
     @Builder.Default
     private Map<Integer, Map<Integer, CompletionEntry>> monthlyData = new HashMap<>();
 

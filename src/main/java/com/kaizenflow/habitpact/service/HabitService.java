@@ -1,6 +1,7 @@
 package com.kaizenflow.habitpact.service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,5 +43,9 @@ public class HabitService {
                         .currentYearCompletions(new CurrentYearCompletions())
                         .build();
         return habitMapper.habitToHabitResponse(habitRepository.save(habit));
+    }
+
+    public List<HabitResponse> getUserHabits(String userId) {
+        return habitRepository.findByUserIdAndArchivedFalse(userId);
     }
 }
