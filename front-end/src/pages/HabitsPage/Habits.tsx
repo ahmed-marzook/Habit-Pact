@@ -1,11 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useHabits } from "../../hooks/useHabitQuery";
 import "./Habits.css";
 import CreateHabitModal from "./modal/CreateHabitModal";
+import { data } from "react-router-dom";
 
 export default function Habits() {
   const [modalIsOpen, setIsOpen] = useState<boolean>(false);
-  const { data: habit } = useHabits();
+  const { data: habits } = useHabits();
+
+  // habits.map((habit) => console.log(habit.name));
+  useEffect(() => {
+    habits?.map((habit) => console.log(habit.name));
+  }, [habits]);
 
   function openModal() {
     setIsOpen(true);

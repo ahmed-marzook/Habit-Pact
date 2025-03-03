@@ -25,17 +25,17 @@ export const habitService = {
    * @param request The complete habit information
    * @returns Promise<HabitResponse>
    */
-  async updateHabit(
-    habitId: string,
-    request: CreateHabitRequest
-  ): Promise<HabitResponse> {
-    try {
-      const response = await api.put(`/habits/${habitId}`, request);
-      return response.data;
-    } catch (error) {
-      throw handleApiError(error);
-    }
-  },
+  // async updateHabit(
+  //   habitId: string,
+  //   request: CreateHabitRequest
+  // ): Promise<HabitResponse> {
+  //   try {
+  //     const response = await api.put(`/habits/${habitId}`, request);
+  //     return response.data;
+  //   } catch (error) {
+  //     throw handleApiError(error);
+  //   }
+  // },
 
   /**
    * Updates only the provided fields of a habit's information
@@ -43,44 +43,44 @@ export const habitService = {
    * @param request Partial habit information
    * @returns Promise<HabitResponse>
    */
-  async patchHabit(
-    habitId: string,
-    request: CreateHabitRequest
-  ): Promise<HabitResponse> {
-    try {
-      const response = await api.patch(`/habits/${habitId}`, request);
-      return response.data;
-    } catch (error) {
-      throw handleApiError(error);
-    }
-  },
+  // async patchHabit(
+  //   habitId: string,
+  //   request: CreateHabitRequest
+  // ): Promise<HabitResponse> {
+  //   try {
+  //     const response = await api.patch(`/habits/${habitId}`, request);
+  //     return response.data;
+  //   } catch (error) {
+  //     throw handleApiError(error);
+  //   }
+  // },
 
   /**
    * Deletes a habit
    * @param habitId The ID of the habit to delete
    * @returns Promise<void>
    */
-  async deleteHabit(habitId: string): Promise<void> {
-    try {
-      await api.delete(`/habits/${habitId}`);
-    } catch (error) {
-      throw handleApiError(error);
-    }
-  },
+  // async deleteHabit(habitId: string): Promise<void> {
+  //   try {
+  //     await api.delete(`/habits/${habitId}`);
+  //   } catch (error) {
+  //     throw handleApiError(error);
+  //   }
+  // },
 
   /**
    * Retrieves a specific habit by ID
    * @param habitId The ID of the habit to retrieve
    * @returns Promise<HabitResponse>
    */
-  async getHabit(habitId: string): Promise<HabitResponse> {
-    try {
-      const response = await api.get(`/habits/${habitId}`);
-      return response.data;
-    } catch (error) {
-      throw handleApiError(error);
-    }
-  },
+  // async getHabit(habitId: string): Promise<HabitResponse> {
+  //   try {
+  //     const response = await api.get(`/habits/${habitId}`);
+  //     return response.data;
+  //   } catch (error) {
+  //     throw handleApiError(error);
+  //   }
+  // },
 
   /**
    * Retrieves all habits for the authenticated user
