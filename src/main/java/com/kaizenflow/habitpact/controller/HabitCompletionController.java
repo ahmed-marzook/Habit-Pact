@@ -1,19 +1,14 @@
 package com.kaizenflow.habitpact.controller;
 
 import java.time.LocalDate;
-import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kaizenflow.habitpact.config.security.UserInfoDetails;
@@ -43,55 +38,28 @@ public class HabitCompletionController {
                 completionService.recordCompletion(userInfoDetails.getUserId(), habitId, request));
     }
 
-    @Operation(summary = "Update a habit completion")
-    @PutMapping("/{completionId}")
-    public ResponseEntity<HabitCompletionResponse> updateCompletion(
+    @DeleteMapping("/{year}/{month}/{day}")
+    public ResponseEntity<HabitCompletionResponse> deleteHabitCompletion(
             @AuthenticationPrincipal UserInfoDetails userInfoDetails,
             @PathVariable String habitId,
-            @PathVariable String completionId,
-            @Valid @RequestBody CreateHabitCompletionRequest request) {
-        return ResponseEntity.ok(
-                completionService.updateCompletion(
-                        userInfoDetails.getUserId(), habitId, completionId, request));
-    }
+            @PathVariable int year,
+            @PathVariable int month,
+            @PathVariable int day) {
 
-    @Operation(summary = "Get completions for a date range")
-    @GetMapping
-    public ResponseEntity<List<HabitCompletionResponse>> getCompletions(
-            @AuthenticationPrincipal UserInfoDetails userInfoDetails,
-            @PathVariable String habitId,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                    LocalDate startDate,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                    LocalDate endDate) {
+        // Create LocalDate from path variables
+        LocalDate completionDate = LocalDate.of(year, month, day);
 
-        LocalDate effectiveEndDate = endDate != null ? endDate : LocalDate.now();
-        LocalDate effectiveStartDate = startDate != null ? startDate : effectiveEndDate.minusDays(30);
+        // Get user ID from authenticated principal
+        String userId = userInfoDetails.getUserId();
 
-        return ResponseEntity.ok(
-                completionService.getCompletions(
-                        userInfoDetails.getUserId(), habitId, effectiveStartDate, effectiveEndDate));
-    }
+        // Call service to delete the completion
+        HabitCompletionResponse response =
+                completionService.deleteCompletion(userId, habitId, completionDate);
 
-    //    @Operation(summary = "Get completion summary for a date range")
-    //    @GetMapping("/summary")
-    //    public ResponseEntity<HabitCompletionSummary> getCompletionSummary(
-    //            @AuthenticationPrincipal UserInfoDetails userInfoDetails,
-    //            @PathVariable String habitId,
-    //            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-    //            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-    //        return ResponseEntity.ok(
-    //                completionService.getCompletionSummary(
-    //                        userInfoDetails.getUserId(), habitId, startDate, endDate));
-    //    }
-
-    @Operation(summary = "Delete a habit completion")
-    @DeleteMapping("/{completionId}")
-    public ResponseEntity<Void> deleteCompletion(
-            @AuthenticationPrincipal UserInfoDetails userInfoDetails,
-            @PathVariable String habitId,
-            @PathVariable String completionId) {
-        completionService.deleteCompletion(userInfoDetails.getUserId(), habitId, completionId);
-        return ResponseEntity.noContent().build();
+        if (response.deleted()) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

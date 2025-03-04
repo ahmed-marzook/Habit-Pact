@@ -2,8 +2,6 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { authService } from "../../services/api/authService";
 import AuthState from "../../types/auth/authState";
-import axios, { AxiosError } from "axios";
-import APIErrorResponse from "../../types/ErrorResponse";
 import { useQueryClient } from "@tanstack/react-query";
 import { handleApiError } from "../../utils/handleError";
 

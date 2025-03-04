@@ -7,6 +7,7 @@
 }
 
 :root {
+  /* Your existing theme variables */
   --bg-primary: #1e2023;
   --bg-secondary: #272a30;
   --accent-primary: #2ee6a8;
@@ -14,10 +15,21 @@
   --text-primary: #ffffff;
   --text-secondary: #9ea3ae;
   --success-color: #2ee6a8;
-  --missed-color: #ff6b6b;
-  --pending-color: #4a4d53;
   --disabled-color: #4a4d53;
   --danger-color: #ff6b6b;
+
+  /* Habit tracker specific mappings - using your color scheme */
+  --color-background: var(--bg-primary);
+  --color-card: var(--bg-secondary);
+  --color-text: var(--text-primary);
+  --color-border: var(--disabled-color);
+  --color-border-hover: var(--text-secondary);
+  --color-completed: var(--success-color);
+  --color-missed: var(--danger-color);
+  --color-icon-bg: var(--bg-secondary);
+  --color-icon-bg-hover: var(--bg-primary);
+  --color-shadow: rgba(0, 0, 0, 0.3);
+  --color-text-light: var(--text-primary);
 }
 
 body {

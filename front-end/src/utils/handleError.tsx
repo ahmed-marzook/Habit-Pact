@@ -1,6 +1,7 @@
 import axios, { AxiosError } from "axios";
-import APIErrorResponse from "../types/ErrorResponse";
+import APIErrorResponse from "../types/errorResponse";
 import { toast } from "react-toastify";
+import { redirect } from "react-router-dom";
 
 interface ErrorHandlerOptions {
   defaultMessage?: string;
@@ -39,6 +40,7 @@ export const handleApiError = (
     toast.error(defaultMessage, {
       icon: <span>❌</span>,
     });
+    throw redirect("/login");
   }
 
   throw error; // Re-throw the error for further handling if needed

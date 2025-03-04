@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import com.kaizenflow.habitpact.domain.dto.response.HabitResponse;
-import com.kaizenflow.habitpact.domain.model.Habit;
+import com.kaizenflow.habitpact.domain.model.habit.Habit;
 
 @Mapper(
         componentModel = "spring",

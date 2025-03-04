@@ -1,0 +1,105 @@
+{
+    "_id": {
+        "$oid": "67748e642a86d56a033078c4"
+    },
+    "habitId": "67748e642a86d56a033078b2",
+    "userId": "67748e642a86d56a033078a9",
+    "year": 2024,
+    "completionStats": {
+        "totalPossibleDays": 366,
+        "totalCompletedDays": 45,
+        "completionRate": 55.42,
+        "longestStreak": 5,
+        "mostConsistentMonth": "DECEMBER",
+        "mostConsistentDay": "MONDAY",
+        "monthlyCompletions": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            15,
+            30
+        ],
+        "daysPerMonth": [
+            31,
+            29,
+            31,
+            30,
+            31,
+            30,
+            31,
+            31,
+            30,
+            31,
+            30,
+            31
+        ],
+        "monthlyCompletionRates": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            50.0,
+            96.77
+        ]
+    },
+    "completions": {
+        "11": {
+            "15": {
+                "completed": true,
+                "notes": "Started meditation practice",
+                "createdAt": "2024-11-15T10:22:18.456Z",
+                "updatedAt": "2024-11-15T10:22:18.456Z"
+            },
+            "16": {
+                "completed": true,
+                "notes": "Second day!",
+                "createdAt": "2024-11-16T09:15:35.789Z",
+                "updatedAt": "2024-11-16T09:15:35.789Z"
+            },
+            "17": {
+                "completed": true,
+                "notes": "Getting into the routine",
+                "createdAt": "2024-11-17T08:45:22.111Z",
+                "updatedAt": "2024-11-17T08:45:22.111Z"
+            }
+            // More days in November would be here
+        },
+        "12": {
+            "01": {
+                "completed": true,
+                "notes": "December focus",
+                "createdAt": "2024-12-01T07:30:10.222Z",
+                "updatedAt": "2024-12-01T07:30:10.222Z"
+            },
+            "02": {
+                "completed": true,
+                "notes": "Morning clarity session",
+                "createdAt": "2024-12-02T07:15:45.333Z",
+                "updatedAt": "2024-12-02T07:15:45.333Z"
+            },
+            "03": {
+                "completed": true,
+                "notes": "Pre-work meditation",
+                "createdAt": "2024-12-03T06:50:30.444Z",
+                "updatedAt": "2024-12-03T06:50:30.444Z"
+            }
+            // More days in December would be here
+        }
+        // Only contains data for months where habit was tracked
+    },
+    "createdAt": "2024-11-15T10:22:18.456Z",
+    "updatedAt": "2025-01-01T00:00:12.789Z"
+}

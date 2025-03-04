@@ -13,10 +13,10 @@ import com.kaizenflow.habitpact.domain.dto.request.UpdateHabitRequest;
 import com.kaizenflow.habitpact.domain.dto.response.HabitCompletionResponse;
 import com.kaizenflow.habitpact.domain.dto.response.HabitResponse;
 import com.kaizenflow.habitpact.domain.enums.HabitFrequency;
-import com.kaizenflow.habitpact.domain.model.Frequency;
-import com.kaizenflow.habitpact.domain.model.Habit;
-import com.kaizenflow.habitpact.domain.model.Reminder;
-import com.kaizenflow.habitpact.domain.model.Streak;
+import com.kaizenflow.habitpact.domain.model.habit.Frequency;
+import com.kaizenflow.habitpact.domain.model.habit.Habit;
+import com.kaizenflow.habitpact.domain.model.habit.Reminder;
+import com.kaizenflow.habitpact.domain.model.habit.Streak;
 
 public class HabitTestBuilder {
     // Default values as static constants
@@ -94,7 +94,7 @@ public class HabitTestBuilder {
         ReminderRequest reminderRequest =
                 new ReminderRequest(reminderEnabled, reminderTime, reminderDays);
 
-        return new CreateHabitRequest(name, description, frequencyRequest, tags, reminderRequest);
+        return new CreateHabitRequest(name, description, frequencyRequest);
     }
 
     /** Builds an UpdateHabitRequest DTO from the current builder state. */

@@ -1,4 +1,4 @@
-package com.kaizenflow.habitpact.domain.model;
+package com.kaizenflow.habitpact.domain.model.habit;
 
 import com.kaizenflow.habitpact.domain.enums.HabitFrequency;
 

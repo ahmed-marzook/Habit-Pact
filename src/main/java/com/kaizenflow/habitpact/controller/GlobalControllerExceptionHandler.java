@@ -42,6 +42,17 @@ public class GlobalControllerExceptionHandler {
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    protected ResponseEntity<ApiError> handleIllegalArgument(
+            IllegalArgumentException ex, HttpServletRequest request) {
+
+        ApiError apiError =
+                new ApiError(
+                        HttpStatus.BAD_REQUEST, "Invalid argument provided: " + ex.getMessage(), ex, request);
+
+        return new ResponseEntity<>(apiError, apiError.getStatus());
+    }
+
     @ExceptionHandler(HabitPactException.class)
     protected ResponseEntity<ApiError> handleHabitPactException(
             HabitPactException ex, HttpServletRequest request) {
