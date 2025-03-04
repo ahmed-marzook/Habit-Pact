@@ -96,7 +96,7 @@
 }
 
 .settings__item-description--error {
-  color: var(--missed-color);
+  color: var(--danger-color);
 }
 
 /* Form Controls */

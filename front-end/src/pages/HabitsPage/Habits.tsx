@@ -41,13 +41,101 @@ export default function Habits() {
           </div>
           <div className="habit__tracker">
             <div className="habit__days">
-              <div className="habit__day habit__day--completed">M</div>
-              <div className="habit__day habit__day--completed">T</div>
-              <div className="habit__day habit__day--completed">W</div>
-              <div className="habit__day habit__day--missed">T</div>
-              <div className="habit__day habit__day--completed">F</div>
-              <div className="habit__day habit__day--completed">S</div>
-              <div className="habit__day">S</div>
+              <div className="habit__day-container">
+                <button
+                  className="habit__day habit__day--completed"
+                  aria-label="Monday completed"
+                >
+                  M
+                </button>
+                <button
+                  className="habit__day-pencil-icon"
+                  aria-label="Edit Monday"
+                >
+                  ✏️
+                </button>
+              </div>
+              <div className="habit__day-container">
+                <button
+                  className="habit__day habit__day--completed"
+                  aria-label="Tuesday completed"
+                >
+                  T
+                </button>
+                <button
+                  className="habit__day-pencil-icon"
+                  aria-label="Edit Tuesday"
+                >
+                  ✏️
+                </button>
+              </div>
+              <div className="habit__day-container">
+                <button
+                  className="habit__day habit__day--missed"
+                  aria-label="Wednesday missed"
+                >
+                  W
+                </button>
+                <button
+                  className="habit__day-pencil-icon"
+                  aria-label="Edit Wednesday"
+                >
+                  ✏️
+                </button>
+              </div>
+              <div className="habit__day-container">
+                <button
+                  className="habit__day habit__day--completed"
+                  aria-label="Thursday completed"
+                >
+                  T
+                </button>
+                <button
+                  className="habit__day-pencil-icon"
+                  aria-label="Edit Thursday"
+                >
+                  ✏️
+                </button>
+              </div>
+              <div className="habit__day-container">
+                <button className="habit__day" aria-label="Friday">
+                  F
+                </button>
+                <button
+                  className="habit__day-pencil-icon"
+                  aria-label="Edit Friday"
+                >
+                  ✏️
+                </button>
+              </div>
+              <div className="habit__day-container">
+                <button
+                  className="habit__day habit__day--missed"
+                  aria-label="Saturday missed"
+                >
+                  S
+                </button>
+                <button
+                  className="habit__day-pencil-icon"
+                  aria-label="Edit Saturday"
+                >
+                  ✏️
+                </button>
+              </div>
+              <div className="habit__day-container">
+                <button
+                  className="habit__day habit__day--completed"
+                  aria-label="Sunday completed"
+                >
+                  S
+                </button>
+                <button
+                  className="habit__day-pencil-icon"
+                  aria-label="Edit Sunday"
+                >
+                  ✏️
+                </button>
+              </div>
             </div>
           </div>
           <div className="habit__info">
@@ -58,8 +146,12 @@ export default function Habits() {
               <span>Target: Daily</span>
             </div>
             <div className="habit__actions">
-              <button className="habit__action-button">Edit</button>
-              <button className="habit__action-button">Delete</button>
+              <button className="habit__action-button habit__action--edit">
+                Edit
+              </button>
+              <button className="habit__action-button habit__action--delete">
+                Delete
+              </button>
             </div>
           </div>
         </div>
