@@ -30,9 +30,6 @@
   --color-icon-bg-hover: var(--bg-primary);
   --color-shadow: rgba(0, 0, 0, 0.3);
   --color-text-light: var(--text-primary);
-
-  /* Animation speeds */
-  --transition-speed: 0.2s;
 }
 
 body {
