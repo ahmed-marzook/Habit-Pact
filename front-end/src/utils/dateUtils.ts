@@ -3,10 +3,20 @@
  */
 
 /**
- * Get current week starting with Monday.
- * @returns An array of Date objects for each day of the current week starting with Monday.
+ * Returns an array of objects representing the current week starting from Monday.
+ * Each object contains the date and the corresponding day name.
+ *
+ * @returns {Array<{date: Date, dayName: string}>} An array of objects with date and day name
+ * @example
+ * const weekDays = getCurrentWeekStartingMonday();
+ * weekDays.forEach(day => {
+ *   console.log(`${day.dayName}: ${day.date.toDateString()}`);
+ * });
  */
-export function getCurrentWeekStartingMonday(): Date[] {
+export function getCurrentWeekStartingMonday(): {
+  date: Date;
+  dayName: string;
+}[] {
   const today: Date = new Date();
   const day: number = today.getDay(); // 0 is Sunday, 1 is Monday, etc.
   const diff: number = day === 0 ? 6 : day - 1; // Adjust for Monday start (if Sunday, go back 6 days)
@@ -15,33 +25,59 @@ export function getCurrentWeekStartingMonday(): Date[] {
   monday.setDate(today.getDate() - diff);
   monday.setHours(0, 0, 0, 0); // Set to beginning of day
 
-  const week: Date[] = [];
+  const week: { date: Date; dayName: string }[] = [];
   for (let i: number = 0; i < 7; i++) {
     const nextDay: Date = new Date(monday);
     nextDay.setDate(monday.getDate() + i);
-    week.push(nextDay);
+    // Get the day name using toLocaleString
+    const dayName: string = nextDay.toLocaleString("en-US", {
+      weekday: "long",
+    });
+
+    week.push({
+      date: nextDay,
+      dayName: dayName,
+    });
   }
 
   return week;
 }
 
 /**
- * Get current week starting with Sunday.
- * @returns An array of Date objects for each day of the current week starting with Sunday.
+ * Returns an array of objects representing the current week starting from Sunday.
+ * Each object contains the date and the corresponding day name.
+ *
+ * @returns {Array<{date: Date, dayName: string}>} An array of objects with date and day name
+ * @example
+ * const weekDays = getCurrentWeekStartingSunday();
+ * weekDays.forEach(day => {
+ *   console.log(`${day.dayName}: ${day.date.toDateString()}`);
+ * });
  */
-export function getCurrentWeekStartingSunday(): Date[] {
+export function getCurrentWeekStartingSunday(): {
+  date: Date;
+  dayName: string;
+}[] {
   const today: Date = new Date();
-  const day: number = today.getDay();
+  const day: number = today.getDay(); // 0 is Sunday, 1 is Monday, etc.
 
   const sunday: Date = new Date(today);
   sunday.setDate(today.getDate() - day);
   sunday.setHours(0, 0, 0, 0); // Set to beginning of day
 
-  const week: Date[] = [];
+  const week: { date: Date; dayName: string }[] = [];
   for (let i: number = 0; i < 7; i++) {
     const nextDay: Date = new Date(sunday);
     nextDay.setDate(sunday.getDate() + i);
-    week.push(nextDay);
+    // Get the day name using toLocaleString
+    const dayName: string = nextDay.toLocaleString("en-US", {
+      weekday: "long",
+    });
+
+    week.push({
+      date: nextDay,
+      dayName: dayName,
+    });
   }
 
   return week;
