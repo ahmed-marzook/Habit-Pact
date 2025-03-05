@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useHabits } from "../../hooks/useHabitQuery";
 import "./Habits.css";
 import CreateHabitModal from "./modal/CreateHabitModal";
-import Habit from "./components/sections/Habit";
+import Habit from "./components/sections/Habit/Habit";
 
 export default function Habits() {
   const [modalIsOpen, setIsOpen] = useState<boolean>(false);

@@ -29,7 +29,7 @@ public class HabitCompletionController {
     private final HabitCompletionService completionService;
 
     @Operation(summary = "Record a habit completion")
-    @PostMapping
+    @PutMapping
     public ResponseEntity<HabitCompletionResponse> recordCompletion(
             @AuthenticationPrincipal UserInfoDetails userInfoDetails,
             @PathVariable String habitId,
