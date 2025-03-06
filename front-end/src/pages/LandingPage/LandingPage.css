@@ -14,6 +14,8 @@
   background-color: rgba(30, 32, 35, 0.95);
   backdrop-filter: blur(8px);
   z-index: 1000;
+  flex-wrap: wrap; /* Add this line to allow wrapping */
+  gap: 1rem; /* Add this line to provide space between wrapped items */
 }
 
 .landing_logo-wrapper {
@@ -252,6 +254,23 @@
 }
 
 @media (max-width: 768px) {
+  .landing__navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .landing__navbar-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem; /* Adjust gap for better spacing */
+  }
+
+  .landing__button {
+    flex: 1;
+    text-align: center;
+  }
+
   .landing__hero-title {
     font-size: 2rem;
   }
