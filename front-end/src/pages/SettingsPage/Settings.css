@@ -211,8 +211,16 @@
   color: white;
 }
 
+.mobile-only {
+  display: none;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
+  .mobile-only {
+    display: block;
+  }
+
   .settings {
     padding: 1rem;
   }

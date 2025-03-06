@@ -5,6 +5,7 @@ type SettingItemProps = {
   description?: string;
   children: ReactNode;
   variant?: "success" | "error" | "default";
+  className?: string;
 };
 
 const getVariantClass = (variant?: string) => {
@@ -21,9 +22,10 @@ export default function SettingItem({
   description,
   children,
   variant = "default",
+  className = "",
 }: SettingItemProps) {
   return (
-    <div className="settings__item">
+    <div className={"settings__item " + className}>
       <div className="settings__item-label">
         <h3 className="settings__item-title">{title}</h3>
         {description && (
