@@ -1,5 +1,3 @@
-import { redirect } from "react-router-dom";
-
 import { toast } from "react-toastify";
 
 import { authService } from "../services/api/authService";
@@ -11,7 +9,7 @@ export async function requireAuth() {
   const token = localStorage.getItem("token");
   if (!token) {
     toast.error("Please sign in to continue");
-    throw redirect("/login");
+    window.location.replace("/login");
   }
 
   const currentTime = Date.now();
@@ -22,7 +20,7 @@ export async function requireAuth() {
       return user;
     } catch (error) {
       authService.logout();
-      throw redirect("/login");
+      window.location.replace("/login");
     }
   }
   return true;

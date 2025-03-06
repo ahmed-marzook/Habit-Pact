@@ -19,3 +19,23 @@
   overflow-y: auto;
   height: 100vh;
 }
+
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .layout__main-sidebar {
+    width: 100%;
+    height: auto;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+  }
+
+  .layout__main-content {
+    margin-left: 0;
+    margin-bottom: 56px; /* Adjust based on the height of the bottom navigation */
+  }
+}

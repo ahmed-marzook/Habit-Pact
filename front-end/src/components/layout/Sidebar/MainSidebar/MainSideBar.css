@@ -96,3 +96,41 @@
 .main-sidebar__contact-link:hover {
   text-decoration: underline;
 }
+
+@media (max-width: 768px) {
+  .main-sidebar {
+    width: 100%;
+    height: auto;
+    padding: 1rem 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: var(--bg-secondary);
+    border-top: 1px solid rgba(158, 163, 174, 0.1);
+  }
+
+  .main-sidebar__header,
+  .main-sidebar__footer {
+    display: none;
+  }
+
+  .main-sidebar__nav {
+    flex-direction: row;
+    gap: 0;
+    width: 100%;
+  }
+
+  .main-sidebar__nav-item {
+    flex: 1;
+    margin: 0;
+    padding: 0.5rem 0;
+    text-align: center;
+  }
+
+  .main-sidebar__nav-item.logout {
+    display: none;
+  }
+}
