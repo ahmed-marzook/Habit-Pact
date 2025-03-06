@@ -12,6 +12,7 @@
   left: 0;
   right: 0;
   background-color: rgba(30, 32, 35, 0.95);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   z-index: 1000;
   flex-wrap: wrap; /* Add this line to allow wrapping */
