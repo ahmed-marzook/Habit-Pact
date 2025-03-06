@@ -35,12 +35,9 @@ export default function Habits() {
       </div>
 
       <div className="habits__list">
-        <Habit />
-        <Habit />
-        <Habit />
-        <Habit />
-        <Habit />
-        <Habit />
+        {habits?.map((habit) => (
+          <Habit key={habit.id} habit={habit} />
+        ))}
       </div>
     </div>
   );

@@ -2,9 +2,10 @@ import "./HabitDay.css";
 
 type HabitDayProps = {
   dayOfTheWeek: string;
+  date: Date;
 };
 
-export default function HabitDay({ dayOfTheWeek }: HabitDayProps) {
+export default function HabitDay({ dayOfTheWeek, date }: HabitDayProps) {
   return (
     <div className="habit__day-container">
       <button
