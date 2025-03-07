@@ -7,7 +7,7 @@ export default interface CompletionEntry {
   /**
    * Status of completion
    */
-  completed: CompletionStatus;
+  status: CompletionStatus;
 
   /**
    * Optional notes about the completion

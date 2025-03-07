@@ -44,7 +44,7 @@ export const handleApiError = (
       // Show general error message
       const errorMessage = axiosError.response?.data?.message || defaultMessage;
       toast.error(errorMessage, {
-        icon: <span>"❌"</span>,
+        icon: <span>❌</span>,
       });
     }
   } else {
