@@ -47,7 +47,6 @@ export function useRecordHabitCompletion() {
       habitService.recordHabitCompletion(habitId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: habitKeys.lists() });
-      toast.success("Habit completion recorded successfully");
     },
     onError: (error) => {
       throw handleApiError(error, {
