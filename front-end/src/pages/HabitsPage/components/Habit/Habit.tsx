@@ -4,20 +4,24 @@ import { getCurrentWeekStartingMonday } from "../../../../utils/dateUtils";
 import HabitInfo from "../HabitInfo/HabitInfo";
 import HabitResponse from "../../../../types/habitResponse";
 import { capitalizeFirstLetter } from "../../../../utils/stringUtils";
+import { memo, useCallback, useMemo } from "react";
 
 type HabitProps = {
   habit: HabitResponse;
 };
 
-export default function Habit({ habit }: HabitProps) {
-  const week = getCurrentWeekStartingMonday();
+function Habit({ habit }: HabitProps) {
+  const week = useMemo(() => getCurrentWeekStartingMonday(), []);
 
-  const getHabitDay = (date: Date) => {
-    const monthData = new Map(
-      Object.entries(habit.currentYearCompletions.monthlyData)
-    ).get((date.getMonth() + 1).toString());
-    return monthData ? monthData[date.getDate()] : null;
-  };
+  const getHabitDay = useCallback(
+    (date: Date) => {
+      const monthData = new Map(
+        Object.entries(habit.currentYearCompletions.monthlyData)
+      ).get((date.getMonth() + 1).toString());
+      return monthData ? monthData[date.getDate()] : null;
+    },
+    [habit.currentYearCompletions.monthlyData]
+  );
 
   return (
     <div className="habit">
@@ -42,3 +46,5 @@ export default function Habit({ habit }: HabitProps) {
     </div>
   );
 }
+
+export default memo(Habit);
