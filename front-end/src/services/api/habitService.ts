@@ -1,5 +1,6 @@
 import CreateHabitRequest from "../../types/createHabitRequest";
 import HabitResponse from "../../types/habitResponse";
+import RecordHabitCompletionRequest from "../../types/recordHabitCompletionRequest";
 import { handleApiError } from "../../utils/handleError";
 
 import { api } from "./api";
@@ -90,6 +91,23 @@ export const habitService = {
     try {
       const response = await api.get("/habits");
       return response.data;
+    } catch (error) {
+      throw handleApiError(error);
+    }
+  },
+
+  /**
+   * Records a habit completion
+   * @param habitId The ID of the habit to record completion for
+   * @param request The completion information
+   * @returns Promise<void>
+   */
+  async recordHabitCompletion(
+    habitId: string,
+    request: RecordHabitCompletionRequest
+  ): Promise<void> {
+    try {
+      await api.put(`/habits/${habitId}/completions`, request);
     } catch (error) {
       throw handleApiError(error);
     }

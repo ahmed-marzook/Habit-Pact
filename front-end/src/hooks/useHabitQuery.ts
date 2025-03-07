@@ -6,6 +6,7 @@ import { AxiosError } from "axios";
 
 import CreateHabitRequest from "../types/createHabitRequest";
 import HabitResponse from "../types/habitResponse";
+import RecordHabitCompletionRequest from "../types/recordHabitCompletionRequest";
 import { handleApiError } from "../utils/handleError";
 import { habitService } from "../services/api/habitService";
 
@@ -31,24 +32,31 @@ export function useHabits() {
     },
   });
 }
-
 /**
- * Hook to fetch a single habit by ID
+ * Hook to record a habit completion
  */
-// export function useHabit(habitId: string) {
-//   return useQuery<HabitResponse, AxiosError>({
-//     queryKey: habitKeys.details(habitId),
-//     staleTime: 5 * 60 * 1000,
-//     queryFn: () => habitService.getHabit(habitId),
-//     throwOnError: (error) => {
-//       return handleApiError(error, {
-//         defaultMessage: "Failed to fetch habit details",
-//         shouldShowFieldErrors: false,
-//       });
-//     },
-//     enabled: !!habitId, // Only run query if habitId is provided
-//   });
-// }
+export function useRecordHabitCompletion() {
+  const queryClient = useQueryClient();
+
+  return useMutation<
+    void,
+    AxiosError,
+    { habitId: string; data: RecordHabitCompletionRequest }
+  >({
+    mutationFn: ({ habitId, data }) =>
+      habitService.recordHabitCompletion(habitId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: habitKeys.lists() });
+      toast.success("Habit completion recorded successfully");
+    },
+    onError: (error) => {
+      throw handleApiError(error, {
+        defaultMessage: "Failed to record habit completion",
+        shouldShowFieldErrors: true,
+      });
+    },
+  });
+}
 
 /**
  * Hook to create a new habit
@@ -70,81 +78,3 @@ export function useCreateHabit() {
     },
   });
 }
-
-/**
- * Hook to update a habit (full update)
- */
-// export function useUpdateHabit() {
-//   const queryClient = useQueryClient();
-
-//   return useMutation<
-//     HabitResponse,
-//     AxiosError,
-//     { habitId: string; data: CreateHabitRequest }
-//   >({
-//     mutationFn: ({ habitId, data }) => habitService.updateHabit(habitId, data),
-//     onSuccess: (_, variables) => {
-//       queryClient.invalidateQueries({
-//         queryKey: habitKeys.details(variables.habitId),
-//       });
-//       queryClient.invalidateQueries({ queryKey: habitKeys.lists() });
-//       toast.success("Habit updated successfully");
-//     },
-//     onError: (error) => {
-//       throw handleApiError(error, {
-//         defaultMessage: "Failed to update habit",
-//         shouldShowFieldErrors: true,
-//       });
-//     },
-//   });
-// }
-
-/**
- * Hook to patch a habit (partial update)
- */
-// export function usePatchHabit() {
-//   const queryClient = useQueryClient();
-
-//   return useMutation<
-//     HabitResponse,
-//     AxiosError,
-//     { habitId: string; data: UpdateHabitRequest }
-//   >({
-//     mutationFn: ({ habitId, data }) => habitService.patchHabit(habitId, data),
-//     onSuccess: (_, variables) => {
-//       queryClient.invalidateQueries({
-//         queryKey: habitKeys.details(variables.habitId),
-//       });
-//       queryClient.invalidateQueries({ queryKey: habitKeys.lists() });
-//       toast.success("Habit updated successfully");
-//     },
-//     onError: (error) => {
-//       throw handleApiError(error, {
-//         defaultMessage: "Failed to update habit",
-//         shouldShowFieldErrors: true,
-//       });
-//     },
-//   });
-// }
-
-/**
- * Hook to delete a habit
- */
-// export function useDeleteHabit() {
-//   const queryClient = useQueryClient();
-
-//   return useMutation<void, AxiosError, string>({
-//     mutationFn: (habitId) => habitService.deleteHabit(habitId),
-//     onSuccess: (_, habitId) => {
-//       queryClient.invalidateQueries({ queryKey: habitKeys.lists() });
-//       queryClient.removeQueries({ queryKey: habitKeys.details(habitId) });
-//       toast.success("Habit deleted successfully");
-//     },
-//     onError: (error) => {
-//       throw handleApiError(error, {
-//         defaultMessage: "Failed to delete habit",
-//         shouldShowFieldErrors: false,
-//       });
-//     },
-//   });
-// }
