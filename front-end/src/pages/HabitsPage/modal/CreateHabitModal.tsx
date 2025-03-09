@@ -1,5 +1,9 @@
+import { useState } from "react";
 import "./CreateHabitModal.css";
 import Modal from "react-modal";
+import { useCreateHabit } from "../../../hooks/useHabitQuery";
+import CreateHabitRequest from "../../../types/createHabitRequest";
+import Period from "../../../types/enums/period.enum";
 
 interface CreateHabitModalProps {
   isOpen: boolean;
@@ -27,13 +31,41 @@ const customStyles = {
   },
 };
 
-const DAYS_OF_WEEK = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+// const DAYS_OF_WEEK = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export default function CreateHabitModal({
   isOpen,
   onClose,
 }: CreateHabitModalProps) {
-  // You can implement state and handlers here
+  const [frequencyPeriod, setFrequencyPeriod] = useState("DAILY");
+
+  const handleFrequencyPeriodChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setFrequencyPeriod(event.target.value);
+  };
+
+  const { mutate, isSuccess } = useCreateHabit();
+
+  async function createHabit(formData: FormData) {
+    const createHabitRequest: CreateHabitRequest = {
+      name: formData.get("habitName") as string,
+      description: formData.get("habitDescription") as string,
+      frequency: {
+        times: parseInt(formData.get("frequencyAmount") as string) || 1,
+        period: formData.get("frequencyPeriod") as Period,
+      },
+    };
+
+    try {
+      await mutate(createHabitRequest);
+      if (isSuccess) {
+        onClose();
+      }
+    } catch (error) {
+      console.error("Registration failed:", error);
+    }
+  }
 
   return (
     <Modal
@@ -53,53 +85,72 @@ export default function CreateHabitModal({
         </div>
 
         {/* Modal Body */}
-        <div className="habit-modal__body">
-          {/* Basic Information */}
-          <div className="habit-modal__section">
-            <div className="habit-modal__input-group">
-              <label className="habit-modal__label">Habit Name*</label>
-              <input
-                type="text"
-                className="habit-modal__input"
-                placeholder="e.g., Morning Meditation"
-              />
-            </div>
-
-            <div className="habit-modal__input-group">
-              <label className="habit-modal__label">Description</label>
-              <textarea
-                className="habit-modal__textarea"
-                placeholder="Describe your habit..."
-              ></textarea>
-            </div>
-          </div>
-
-          {/* Frequency */}
-          <div className="habit-modal__section">
-            <h3 className="habit-modal__section-title">Frequency</h3>
-
-            <div className="habit-modal__frequency-container">
-              <div className="habit-modal__input-group habit-modal__input-group--inline">
+        <form action={createHabit}>
+          <div className="habit-modal__body">
+            {/* Basic Information */}
+            <div className="habit-modal__section">
+              <div className="habit-modal__input-group">
+                <label className="habit-modal__label">Habit Name*</label>
                 <input
-                  type="number"
-                  className="habit-modal__input habit-modal__input--small"
-                  min="1"
-                  defaultValue="1"
+                  type="text"
+                  className="habit-modal__input"
+                  placeholder="e.g., Morning Meditation"
+                  name="habitName"
                 />
-                <span className="habit-modal__frequency-text">time(s)</span>
               </div>
 
-              <div className="habit-modal__input-group habit-modal__input-group--inline">
-                <select className="habit-modal__select" defaultValue="DAILY">
-                  <option value="DAILY">per day</option>
-                  <option value="WEEKLY">per week</option>
-                  <option value="MONTHLY">per month</option>
-                </select>
+              <div className="habit-modal__input-group">
+                <label className="habit-modal__label">Description</label>
+                <textarea
+                  className="habit-modal__textarea"
+                  placeholder="Describe your habit..."
+                  name="habitDescription"
+                ></textarea>
               </div>
             </div>
-          </div>
 
-          {/* Tags */}
+            {/* Frequency */}
+            <div className="habit-modal__section">
+              <h3 className="habit-modal__section-title">Frequency</h3>
+
+              <div className="habit-modal__frequency-container">
+                {frequencyPeriod !== "DAILY" && (
+                  <div className="habit-modal__input-group habit-modal__input-group--inline">
+                    <input
+                      type="number"
+                      className="habit-modal__input habit-modal__input--small"
+                      min="1"
+                      defaultValue="1"
+                      name="frequencyAmount"
+                      title="Frequency Amount"
+                    />
+                    <span className="habit-modal__frequency-text">time(s)</span>
+                  </div>
+                )}
+
+                <div className="habit-modal__input-group habit-modal__input-group--inline">
+                  <label
+                    htmlFor="frequencyPeriod"
+                    className="habit-modal__label sr-only"
+                  >
+                    Frequency Period
+                  </label>
+                  <select
+                    id="frequencyPeriod"
+                    className="habit-modal__select"
+                    defaultValue="DAILY"
+                    name="frequencyPeriod"
+                    onChange={handleFrequencyPeriodChange}
+                  >
+                    <option value="DAILY">Daily</option>
+                    <option value="WEEKLY">per week</option>
+                    <option value="MONTHLY">per month</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Tags
           <div className="habit-modal__section">
             <h3 className="habit-modal__section-title">Tags</h3>
 
@@ -128,9 +179,9 @@ export default function CreateHabitModal({
                 <button className="habit-modal__tag-remove">×</button>
               </span>
             </div>
-          </div>
+          </div> */}
 
-          {/* Reminders */}
+            {/* Reminders
           <div className="habit-modal__section">
             <div className="habit-modal__reminder-header">
               <h3 className="habit-modal__section-title">Reminders</h3>
@@ -172,21 +223,22 @@ export default function CreateHabitModal({
                 </div>
               </div>
             </div>
+          </div> */}
           </div>
-        </div>
 
-        {/* Modal Footer */}
-        <div className="habit-modal__footer">
-          <button
-            className="habit-modal__button habit-modal__button--cancel"
-            onClick={onClose}
-          >
-            Cancel
-          </button>
-          <button className="habit-modal__button habit-modal__button--primary">
-            Create Habit
-          </button>
-        </div>
+          {/* Modal Footer */}
+          <div className="habit-modal__footer">
+            <button
+              className="habit-modal__button habit-modal__button--cancel"
+              onClick={onClose}
+            >
+              Cancel
+            </button>
+            <button className="habit-modal__button habit-modal__button--primary">
+              Create Habit
+            </button>
+          </div>
+        </form>
       </div>
     </Modal>
   );

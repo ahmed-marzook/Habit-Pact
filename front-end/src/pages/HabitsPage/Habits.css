@@ -30,6 +30,10 @@
   gap: 0.5rem;
 }
 
+.habits__add-button:hover {
+  transform: scale(0.98);
+}
+
 /* Element: habits__list */
 .habits__list {
   display: grid;

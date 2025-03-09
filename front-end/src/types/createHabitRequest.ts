@@ -18,9 +18,4 @@ export default interface CreateHabitRequest {
    * Frequency configuration for the habit
    */
   frequency: Frequency;
-
-  /**
-   * Tags associated with the habit for categorization
-   */
-  tags: string[];
 }
