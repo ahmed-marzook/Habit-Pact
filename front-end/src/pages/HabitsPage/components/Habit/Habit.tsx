@@ -43,7 +43,7 @@ function Habit({ habit }: HabitProps) {
             />
           ))}
         </div>
-        <HabitInfo habit={habit} />
+        <HabitInfo />
       </div>
     </HabitProvider>
   );
