@@ -60,7 +60,7 @@ export function useRecordHabitCompletion() {
 /**
  * Hook to create a new habit
  */
-export function useCreateHabit() {
+export function useCreateHabit(onSuccessCallback?: () => void) {
   const queryClient = useQueryClient();
 
   return useMutation<HabitResponse, AxiosError, CreateHabitRequest>({
@@ -68,6 +68,9 @@ export function useCreateHabit() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: habitKeys.lists() });
       toast.success("Habit created successfully");
+      if (onSuccessCallback) {
+        onSuccessCallback();
+      }
     },
     onError: (error) => {
       throw handleApiError(error, {

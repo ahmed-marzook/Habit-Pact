@@ -45,7 +45,7 @@ export default function CreateHabitModal({
     setFrequencyPeriod(event.target.value);
   };
 
-  const { mutate, isSuccess } = useCreateHabit();
+  const { mutate } = useCreateHabit(onClose);
 
   async function createHabit(formData: FormData) {
     const createHabitRequest: CreateHabitRequest = {
@@ -59,9 +59,6 @@ export default function CreateHabitModal({
 
     try {
       await mutate(createHabitRequest);
-      if (isSuccess) {
-        onClose();
-      }
     } catch (error) {
       console.error("Registration failed:", error);
     }
