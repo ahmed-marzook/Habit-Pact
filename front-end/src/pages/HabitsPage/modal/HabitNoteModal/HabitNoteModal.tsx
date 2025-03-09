@@ -1,10 +1,10 @@
 import Modal from "react-modal";
 import "./HabitNoteModal.css";
 import CompletionEntry from "../../../../types/completionEntry";
-import { useHabit } from "../../../../contexts/HabitContext/HabitContext";
 import { useRecordHabitCompletion } from "../../../../hooks/useHabitQuery";
 import CompletionStatus from "../../../../types/enums/completionStatus.enum";
 import { useState } from "react";
+import { useNoteModal } from "../../../../contexts/NoteModalContext/NoteModalContext";
 
 interface HabitNoteModalProps {
   isOpen: boolean;
@@ -41,18 +41,20 @@ export default function HabitNoteModal({
   habitDate,
 }: HabitNoteModalProps) {
   const [notes, setNotes] = useState<string>(habitEntry?.notes || "");
-  const { habit: habitData } = useHabit();
+  const { selectedHabit } = useNoteModal();
   const { mutate, isPending, isError, error, isSuccess } =
     useRecordHabitCompletion();
 
   const addNote = (formData: FormData) => {
+    if (!selectedHabit) return;
+
     const data = {
       date: habitDate,
       habitStatus: habitEntry?.status || CompletionStatus.PENDING,
       notes: (formData.get("notes") as string) || "",
     };
     try {
-      mutate({ habitId: habitData?.id, data });
+      mutate({ habitId: selectedHabit.id, data });
       if (isSuccess) {
         onClose();
       }
@@ -60,6 +62,8 @@ export default function HabitNoteModal({
       console.error(error);
     }
   };
+
+  if (!selectedHabit) return null;
 
   return (
     <Modal
@@ -72,7 +76,7 @@ export default function HabitNoteModal({
       <div className="habit-note-modal">
         {/* Modal Header */}
         <div className="habit-note-modal__header">
-          <h2 className="habit-note-modal__title">{habitData.name}</h2>
+          <h2 className="habit-note-modal__title">{selectedHabit.name}</h2>
           <p className="habit-note-modal__subtitle">
             {habitDate.toISOString().split("T")[0]}
           </p>

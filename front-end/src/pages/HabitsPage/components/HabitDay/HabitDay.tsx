@@ -1,10 +1,10 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback } from "react";
 import CompletionEntry from "../../../../types/completionEntry";
 import CompletionStatus from "../../../../types/enums/completionStatus.enum";
 import "./HabitDay.css";
 import { useRecordHabitCompletion } from "../../../../hooks/useHabitQuery";
-import HabitNoteModal from "../../modal/HabitNoteModal/HabitNoteModal";
 import { useHabit } from "../../../../contexts/HabitContext/HabitContext";
+import { useNoteModal } from "../../../../contexts/NoteModalContext/NoteModalContext";
 
 type HabitDayProps = {
   dayOfTheWeek: string;
@@ -13,17 +13,13 @@ type HabitDayProps = {
 };
 
 function HabitDay({ dayOfTheWeek, date, habitDay }: HabitDayProps) {
-  const [modalIsOpen, setIsOpen] = useState<boolean>(false);
+  const { openNoteModal } = useNoteModal();
   const { mutate } = useRecordHabitCompletion();
-  const { habit: habitData } = useHabit();
+  const { habit } = useHabit();
 
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  function closeModal() {
-    setIsOpen(false);
-  }
+  const handleOpenModal = () => {
+    openNoteModal(habit, date, habitDay || undefined);
+  };
 
   const getClassName = useCallback(() => {
     if (habitDay?.status === CompletionStatus.COMPLETED) {
@@ -51,17 +47,11 @@ function HabitDay({ dayOfTheWeek, date, habitDay }: HabitDayProps) {
       date,
       habitStatus: nextStatus,
     };
-    mutate({ habitId: habitData?.id, data });
+    mutate({ habitId: habit?.id, data });
   };
 
   return (
     <div className="habit__day-container">
-      <HabitNoteModal
-        isOpen={modalIsOpen}
-        onClose={closeModal}
-        habitEntry={habitDay ?? undefined}
-        habitDate={date}
-      />
       <button
         className={getClassName()}
         aria-label={dayOfTheWeek}
@@ -72,7 +62,7 @@ function HabitDay({ dayOfTheWeek, date, habitDay }: HabitDayProps) {
       <button
         className="habit__day-pencil-icon"
         aria-label={`Edit ${dayOfTheWeek}`}
-        onClick={openModal}
+        onClick={handleOpenModal}
       >
         ✏️
       </button>
