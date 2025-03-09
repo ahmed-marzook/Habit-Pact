@@ -4,15 +4,19 @@ import { getCurrentWeekStartingMonday } from "../../../../utils/dateUtils";
 import HabitInfo from "../HabitInfo/HabitInfo";
 import HabitResponse from "../../../../types/habitResponse";
 import { capitalizeFirstLetter } from "../../../../utils/stringUtils";
-import { memo, useCallback, useMemo } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { HabitProvider } from "../../../../contexts/HabitContext/HabitContext";
 
 type HabitProps = {
   habit: HabitResponse;
 };
 
+type ViewType = "week" | "month";
+
 function Habit({ habit }: HabitProps) {
   const week = useMemo(() => getCurrentWeekStartingMonday(), []);
+
+  const [currentView, setCurrentView] = useState<ViewType>("week");
 
   const getHabitDay = useCallback(
     (date: Date) => {
@@ -24,13 +28,37 @@ function Habit({ habit }: HabitProps) {
     [habit.currentYearCompletions.monthlyData]
   );
 
+  const handleViewChange = (view: ViewType) => {
+    setCurrentView(view);
+  };
+
   return (
     <HabitProvider habit={habit}>
       <div className="habit">
         <div className="habit__header">
           <div className="habit__title">{habit.name}</div>
-          <div className="habit__target">
-            Target: {capitalizeFirstLetter(habit.frequency.period)}
+          <div className="habit__view-controls">
+            <div className="habit__target">
+              Target: {capitalizeFirstLetter(habit.frequency.period)}
+            </div>
+            <div className="habit__view-buttons">
+              <button
+                className={`habit__view-button ${
+                  currentView === "week" ? "habit__view-button--active" : ""
+                }`}
+                onClick={() => handleViewChange("week")}
+              >
+                W
+              </button>
+              <button
+                className={`habit__view-button ${
+                  currentView === "month" ? "habit__view-button--active" : ""
+                }`}
+                onClick={() => handleViewChange("month")}
+              >
+                M
+              </button>
+            </div>
           </div>
         </div>
         <div className="habit__tracker">
