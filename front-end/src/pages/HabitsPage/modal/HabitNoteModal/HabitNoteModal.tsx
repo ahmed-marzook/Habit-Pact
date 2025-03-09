@@ -42,8 +42,8 @@ export default function HabitNoteModal({
 }: HabitNoteModalProps) {
   const [notes, setNotes] = useState<string>(habitEntry?.notes || "");
   const { selectedHabit } = useNoteModal();
-  const { mutate, isPending, isError, error, isSuccess } =
-    useRecordHabitCompletion();
+  const { mutate, isPending, isError, error } =
+    useRecordHabitCompletion(onClose);
 
   const addNote = (formData: FormData) => {
     if (!selectedHabit) return;
@@ -55,9 +55,6 @@ export default function HabitNoteModal({
     };
     try {
       mutate({ habitId: selectedHabit.id, data });
-      if (isSuccess) {
-        onClose();
-      }
     } catch (error) {
       console.error(error);
     }

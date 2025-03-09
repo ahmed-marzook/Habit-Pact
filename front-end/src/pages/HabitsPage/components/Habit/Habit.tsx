@@ -38,9 +38,6 @@ function Habit({ habit }: HabitProps) {
         <div className="habit__header">
           <div className="habit__title">{habit.name}</div>
           <div className="habit__view-controls">
-            <div className="habit__target">
-              Target: {capitalizeFirstLetter(habit.frequency.period)}
-            </div>
             <div className="habit__view-buttons">
               <button
                 className={`habit__view-button ${
@@ -58,6 +55,9 @@ function Habit({ habit }: HabitProps) {
               >
                 M
               </button>
+            </div>
+            <div className="habit__target">
+              Target: {capitalizeFirstLetter(habit.frequency.period)}
             </div>
           </div>
         </div>

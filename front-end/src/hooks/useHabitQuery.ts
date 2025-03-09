@@ -35,7 +35,7 @@ export function useHabits() {
 /**
  * Hook to record a habit completion
  */
-export function useRecordHabitCompletion() {
+export function useRecordHabitCompletion(onSuccessCallback?: () => void) {
   const queryClient = useQueryClient();
 
   return useMutation<
@@ -47,6 +47,9 @@ export function useRecordHabitCompletion() {
       habitService.recordHabitCompletion(habitId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: habitKeys.lists() });
+      if (onSuccessCallback) {
+        onSuccessCallback();
+      }
     },
     onError: (error) => {
       throw handleApiError(error, {
