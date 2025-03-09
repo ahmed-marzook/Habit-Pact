@@ -1,8 +1,12 @@
-import React from "react";
+import { useDeleteHabit } from "../../../../hooks/useHabitQuery";
+import HabitResponse from "../../../../types/habitResponse";
 
-type Props = {};
+type HabitProps = {
+  habit: HabitResponse;
+};
 
-export default function HabitInfo({}: Props) {
+export default function HabitInfo({ habit }: HabitProps) {
+  const { mutate } = useDeleteHabit();
   return (
     <div className="habit__info">
       <div className="habit__info-item">
@@ -18,7 +22,10 @@ export default function HabitInfo({}: Props) {
         <button className="habit__action-button habit__action--edit">
           Edit
         </button>
-        <button className="habit__action-button habit__action--delete">
+        <button
+          className="habit__action-button habit__action--delete"
+          onClick={() => mutate(habit.id)}
+        >
           Delete
         </button>
       </div>

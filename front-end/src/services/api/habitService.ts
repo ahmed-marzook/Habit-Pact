@@ -61,13 +61,13 @@ export const habitService = {
    * @param habitId The ID of the habit to delete
    * @returns Promise<void>
    */
-  // async deleteHabit(habitId: string): Promise<void> {
-  //   try {
-  //     await api.delete(`/habits/${habitId}`);
-  //   } catch (error) {
-  //     throw handleApiError(error);
-  //   }
-  // },
+  async deleteHabit(habitId: string): Promise<void> {
+    try {
+      await api.delete(`/habits/${habitId}`);
+    } catch (error) {
+      throw handleApiError(error);
+    }
+  },
 
   /**
    * Retrieves a specific habit by ID

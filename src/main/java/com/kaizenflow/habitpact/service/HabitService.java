@@ -48,4 +48,13 @@ public class HabitService {
     public List<HabitResponse> getUserHabits(String userId) {
         return habitRepository.findByUserIdAndArchivedFalse(userId);
     }
+
+    public void disableHabit(String habitId) {
+        Habit habit =
+                habitRepository
+                        .findById(habitId)
+                        .orElseThrow(() -> new IllegalArgumentException("Habit not found with id: " + habitId));
+        habit.setArchived(true);
+        habitRepository.save(habit);
+    }
 }

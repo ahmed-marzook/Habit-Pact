@@ -77,3 +77,24 @@ export function useCreateHabit() {
     },
   });
 }
+
+/**
+ * Hook to delete a habit
+ */
+export function useDeleteHabit() {
+  const queryClient = useQueryClient();
+
+  return useMutation<void, AxiosError, string>({
+    mutationFn: (habitId) => habitService.deleteHabit(habitId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: habitKeys.lists() });
+      toast.success("Habit deleted successfully");
+    },
+    onError: (error) => {
+      throw handleApiError(error, {
+        defaultMessage: "Failed to delete habit",
+        shouldShowFieldErrors: true,
+      });
+    },
+  });
+}

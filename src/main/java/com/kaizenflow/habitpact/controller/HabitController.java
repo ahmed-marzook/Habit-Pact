@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,13 +53,13 @@ public class HabitController {
     //                habitService.patchHabit(userInfoDetails.getUserId(), habitId, request));
     //    }
     //
-    //    @DeleteMapping("/{habitId}")
-    //    public ResponseEntity<Void> deleteHabit(
-    //            @AuthenticationPrincipal UserInfoDetails userInfoDetails, @PathVariable String
-    // habitId) {
-    //        habitService.deleteHabit(userInfoDetails.getUserId(), habitId);
-    //        return ResponseEntity.noContent().build();
-    //    }
+
+    @DeleteMapping("/{habitId}")
+    public ResponseEntity<Void> deleteHabit(@PathVariable String habitId) {
+        habitService.disableHabit(habitId);
+        return ResponseEntity.noContent().build();
+    }
+
     //
     //    @GetMapping("/{habitId}")
     //    public ResponseEntity<HabitResponse> getHabit(
