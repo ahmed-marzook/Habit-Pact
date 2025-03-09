@@ -1,12 +1,16 @@
 import Modal from "react-modal";
 import "./HabitNoteModal.css";
 import CompletionEntry from "../../../../types/completionEntry";
+import { useHabit } from "../../../../contexts/HabitContext/HabitContext";
+import { useRecordHabitCompletion } from "../../../../hooks/useHabitQuery";
+import CompletionStatus from "../../../../types/enums/completionStatus.enum";
+import { useState } from "react";
 
 interface HabitNoteModalProps {
   isOpen: boolean;
   onClose: () => void;
-  habitEntry: CompletionEntry | null;
-  habitName: string;
+  habitEntry: CompletionEntry | undefined;
+  habitDate: Date;
 }
 
 const customStyles = {
@@ -33,7 +37,30 @@ const customStyles = {
 export default function HabitNoteModal({
   isOpen,
   onClose,
+  habitEntry,
+  habitDate,
 }: HabitNoteModalProps) {
+  const [notes, setNotes] = useState<string>(habitEntry?.notes || "");
+  const { habit: habitData } = useHabit();
+  const { mutate, isPending, isError, error, isSuccess } =
+    useRecordHabitCompletion();
+
+  const addNote = (formData: FormData) => {
+    const data = {
+      date: habitDate,
+      habitStatus: habitEntry?.status || CompletionStatus.PENDING,
+      notes: (formData.get("notes") as string) || "",
+    };
+    try {
+      mutate({ habitId: habitData?.id, data });
+      if (isSuccess) {
+        onClose();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -45,24 +72,29 @@ export default function HabitNoteModal({
       <div className="habit-note-modal">
         {/* Modal Header */}
         <div className="habit-note-modal__header">
-          <h2 className="habit-note-modal__title">HABIT NAME</h2>
-          <p className="habit-note-modal__subtitle">2023-12-23</p>
+          <h2 className="habit-note-modal__title">{habitData.name}</h2>
+          <p className="habit-note-modal__subtitle">
+            {habitDate.toISOString().split("T")[0]}
+          </p>
         </div>
 
         {/* Modal Body */}
-        <form>
+        <form action={addNote}>
           <div className="habit-note-modal__body">
             <div className="habit-note-modal__section">
               <div className="habit-note-modal__input-group">
                 <label className="habit-note-modal__label">Note</label>
                 <textarea
+                  onChange={(e) => setNotes(e.target.value)}
                   className="habit-note-modal__textarea"
                   placeholder="Add your notes for this day..."
                   rows={6}
+                  value={notes}
+                  name="notes"
                 ></textarea>
-                {/* {errorMessage && (
-                  <p className="habit-note-modal__error">{errorMessage}</p>
-                )} */}
+                {isError && (
+                  <p className="habit-note-modal__error">{error.message}</p>
+                )}
               </div>
             </div>
           </div>
@@ -73,17 +105,16 @@ export default function HabitNoteModal({
               type="button"
               className="habit-note-modal__button habit-note-modal__button--cancel"
               onClick={onClose}
-              //   disabled={isSaving}
+              disabled={isPending}
             >
               Cancel
             </button>
             <button
               type="submit"
               className="habit-note-modal__button habit-note-modal__button--primary"
-              //   disabled={isSaving}
+              disabled={isPending}
             >
-              {/* {isSaving ? "Saving..." : "Save Note"} */}
-              Save Note
+              {isPending ? "Saving..." : "Save Note"}
             </button>
           </div>
         </form>

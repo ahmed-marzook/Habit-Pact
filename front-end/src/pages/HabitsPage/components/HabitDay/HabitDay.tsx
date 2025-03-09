@@ -59,8 +59,8 @@ function HabitDay({ dayOfTheWeek, date, habitDay }: HabitDayProps) {
       <HabitNoteModal
         isOpen={modalIsOpen}
         onClose={closeModal}
-        habitEntry={habitDay}
-        habitName={habitData?.name}
+        habitEntry={habitDay ?? undefined}
+        habitDate={date}
       />
       <button
         className={getClassName()}

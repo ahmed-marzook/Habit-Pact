@@ -27,7 +27,7 @@
 }
 
 .habit-note-modal__body {
-  padding: 1.5rem;
+  padding: 1rem;
   max-height: 60vh;
   overflow-y: auto;
 }
@@ -45,10 +45,6 @@
   color: var(--text-secondary);
   margin-bottom: 1rem;
   font-weight: 500;
-}
-
-.habit-note-modal__input-group {
-  margin-bottom: 1rem;
 }
 
 .habit-note-modal__label {
@@ -93,12 +89,13 @@
 
 .habit-note-modal__button {
   padding: 0.75rem 1.5rem;
+  background-color: var(--bg-primary);
+  border: 1px solid rgba(158, 163, 174, 0.3);
   border-radius: 8px;
-  border: none;
-  font-weight: 500;
+  color: var(--text-secondary);
   cursor: pointer;
-  transition: all 0.2s ease;
   font-size: 0.9rem;
+  transition: all 0.2s ease;
 }
 
 .habit-note-modal__button:disabled {
@@ -114,6 +111,7 @@
 
 .habit-note-modal__button--primary:hover:not(:disabled) {
   opacity: 0.9;
+  transform: scale(0.98);
 }
 
 .habit-note-modal__button--cancel {
@@ -123,6 +121,7 @@
 
 .habit-note-modal__button--cancel:hover:not(:disabled) {
   color: var(--text-primary);
+  border-color: white;
 }
 
 /* Responsive adjustments */
