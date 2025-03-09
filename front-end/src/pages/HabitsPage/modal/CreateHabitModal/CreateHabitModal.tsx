@@ -1,9 +1,9 @@
 import { useState } from "react";
 import "./CreateHabitModal.css";
 import Modal from "react-modal";
-import { useCreateHabit } from "../../../hooks/useHabitQuery";
-import CreateHabitRequest from "../../../types/createHabitRequest";
-import Period from "../../../types/enums/period.enum";
+import { useCreateHabit } from "../../../../hooks/useHabitQuery";
+import CreateHabitRequest from "../../../../types/createHabitRequest";
+import Period from "../../../../types/enums/period.enum";
 
 interface CreateHabitModalProps {
   isOpen: boolean;

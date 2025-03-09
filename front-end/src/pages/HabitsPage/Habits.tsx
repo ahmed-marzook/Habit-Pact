@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useHabits } from "../../hooks/useHabitQuery";
 import "./Habits.css";
-import CreateHabitModal from "./modal/CreateHabitModal";
+import CreateHabitModal from "./modal/CreateHabitModal/CreateHabitModal";
 import Habit from "./components/Habit/Habit";
 
 export default function Habits() {
