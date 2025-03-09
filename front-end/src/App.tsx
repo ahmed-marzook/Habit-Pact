@@ -101,7 +101,7 @@ function App() {
           <RouterProvider router={router} />
         </AuthProvider>
       </QueryClientProvider>
-      <ToastContainer />
+      <ToastContainer autoClose={2000} closeOnClick draggable />
     </>
   );
 }
