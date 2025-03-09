@@ -8,10 +8,6 @@ export default function Habits() {
   const [modalIsOpen, setIsOpen] = useState<boolean>(false);
   const { data: habits, isLoading } = useHabits();
 
-  if (!isLoading) {
-    habits?.map((habit) => console.log(habit));
-  }
-
   function openModal() {
     setIsOpen(true);
   }

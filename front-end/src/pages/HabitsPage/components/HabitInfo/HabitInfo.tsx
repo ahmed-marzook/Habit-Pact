@@ -1,12 +1,9 @@
+import { useHabit } from "../../../../contexts/HabitContext/HabitContext";
 import { useDeleteHabit } from "../../../../hooks/useHabitQuery";
-import HabitResponse from "../../../../types/habitResponse";
 
-type HabitProps = {
-  habit: HabitResponse;
-};
-
-export default function HabitInfo({ habit }: HabitProps) {
+export default function HabitInfo() {
   const { mutate } = useDeleteHabit();
+  const { habit } = useHabit();
   return (
     <div className="habit__info">
       <div className="habit__info-item">

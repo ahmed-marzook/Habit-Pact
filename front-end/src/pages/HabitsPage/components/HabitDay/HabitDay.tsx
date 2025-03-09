@@ -1,18 +1,29 @@
-import { memo, useCallback } from "react";
+import { memo, useCallback, useState } from "react";
 import CompletionEntry from "../../../../types/completionEntry";
 import CompletionStatus from "../../../../types/enums/completionStatus.enum";
 import "./HabitDay.css";
 import { useRecordHabitCompletion } from "../../../../hooks/useHabitQuery";
+import HabitNoteModal from "../../modal/HabitNoteModal/HabitNoteModal";
+import { useHabit } from "../../../../contexts/HabitContext/HabitContext";
 
 type HabitDayProps = {
   dayOfTheWeek: string;
   date: Date;
-  habitId: string;
   habitDay: CompletionEntry | null;
 };
 
-function HabitDay({ dayOfTheWeek, date, habitDay, habitId }: HabitDayProps) {
+function HabitDay({ dayOfTheWeek, date, habitDay }: HabitDayProps) {
+  const [modalIsOpen, setIsOpen] = useState<boolean>(false);
   const { mutate } = useRecordHabitCompletion();
+  const { habit: habitData } = useHabit();
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
 
   const getClassName = useCallback(() => {
     if (habitDay?.status === CompletionStatus.COMPLETED) {
@@ -40,11 +51,17 @@ function HabitDay({ dayOfTheWeek, date, habitDay, habitId }: HabitDayProps) {
       date,
       habitStatus: nextStatus,
     };
-    mutate({ habitId, data });
+    mutate({ habitId: habitData?.id, data });
   };
 
   return (
     <div className="habit__day-container">
+      <HabitNoteModal
+        isOpen={modalIsOpen}
+        onClose={closeModal}
+        habitEntry={habitDay}
+        habitName={habitData?.name}
+      />
       <button
         className={getClassName()}
         aria-label={dayOfTheWeek}
@@ -55,6 +72,7 @@ function HabitDay({ dayOfTheWeek, date, habitDay, habitId }: HabitDayProps) {
       <button
         className="habit__day-pencil-icon"
         aria-label={`Edit ${dayOfTheWeek}`}
+        onClick={openModal}
       >
         ✏️
       </button>
