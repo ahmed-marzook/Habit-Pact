@@ -1,6 +1,9 @@
 import HabitDay from "../HabitDay/HabitDay";
 import "./Habit.css";
-import { getCurrentWeekStartingMonday } from "../../../../utils/dateUtils";
+import {
+  getCurrentWeekStartingMonday,
+  getCurrentMonthDays,
+} from "../../../../utils/dateUtils";
 import HabitInfo from "../HabitInfo/HabitInfo";
 import HabitResponse from "../../../../types/habitResponse";
 import { capitalizeFirstLetter } from "../../../../utils/stringUtils";
@@ -15,6 +18,7 @@ type ViewType = "week" | "month";
 
 function Habit({ habit }: HabitProps) {
   const week = useMemo(() => getCurrentWeekStartingMonday(), []);
+  const month = useMemo(() => getCurrentMonthDays(), []);
 
   const [currentView, setCurrentView] = useState<ViewType>("week");
 
@@ -62,14 +66,24 @@ function Habit({ habit }: HabitProps) {
           </div>
         </div>
         <div className="habit__tracker">
-          {week.map((d) => (
-            <HabitDay
-              key={d.date.toString()}
-              dayOfTheWeek={d.dayName}
-              date={d.date}
-              habitDay={getHabitDay(d.date)}
-            />
-          ))}
+          {currentView === "week" &&
+            week.map((d) => (
+              <HabitDay
+                key={d.date.toString()}
+                label={d.dayName.charAt(0).toUpperCase()}
+                date={d.date}
+                habitDay={getHabitDay(d.date)}
+              />
+            ))}
+          {currentView === "month" &&
+            month.map((d) => (
+              <HabitDay
+                key={d.date.toString()}
+                label={d.date.getDate().toString()}
+                date={d.date}
+                habitDay={getHabitDay(d.date)}
+              />
+            ))}
         </div>
         <HabitInfo />
       </div>

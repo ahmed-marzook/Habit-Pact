@@ -7,12 +7,12 @@ import { useHabit } from "../../../../contexts/HabitContext/HabitContext";
 import { useNoteModal } from "../../../../contexts/NoteModalContext/NoteModalContext";
 
 type HabitDayProps = {
-  dayOfTheWeek: string;
+  label: string;
   date: Date;
   habitDay: CompletionEntry | null;
 };
 
-function HabitDay({ dayOfTheWeek, date, habitDay }: HabitDayProps) {
+function HabitDay({ label, date, habitDay }: HabitDayProps) {
   const { openNoteModal } = useNoteModal();
   const { mutate } = useRecordHabitCompletion();
   const { habit } = useHabit();
@@ -33,9 +33,9 @@ function HabitDay({ dayOfTheWeek, date, habitDay }: HabitDayProps) {
 
   const cycleCompletionStatus = () => {
     const statuses = [
-      CompletionStatus.COMPLETED,
-      CompletionStatus.PENDING,
       CompletionStatus.FAILED,
+      CompletionStatus.PENDING,
+      CompletionStatus.COMPLETED,
     ];
     const currentIndex = statuses.indexOf(
       habitDay?.status || CompletionStatus.PENDING
@@ -54,14 +54,14 @@ function HabitDay({ dayOfTheWeek, date, habitDay }: HabitDayProps) {
     <div className="habit__day-container">
       <button
         className={getClassName()}
-        aria-label={dayOfTheWeek}
+        aria-label={label}
         onClick={cycleCompletionStatus}
       >
-        {dayOfTheWeek.charAt(0).toUpperCase()}
+        {label}
       </button>
       <button
         className="habit__day-pencil-icon"
-        aria-label={`Edit ${dayOfTheWeek}`}
+        aria-label={`Edit ${label}`}
         onClick={handleOpenModal}
       >
         ✏️
