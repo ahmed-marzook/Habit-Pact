@@ -66,24 +66,18 @@ function Habit({ habit }: HabitProps) {
           </div>
         </div>
         <div className="habit__tracker">
-          {currentView === "week" &&
-            week.map((d) => (
-              <HabitDay
-                key={d.date.toString()}
-                label={d.dayName.charAt(0).toUpperCase()}
-                date={d.date}
-                habitDay={getHabitDay(d.date)}
-              />
-            ))}
-          {currentView === "month" &&
-            month.map((d) => (
-              <HabitDay
-                key={d.date.toString()}
-                label={d.date.getDate().toString()}
-                date={d.date}
-                habitDay={getHabitDay(d.date)}
-              />
-            ))}
+          {(currentView === "week" ? week : month).map((d) => (
+            <HabitDay
+              key={d.date.toString()}
+              label={
+                currentView === "week"
+                  ? d.dayName.charAt(0).toUpperCase()
+                  : d.date.getDate().toString()
+              }
+              date={d.date}
+              habitDay={getHabitDay(d.date)}
+            />
+          ))}
         </div>
         <HabitInfo />
       </div>
