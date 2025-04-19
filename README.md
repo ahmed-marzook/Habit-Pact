@@ -286,6 +286,10 @@ npm install -g serve
 serve dist
 ```
 
+```bash
+ngrok start --config=ngrok.yml frontend backend
+```
+
 ## License 📄
 
 MIT License - see LICENSE.md

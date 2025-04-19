@@ -43,10 +43,14 @@ function HabitDay({ label, date, habitDay }: HabitDayProps) {
     const nextIndex = (currentIndex + 1) % statuses.length;
     const nextStatus = statuses[nextIndex];
 
+    const formattedDate = formatDateToYYYYMMDD(date);
+
     const data = {
-      date,
+      date: formattedDate,
       habitStatus: nextStatus,
     };
+
+    console.log("HabitDay", date, habit?.id, data);
     mutate({ habitId: habit?.id, data });
   };
 
@@ -68,6 +72,16 @@ function HabitDay({ label, date, habitDay }: HabitDayProps) {
       </button>
     </div>
   );
+}
+
+function formatDateToYYYYMMDD(date: Date): string {
+  const year = date.getFullYear();
+  // getMonth() is zero-based, so add 1 and pad with leading zero if needed
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  // pad with leading zero if needed
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
 }
 
 export default memo(HabitDay);

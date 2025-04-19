@@ -1,7 +1,7 @@
 import CompletionStatus from "./enums/completionStatus.enum";
 
 type RecordHabitCompletionRequest = {
-  date: Date;
+  date: string | Date;
   habitStatus: CompletionStatus;
   notes?: string;
 };
